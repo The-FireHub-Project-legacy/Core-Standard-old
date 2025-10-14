@@ -479,7 +479,7 @@ class FileSystem {
      * @throws \FireHub\Core\Support\Exceptions\FileSystem\SetPermissionsException If we couldn't set permissions for
      * a path.
      *
-     * @return bool True on success or false on failure.
+     * @return True Only true.
      *
      * @note The current user is the user under which PHP runs.
      * It is probably different from the user you use for normal shell or FTP access.
@@ -489,7 +489,7 @@ class FileSystem {
      *
      * @todo Replace octdec with low level class.
      */
-    final public static function setPermissions (string $path, Permission $owner, Permission $owner_group, Permission $global):bool {
+    final public static function setPermissions (string $path, Permission $owner, Permission $owner_group, Permission $global):true {
 
         return DataIs::int($permissions = octdec('0'.$owner->value.$owner_group->value.$global->value))
         && chmod($path, $permissions)

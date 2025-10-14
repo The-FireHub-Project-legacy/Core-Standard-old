@@ -1532,7 +1532,7 @@ final class Arr {
      *
      * @template TKey of array-key
      *
-     * @param array<TKey, mixed> $array <p>
+     * @param non-empty-array<TKey, mixed> $array <p>
      * The input array.
      * </p>
      * @param positive-int $number [optional] <p>
@@ -1869,7 +1869,7 @@ final class Arr {
      */
     public static function shuffle (array &$array):true {
 
-        return shuffle($array); // @phpstan-ignore return.type
+        return shuffle($array); // @phpstan-ignore return.type, paramOut.type
 
     }
 
@@ -1939,8 +1939,8 @@ final class Arr {
     public static function sortByKeys (array &$array, Order $order = Order::ASC, Sort $flag = Sort::BY_REGULAR):true {
 
         return $order === Order::ASC // @phpstan-ignore paramOut.type
-            ? ksort($array, $flag->value)
-            : krsort($array, $flag->value);
+            ? ksort($array, $flag->value) // @phpstan-ignore paramOut.type
+            : krsort($array, $flag->value); // @phpstan-ignore paramOut.type
 
     }
 
