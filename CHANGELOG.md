@@ -17,6 +17,7 @@
 - Create Str low-level support class ([#35](https://github.com/The-FireHub-Project/Core-Standard/issues/35), [a2036dc](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/a2036dc))
 - Create Num low-level support class ([#36](https://github.com/The-FireHub-Project/Core-Standard/issues/36), [4415174](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/4415174))
 - Create DateAndTime low-level support class ([#40](https://github.com/The-FireHub-Project/Core-Standard/issues/40), [96d8d0a](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/96d8d0a))
+- Create Regex low-level support class ([#42](https://github.com/The-FireHub-Project/Core-Standard/issues/40), [aad4782](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/aad4782))
 
 ## [v0.1.1](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.0...v0.1.1) – (2025-07-07)
 
