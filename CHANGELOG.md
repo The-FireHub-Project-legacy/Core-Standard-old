@@ -1,6 +1,8 @@
 # Release Notes for v0.x.x.pre-alpha
 
-## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.1...develop-pre-alpha-m1)
+## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.2...develop-pre-alpha-m1)
+
+## [v0.1.2](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.1...v0.1.2) – (2025-10-16)
 
 ### Added
 - Created SplAutoload low-level support class ([#25](https://github.com/The-FireHub-Project/Core-Standard/issues/25), [45aea0d](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/45aea0d))
