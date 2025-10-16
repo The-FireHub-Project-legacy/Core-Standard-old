@@ -21,6 +21,7 @@
 - Create FileSystem low-level support class ([#45](https://github.com/The-FireHub-Project/Core-Standard/issues/45), [e01d8da](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/e01d8da))
 - Create JSON low-level support class ([#46](https://github.com/The-FireHub-Project/Core-Standard/issues/46), [7701bed](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/7701bed))
 - Create Resources low-level support class ([#48](https://github.com/The-FireHub-Project/Core-Standard/issues/48), [cfebe77](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/cfebe77))
+- Create PHP low-level support class ([#45](https://github.com/The-FireHub-Project/Core-Standard/issues/45), [0b904b0](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/0b904b0))
 
 ## [v0.1.1](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.0...v0.1.1) – (2025-07-07)
 
