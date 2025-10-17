@@ -58,7 +58,7 @@ final class RegexMB {
      * @param mixed &$result [optional] <p>
      * Case-sensitive match.
      * </p>
-     * @param-out string[] $result
+     * @param-out list<string> $result
      *
      * @return bool True if the string matches the regular expression pattern, false if not.
      */

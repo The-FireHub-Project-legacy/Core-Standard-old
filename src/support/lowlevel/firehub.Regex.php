@@ -176,7 +176,7 @@ final class Regex {
      * @throws \FireHub\Core\Support\Exceptions\Regex\SplitException If error while performing a regular expression
      * split.
      *
-     * @return string[] Array containing substrings of $string split along boundaries matched by $pattern.
+     * @return list<string> Array containing substrings of $string split along boundaries matched by $pattern.
      */
     public static function split (string $pattern, string $string, int $limit = -1, bool $remove_empty = false):array {
 

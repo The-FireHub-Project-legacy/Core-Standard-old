@@ -273,7 +273,7 @@ final class File extends FileSystem {
      *
      * @throws \FireHub\Core\Support\Exceptions\FileSystem\GetContentAsArrayException If we can't get content from a path.
      *
-     * @return string[] The file in an array.
+     * @return list<string> The file in an array.
      * Each element of the array corresponds to a line in the file, with the newline still attached.
      *
      * @warning When using SSL, Microsoft IIS will violate the protocol by closing the connection without sending a

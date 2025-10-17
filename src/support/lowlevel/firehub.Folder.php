@@ -148,7 +148,7 @@ final class Folder extends FileSystem {
      * @throws \FireHub\Core\Support\Exceptions\FileSystem\CannotListException If $folder is empty, or we couldn't
      * list files and directories inside the specified folder.
      *
-     * @return string[] An array of filenames.
+     * @return list<string> An array of filenames.
      */
     public static function list (string $folder, ?Order $order = null):array {
 
@@ -185,7 +185,7 @@ final class Folder extends FileSystem {
      * @throws \FireHub\Core\Support\Exceptions\FileSystem\FindPathNamesException If there was an error while searching
      * for a path.
      *
-     * @return string[] An array containing the matched files/folders, an empty array if no file matched.
+     * @return list<string> An array containing the matched files/folders, an empty array if no file matched.
      *
      * @note This function will not work on remote files as the file to be examined must be accessible via the
      * server's filesystem.
