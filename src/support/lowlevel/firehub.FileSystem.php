@@ -284,7 +284,7 @@ class FileSystem {
      * that is levels up from the current folder.
      * @since 1.0.0
      *
-     * @param non-empty-string $path <p>
+     * @param string $path <p>
      * A path.
      * </p>
      * @param positive-int $levels [optional] <p>

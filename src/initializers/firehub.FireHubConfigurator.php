@@ -44,8 +44,19 @@ final class FireHubConfigurator {
         __DIR__.DIRECTORY_SEPARATOR.'firehub.Autoload.php',
         __DIR__.DIRECTORY_SEPARATOR.'autoload'.DIRECTORY_SEPARATOR.'firehub.Loader.php',
         __DIR__.DIRECTORY_SEPARATOR.'autoload'.DIRECTORY_SEPARATOR.'loaders'.DIRECTORY_SEPARATOR.'firehub.Preloader.php',
-        self::HOME_FOLDER.'support'.DIRECTORY_SEPARATOR.'lowlevel'.DIRECTORY_SEPARATOR.'firehub.SplAutoload.php'
+        self::HOME_FOLDER.'support'.DIRECTORY_SEPARATOR.'lowlevel'.DIRECTORY_SEPARATOR.'firehub.SplAutoload.php',
+        self::HOME_FOLDER.'support'.DIRECTORY_SEPARATOR.'lowlevel'.DIRECTORY_SEPARATOR.'firehub.FileSystem.php',
+        self::HOME_FOLDER.'support'.DIRECTORY_SEPARATOR.'lowlevel'.DIRECTORY_SEPARATOR.'firehub.File.php'
     ];
+
+    /**
+     * ### Bootloaders
+     * @since 1.0.0
+     *
+     * @var array<int|class-string<\FireHub\Core\Initializers\Bootloader>,
+     *     class-string<\FireHub\Core\Initializers\Bootloader>|array<array-key, mixed>>
+     */
+    private(set) array $bootloaders = [];
 
     /**
      * ### Constructor
@@ -72,6 +83,27 @@ final class FireHubConfigurator {
         foreach ($this->preloaders as $preloader) require $preloader;
 
         Autoload::prepend(new Preloader('firehub.'));
+
+    }
+
+    /**
+     * ### Initialize bootloaders
+     *
+     * Load the series of bootloaders required to boot FireHub framework.
+     * Bootloaders will be loaded before the kernel is loaded.
+     * @since 1.0.0
+     *
+     * @param array<int|class-string<\FireHub\Core\Initializers\Bootloader>, class-string<\FireHub\Core\Initializers\Bootloader>|array<array-key, mixed>> $bootloaders <p>
+     * List of bootloaders needed to load.
+     * </p>
+     *
+     * @return $this This object.
+     */
+    public function withBootloaders (array $bootloaders):self {
+
+        $this->bootloaders = $bootloaders;
+
+        return $this;
 
     }
 

@@ -10,8 +10,25 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 4.0
+ * @php-version 8.4
  * @package Core\Public
  *
  * @version GIT: $Id$ Blob checksum.
  */
+
+require __DIR__.'/../initializers/firehub.FireHubConfigurator.php';
+
+use FireHub\Core\Initializers\FireHubConfigurator;
+
+/**
+ * ### Let there be light
+ * @since 1.0.0
+ *
+ * @return string
+ */
+return new FireHubConfigurator(__DIR__)
+    ->withBootloaders([
+        //
+    ])
+    ->create()
+    ->boot();
