@@ -113,6 +113,10 @@ final class FireHubConfigurator {
      *
      * @uses \FireHub\Core\FireHub As return.
      *
+     * @throws \FireHub\Core\Initializers\Exceptions\FailedToLoadBootloaderException If failed to load bootloader.
+     * @throws \FireHub\Core\Initializers\Exceptions\NotBootloaderException If any of the provided classes is not
+     * bootloader.
+     *
      * @return \FireHub\Core\FireHub New Firehub Framework application.
      */
     public function create ():FireHub {
