@@ -22,8 +22,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Install composer dependencies
         run: composer install  --no-interaction --no-progress --prefer-dist
-      - name: Run PHPUnit with coverage
-        run: vendor/bin/phpunit --coverage-clover=coverage.xml
+      - name: Run PHPUnit with coverage and test results
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml --log-junit junit.xml
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v5
         env:
