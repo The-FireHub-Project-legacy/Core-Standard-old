@@ -7,29 +7,33 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 7.4
- * @package Core\Initializers
+ * @php-version 5.0
+ * @package Core\Kernel
  *
  * @version GIT: $Id$ Blob checksum.
  */
 
-namespace FireHub\Core\Initializers\Exceptions;
+namespace FireHub\Core\Kernel;
 
-use FireHub\Core\Components\Error\Exception;
+use FireHub\Core\Initializers\Kernel;
 
 /**
- * ### Class is not bootloader exception
- * @since 1.0.0
+ * ### HTTP Kernel
  *
- * @method $this fromClass (mixed $class) ### Class
+ * Process HTTP requests that come in through various sources and give a client the appropriate response.
+ * @since 1.0.0
  */
-class NotBootloaderException extends Exception {
+class Http extends Kernel {
 
     /**
      * @inheritDoc
      *
      * @since 1.0.0
      */
-    protected string $default_message = "Class is not a bootloader.";
+    public function handle ():string {
+
+        return 'HTTP Response!';
+
+    }
 
 }

@@ -8,28 +8,28 @@
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
  * @php-version 7.4
- * @package Core\Initializers
+ * @package Core\Kernel
  *
  * @version GIT: $Id$ Blob checksum.
  */
 
-namespace FireHub\Core\Initializers\Exceptions;
+namespace FireHub\Core\Kernel\Exceptions;
 
 use FireHub\Core\Components\Error\Exception;
 
 /**
- * ### Class is not bootloader exception
+ * ### Class is not a bootstrap exception
  * @since 1.0.0
  *
  * @method $this fromClass (mixed $class) ### Class
  */
-class NotBootloaderException extends Exception {
+class NotBootstrapException extends Exception {
 
     /**
      * @inheritDoc
      *
      * @since 1.0.0
      */
-    protected string $default_message = "Class is not a bootloader.";
+    protected string $default_message = "Class is not a bootstrap.";
 
 }

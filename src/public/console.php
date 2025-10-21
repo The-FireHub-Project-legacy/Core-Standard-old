@@ -19,6 +19,7 @@
 require __DIR__.'/../initializers/firehub.FireHubConfigurator.php';
 
 use FireHub\Core\Initializers\FireHubConfigurator;
+use FireHub\Core\Kernel\Console;
 
 /**
  * ### Let there be light
@@ -30,5 +31,6 @@ return new FireHubConfigurator(__DIR__)
     ->withBootloaders([
         //
     ])
+    ->withKernel(Console::class)
     ->create()
     ->boot();

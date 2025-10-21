@@ -7,29 +7,26 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 7.4
- * @package Core\Initializers
+ * @php-version 5.0
+ * @package Core\Kernel
  *
  * @version GIT: $Id$ Blob checksum.
  */
 
-namespace FireHub\Core\Initializers\Exceptions;
-
-use FireHub\Core\Components\Error\Exception;
+namespace FireHub\Core\Kernel;
 
 /**
- * ### Class is not bootloader exception
+ * ### Bootstrap
  * @since 1.0.0
- *
- * @method $this fromClass (mixed $class) ### Class
  */
-class NotBootloaderException extends Exception {
+interface Bootstrap {
 
     /**
-     * @inheritDoc
-     *
+     * ### Load bootstrap
      * @since 1.0.0
+     *
+     * @return bool True if bootstrap was loaded successfully, false otherwise.
      */
-    protected string $default_message = "Class is not a bootloader.";
+    public function load ():bool;
 
 }

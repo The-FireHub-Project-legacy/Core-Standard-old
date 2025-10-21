@@ -16,10 +16,10 @@
 namespace FireHub\Core;
 
 use FireHub\Core\Initializers\ {
-    Bootloader, FireHubConfigurator
+    Bootloader, FireHubConfigurator, Kernel
 };
 use FireHub\Core\Initializers\Exceptions\ {
-    FailedToLoadBootloaderException, NotBootloaderException
+    FailedToLoadBootloaderException, NotBootloaderException, NotKernelException
 };
 use FireHub\Core\Support\LowLevel\ {
     Cls, DataIs
@@ -79,11 +79,17 @@ final class FireHub {
      * This methode serves for instantiating the FireHub framework.
      * @since 1.0.0
      *
+     * @uses \FireHub\Core\Support\LowLevel\Cls::ofClass() To check if the provided kernel is a real kernel.
+     *
+     * @throws \FireHub\Core\Initializers\Exceptions\NotKernelException If class isn't kernel.
+     *
      * @return string Response from Kernel.
      */
     public function boot ():string {
 
-        return 'Hy!';
+        return Cls::ofClass($this->configurator->kernel, Kernel::class)
+            ? new $this->configurator->kernel()->handle()
+            : throw new NotKernelException()->fromClass($this->configurator->kernel);
 
     }
 

@@ -15,8 +15,9 @@
 
 namespace FireHub\Core\Initializers;
 
-use FireHub\Core\Initializers\Autoload\Loaders\Preloader;
 use FireHub\Core\FireHub;
+use FireHub\Core\Kernel\Http;
+use FireHub\Core\Initializers\Autoload\Loaders\Preloader;
 
 use const DIRECTORY_SEPARATOR;
 
@@ -57,6 +58,14 @@ final class FireHubConfigurator {
      *     class-string<\FireHub\Core\Initializers\Bootloader>|array<array-key, mixed>>
      */
     private(set) array $bootloaders = [];
+
+    /**
+     * ### Default Kernel
+     * @since 1.0.0
+     *
+     * @var class-string<\FireHub\Core\Initializers\Kernel>
+     */
+    private(set) string $kernel = Http::class;
 
     /**
      * ### Constructor
@@ -102,6 +111,24 @@ final class FireHubConfigurator {
     public function withBootloaders (array $bootloaders):self {
 
         $this->bootloaders = $bootloaders;
+
+        return $this;
+
+    }
+
+    /**
+     * ### Set kernel
+     * @since 1.0.0
+     *
+     * @param class-string<\FireHub\Core\Initializers\Kernel> $kernel <p>
+     * Kernel for application.
+     * </p>
+     *
+     * @return $this This object.
+     */
+    public function withKernel (string $kernel):self {
+
+        $this->kernel = $kernel;
 
         return $this;
 

@@ -18,18 +18,18 @@ namespace FireHub\Core\Initializers\Exceptions;
 use FireHub\Core\Components\Error\Exception;
 
 /**
- * ### Class is not bootloader exception
+ * ### Class is not Kernel exception
  * @since 1.0.0
  *
  * @method $this fromClass (mixed $class) ### Class
  */
-class NotBootloaderException extends Exception {
+class NotKernelException extends Exception {
 
     /**
      * @inheritDoc
      *
      * @since 1.0.0
      */
-    protected string $default_message = "Class is not a bootloader.";
+    protected string $default_message = "Class is not a kernel.";
 
 }
