@@ -1,6 +1,11 @@
 # Release Notes for v0.x.x.pre-alpha
 
-## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.2...develop-pre-alpha-m1)
+## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...develop-pre-alpha-m1)
+
+## [v0.1.4](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.3...v0.1.4) – (2025-10-21)
+
+### Added
+- Create Kernel classes ([#50](https://github.com/The-FireHub-Project/Core-Standard/issues/50), [e65a6e5](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/e65a6e5))
 
 ## [v0.1.3](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.2...v0.1.3) – (2025-10-21)
 
