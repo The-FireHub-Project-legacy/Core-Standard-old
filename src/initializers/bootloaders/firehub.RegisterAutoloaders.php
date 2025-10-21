@@ -71,6 +71,10 @@ final readonly class RegisterAutoloaders implements Bootloader {
             'FireHub\Core_Professional',
             Folder::parent(Phar::running(false)).DS.'..'.DS.'..'.DS.'..'.DS.'..'.DS.'src'
         );
+        $loader->addNamespace(
+            'FireHub\Tests',
+            Folder::parent(__DIR__).DS.'..'.DS.'..'.DS.'tests'
+        );
 
         Autoload::prepend($loader);
 
