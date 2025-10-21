@@ -2,6 +2,11 @@
 
 ## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.2...develop-pre-alpha-m1)
 
+## [v0.1.3](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.2...v0.1.3) – (2025-10-21)
+
+### Added
+- Added Configuration file, main FireHub class and Autoload classes ([#49](https://github.com/The-FireHub-Project/Core-Standard/issues/49), [d6ef31d](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/d6ef31d))
+
 ## [v0.1.2](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.1...v0.1.2) – (2025-10-16)
 
 ### Added
