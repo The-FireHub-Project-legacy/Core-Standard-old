@@ -221,7 +221,7 @@ final class Arr {
      * ### Sort multiple on multidimensional arrays
      * @since 1.0.0
      *
-     * @param array<array-key, array<array-key, mixed>> $array <p>
+     * @param array<array-key, array<array-key, mixed>> &$array <p>
      * A multidimensional array being sorted.
      * </p>
      *
@@ -233,7 +233,7 @@ final class Arr {
      * @caution Associative (string) keys will be maintained, but numeric keys will be re-indexed.
      * @note Resets array's internal pointer to the first element.
      */
-    public static function multiSort (array $array):true {
+    public static function multiSort (array &$array):true {
 
         try {
 
