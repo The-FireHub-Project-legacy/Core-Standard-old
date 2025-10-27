@@ -25,12 +25,42 @@ final class ArrDataProvider {
      *
      * @return array[]
      */
-    public static function mixed ():array {
+    public static function list ():array {
 
         return [
-            [[]],
             [[1, 2, 3]],
-            [['one' => 1, 'two' => 2, 'three' => 3]]
+            [[10.2, 200, -3]],
+            [['x', 'y', 'z']],
+            [['', 'test']]
+        ];
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @return array[]
+     */
+    public static function associative ():array {
+
+        return [
+            [['one' => 1, 'two' => 2, 'three' => 3]],
+            [['ONE' => 1, 'TWO' => 2, 'THREE' => 3]],
+            [[2 => '', 'x' => null, 5 => false]]
+        ];
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @return array[]
+     */
+    public static function multidimensional ():array {
+
+        return [
+            [['one' => [1, 2, 3], 'two' => [4, 5, 6], 'three' => [7, 8, 9]]],
+            [[1 => [1 => null, 2 => false], 2 => [1 => true, 'x' => false]]]
         ];
 
     }
