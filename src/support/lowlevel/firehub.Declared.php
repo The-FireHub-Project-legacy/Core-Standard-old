@@ -81,8 +81,8 @@ final class Declared {
      * and constants and their values in the second dimension.
      * </p>
      *
-     * @return ($categorize is true ? array<string, array<non-empty-string, mixed>> : list<mixed>) Array of constant
-     * name => constant value array, optionally grouped by extension name registering the constant.
+     * @return ($categorize is true ? array<string, array<non-empty-string, mixed>> : array<string, mixed>) Array of
+     * constant name => constant value array, optionally grouped by extension name registering the constant.
      */
     public static function constants (bool $categorize = false):array {
 
