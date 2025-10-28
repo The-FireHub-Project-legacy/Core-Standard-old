@@ -16,7 +16,9 @@ namespace FireHub\Tests\Unit\Support\LowLevel;
 
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataDataProvider;
-use FireHub\Core\Support\Enums\Data\Type;
+use FireHub\Core\Support\Enums\Data\ {
+    Category, Type
+};
 use FireHub\Core\Support\Exceptions\Data\ {
     ArrayToStringConversionException, CannotSerializeException, SetAsResourceException, UnserializeFailedException
 };
@@ -683,6 +685,28 @@ final class DataTest extends Base {
         $this->expectException(UnserializeFailedException::class);
 
         Data::unserialize($value);
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Enums\Data\Category $category
+     * @param \FireHub\Core\Support\Enums\Data\Type $type
+     *
+     * @return void
+     */
+    #[TestWith([Category::SCALAR, Type::T_FLOAT])]
+    #[TestWith([Category::COMPOUND, Type::T_OBJECT])]
+    #[TestWith([Category::SPECIAL, Type::T_RESOURCE])]
+    #[TestWith([Category::SCALAR, Type::T_INT])]
+    #[TestWith([Category::SPECIAL, Type::T_NULL])]
+    #[TestWith([Category::SCALAR, Type::T_BOOL])]
+    #[TestWith([Category::COMPOUND, Type::T_ARRAY])]
+    #[TestWith([Category::SCALAR, Type::T_STRING])]
+    public function testCategory (Category $category, Type $type):void {
+
+        $this->assertSame($category, $type->category());
 
     }
 
