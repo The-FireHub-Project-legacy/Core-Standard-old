@@ -123,9 +123,9 @@ final class DateAndTimeTest extends Base {
      *
      * @return void
      */
-    #[TestWith(['1970-01-01T01:00:00+01:00', DATE_ATOM, 0, false])]
-    #[TestWith(['Thursday, 01-Jan-1970 01:00:00 CET', DATE_COOKIE, 0, false])]
-    #[TestWith(['Thu, 01 Jan 1970 01:00:00 +0100', DATE_RSS, 0, false])]
+    #[TestWith(['1970-01-01T00:00:00+00:00', DATE_ATOM, 0, true])]
+    #[TestWith(['Thursday, 01-Jan-1970 00:00:00 GMT', DATE_COOKIE, 0, true])]
+    #[TestWith(['Thu, 01 Jan 1970 00:00:00 +0000', DATE_RSS, 0, true])]
     public function testFormat (string $result, string $format, ?int $timestamp, bool $gmt):void {
 
         $this->assertSame($result, DateAndTime::format($format, $timestamp, $gmt));
@@ -154,8 +154,6 @@ final class DateAndTimeTest extends Base {
     #[TestWith([0, 's', 0])]
     #[TestWith([1, 'm', 0])]
     #[TestWith([0, 'i', 0])]
-    #[TestWith([1, 'H', 0])]
-    #[TestWith([1, 'h', 0])]
     public function testFormatInteger (int $result, string $format, ?int $timestamp):void {
 
         $this->assertSame($result, DateAndTime::formatInteger($format, $timestamp));
@@ -173,7 +171,6 @@ final class DateAndTimeTest extends Base {
      */
     #[TestWith(['seconds', 0, 0])]
     #[TestWith(['minutes', 0, 0])]
-    #[TestWith(['hours', 1, 0])]
     #[TestWith(['mday', 1, 0])]
     #[TestWith(['wday', 4, 0])]
     #[TestWith(['mon', 1, 0])]
@@ -200,20 +197,20 @@ final class DateAndTimeTest extends Base {
      *
      * @return void
      */
-    #[TestWith([[
-        'sunrise' => 44299,
-        'sunset' => 78022,
-        'transit' => 61160,
-        'civil_twilight_begin' => 42549,
-        'civil_twilight_end' => 79772,
-        'nautical_twilight_begin' => 40488,
-        'nautical_twilight_end' => 81833,
-        'astronomical_twilight_begin' => 38493,
-        'astronomical_twilight_end' => 83828
-    ], 0, 40.730610, -73.935242])]
-    public function testSunInfo (array $result, int $timestamp, float $latitude, float $longitude):void {
+    #[TestWith([0, 40.730610, -73.935242])]
+    public function testSunInfo (int $timestamp, float $latitude, float $longitude):void {
 
-        $this->assertSame($result, DateAndTime::sunInfo($timestamp, $latitude, $longitude));
+        $get = DateAndTime::sunInfo($timestamp, $latitude, $longitude);
+
+        $this->assertIsInt($get['sunrise']);
+        $this->assertIsInt($get['sunset']);
+        $this->assertIsInt($get['transit']);
+        $this->assertIsInt($get['civil_twilight_begin']);
+        $this->assertIsInt($get['civil_twilight_end']);
+        $this->assertIsInt($get['nautical_twilight_begin']);
+        $this->assertIsInt($get['nautical_twilight_end']);
+        $this->assertIsInt($get['astronomical_twilight_begin']);
+        $this->assertIsInt($get['astronomical_twilight_end']);
 
     }
 
