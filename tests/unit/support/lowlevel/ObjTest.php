@@ -18,7 +18,6 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\ {
     ClsDataProvider, TestAbstractClass, TestClass, TestInterface, TestTrait
 };
-use FireHub\Core\Support\Exceptions\Cls\NotFoundException;
 use FireHub\Core\Support\LowLevel\ {
     ClsObj, Obj
 };
