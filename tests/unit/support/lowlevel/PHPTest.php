@@ -432,7 +432,6 @@ final class PHPTest extends Base {
      *
      * @return void
      */
-    #[TestWith([1])]
     public function testResetMemoryPeakUsage ():void {
 
         PHP::resetMemoryPeakUsage();
