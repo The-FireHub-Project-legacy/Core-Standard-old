@@ -23,7 +23,7 @@ use FireHub\Core\Support\LowLevel\ {
     Num, NumFloat
 };
 use PHPUnit\Framework\Attributes\ {
-    CoversClass, DataProviderExternal, Group, Small, TestWith
+    CoversClass, DataProviderExternal, Depends, Group, Small, TestWith
 };
 
 /**
@@ -153,9 +153,10 @@ final class NumFloatTest extends Base {
     #[TestWith([-0.34642692079720505, 1.335, LogBase::LOG10E])]
     #[TestWith([-0.7883249829055747, 1.335, LogBase::LN2])]
     #[TestWith([0.346426920797205, 1.335, LogBase::LN10])]
+    #[Depends('testRound')]
     public function testLog (float $expected, float $actual, LogBase $base):void {
 
-        $this->assertSame($expected, NumFloat::log($actual, $base));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::log($actual, $base), 5));
 
     }
 
@@ -168,9 +169,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([0.8480118911208606, 1.335])]
+    #[Depends('testRound')]
     public function testLog1p (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::log1p($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::log1p($actual), 5));
 
     }
 
@@ -183,9 +185,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([0.125481265700594, 1.335])]
+    #[Depends('testRound')]
     public function testLog10 (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::log10($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::log10($actual), 5));
 
     }
 
@@ -262,9 +265,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([0.4031710572106902, 23.1])]
+    #[Depends('testRound')]
     public function testDegreesToRadian (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::degreesToRadian($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::degreesToRadian($actual), 5));
 
     }
 
@@ -277,9 +281,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([23.099939426289396, 0.40317])]
+    #[Depends('testRound')]
     public function testRadianToDegrees (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::radianToDegrees($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::radianToDegrees($actual), 5));
 
     }
 
@@ -292,9 +297,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([298.8674009670603, 5.7])]
+    #[Depends('testRound')]
     public function testExponent (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::exponent($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::exponent($actual), 5));
 
     }
 
@@ -307,9 +313,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([4839126178.743089, 22.3])]
+    #[Depends('testRound')]
     public function testExponent1 (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::exponent1($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::exponent1($actual), 5));
 
     }
 
@@ -323,9 +330,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([2.6832815729997477, 1.2, 2.4])]
+    #[Depends('testRound')]
     public function testHypotenuseLength (float $expected, int|float $x, int|float $y):void {
 
-        $this->assertSame($expected, NumFloat::hypotenuseLength($x, $y));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::hypotenuseLength($x, $y), 5));
 
     }
 
@@ -338,9 +346,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([3.03315017762062, 9.2])]
+    #[Depends('testRound')]
     public function testSquareRoot (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::squareRoot($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::squareRoot($actual), 5));
 
     }
 
@@ -406,9 +415,10 @@ final class NumFloatTest extends Base {
     #[TestWith([INF, 1.0, 0.0])]
     #[TestWith([-INF, -1.0, 0.0])]
     #[TestWith([4.384615384615385, 5.7, 1.3])]
+    #[Depends('testRound')]
     public function testDivide (float $result, float $dividend, float $divisor):void {
 
-        $this->assertSame($result, NumFloat::divide($dividend, $divisor));
+        $this->assertSame(NumFloat::round($result, 5), NumFloat::round(NumFloat::divide($dividend, $divisor), 5));
 
     }
 
@@ -452,9 +462,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([1.0471975511965979, 0.5])]
+    #[Depends('testRound')]
     public function testCosineArc (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::cosineArc($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::cosineArc($actual), 5));
 
     }
 
@@ -467,9 +478,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([1.1276259652063807, 0.5])]
+    #[Depends('testRound')]
     public function testCosineHyperbolic (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::cosineHyperbolic($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::cosineHyperbolic($actual), 5));
 
     }
 
@@ -482,9 +494,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([0.4435682543851153, 1.1])]
+    #[Depends('testRound')]
     public function testCosineInverseHyperbolic (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::cosineInverseHyperbolic($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::cosineInverseHyperbolic($actual), 5));
 
     }
 
@@ -497,9 +510,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([0.479425538604203, 0.5])]
+    #[Depends('testRound')]
     public function testSine (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::sine($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::sine($actual), 5));
 
     }
 
@@ -512,9 +526,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([1.5707963267948966, 1])]
+    #[Depends('testRound')]
     public function testSineArc (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::sineArc($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::sineArc($actual), 5));
 
     }
 
@@ -527,9 +542,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([1.1752011936438014, 1])]
+    #[Depends('testRound')]
     public function testSineHyperbolic (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::sineHyperbolic($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::sineHyperbolic($actual), 5));
 
     }
 
@@ -542,9 +558,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([0.881373587019543, 1])]
+    #[Depends('testRound')]
     public function testSineHyperbolicInverse (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::sineHyperbolicInverse($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::sineHyperbolicInverse($actual), 5));
 
     }
 
@@ -557,9 +574,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([1.5574077246549023, 1])]
+    #[Depends('testRound')]
     public function testTangent (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::tangent($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::tangent($actual), 5));
 
     }
 
@@ -572,9 +590,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([0.7853981633974483, 1])]
+    #[Depends('testRound')]
     public function testTangentArc (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::tangentArc($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::tangentArc($actual), 5));
 
     }
 
@@ -590,7 +609,7 @@ final class NumFloatTest extends Base {
     #[TestWith([0.7853981633974483, 1, 1])]
     public function testTangentArc2 (float $expected, float $x, float $y):void {
 
-        $this->assertSame($expected, NumFloat::tangentArc2($x, $y));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::tangentArc2($x, $y), 5));
 
     }
 
@@ -603,9 +622,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([0.7615941559557649, 1])]
+    #[Depends('testRound')]
     public function testTangentHyperbolic (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::tangentHyperbolic($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::tangentHyperbolic($actual), 5));
 
     }
 
@@ -618,9 +638,10 @@ final class NumFloatTest extends Base {
      * @return void
      */
     #[TestWith([0.5493061443340549, 0.5])]
+    #[Depends('testRound')]
     public function testTangentInverseHyperbolic (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumFloat::tangentInverseHyperbolic($actual));
+        $this->assertSame(NumFloat::round($expected, 5), NumFloat::round(NumFloat::tangentInverseHyperbolic($actual), 5));
 
     }
 

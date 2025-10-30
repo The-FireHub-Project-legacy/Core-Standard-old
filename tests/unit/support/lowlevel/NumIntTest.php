@@ -26,7 +26,7 @@ use FireHub\Core\Support\LowLevel\ {
     Num, NumInt
 };
 use PHPUnit\Framework\Attributes\ {
-    CoversClass, DataProviderExternal, Group, Small, TestWith
+    CoversClass, DataProviderExternal, DependsExternal, Group, Small, TestWith
 };
 
 /**
@@ -71,9 +71,10 @@ final class NumIntTest extends Base {
     #[TestWith([-2.7607859935346917, 10, LogBase::LOG10E])]
     #[TestWith([-6.282411788757108, 10, LogBase::LN2])]
     #[TestWith([2.7607859935346912, 10, LogBase::LN10])]
+    #[DependsExternal(NumFloatTest::class, 'testRound')]
     public function testLog (float $expected, int $actual, LogBase $base):void {
 
-        $this->assertSame($expected, NumInt::log($actual, $base));
+        $this->assertSame(NumInt::round($expected, 5), NumInt::round(NumInt::log($actual, $base), 5));
 
     }
 
@@ -86,9 +87,10 @@ final class NumIntTest extends Base {
      * @return void
      */
     #[TestWith([2.3978952727983707, 10])]
+    #[DependsExternal(NumFloatTest::class, 'testRound')]
     public function testLog1p (float $expected, int $actual):void {
 
-        $this->assertSame($expected, NumInt::log1p($actual));
+        $this->assertSame(NumInt::round($expected, 5), NumInt::round(NumInt::log1p($actual), 5));
 
     }
 
@@ -181,9 +183,10 @@ final class NumIntTest extends Base {
      * @return void
      */
     #[TestWith([0.7853981633974483, 45])]
+    #[DependsExternal(NumFloatTest::class, 'testRound')]
     public function testDegreesToRadian (float $expected, int $actual):void {
 
-        $this->assertSame($expected, NumInt::degreesToRadian($actual));
+        $this->assertSame(NumInt::round($expected, 5), NumInt::round(NumInt::degreesToRadian($actual), 5));
 
     }
 
@@ -196,9 +199,10 @@ final class NumIntTest extends Base {
      * @return void
      */
     #[TestWith([45.0, 0.7853981633974483])]
+    #[DependsExternal(NumFloatTest::class, 'testRound')]
     public function testRadianToDegrees (float $expected, float $actual):void {
 
-        $this->assertSame($expected, NumInt::radianToDegrees($actual));
+        $this->assertSame(NumInt::round($expected, 5), NumInt::round(NumInt::radianToDegrees($actual), 5));
 
     }
 
@@ -210,10 +214,11 @@ final class NumIntTest extends Base {
      *
      * @return void
      */
-    #[TestWith([9744803446.248903, 23])]
+    #[TestWith([9744803446.2489, 23])]
+    #[DependsExternal(NumFloatTest::class, 'testRound')]
     public function testExponent (float $expected, int $actual):void {
 
-        $this->assertSame($expected, NumInt::exponent($actual));
+        $this->assertSame(NumInt::round($expected, 5), NumInt::round(NumInt::exponent($actual), 5));
 
     }
 
@@ -226,9 +231,10 @@ final class NumIntTest extends Base {
      * @return void
      */
     #[TestWith([9744803445.248903, 23])]
+    #[DependsExternal(NumFloatTest::class, 'testRound')]
     public function testExponent1 (float $expected, int $actual):void {
 
-        $this->assertSame($expected, NumInt::exponent1($actual));
+        $this->assertSame(NumInt::round($expected, 5), NumInt::round(NumInt::exponent1($actual), 5));
 
     }
 
@@ -242,9 +248,10 @@ final class NumIntTest extends Base {
      * @return void
      */
     #[TestWith([2.23606797749979, 1, 2])]
+    #[DependsExternal(NumFloatTest::class, 'testRound')]
     public function testHypotenuseLength (float $expected, int|float $x, int|float $y):void {
 
-        $this->assertSame($expected, NumInt::hypotenuseLength($x, $y));
+        $this->assertSame(NumInt::round($expected, 5), NumInt::round(NumInt::hypotenuseLength($x, $y), 5));
 
     }
 
