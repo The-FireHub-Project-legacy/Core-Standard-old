@@ -483,15 +483,15 @@ final class PHP {
      * ### Delays program execution for the given number of microseconds
      * @since 1.0.0
      *
-     * @param int<0, 999999> $seconds <p>
+     * @param int<0, 999999> $microseconds <p>
      * Halt time in microseconds.
      * </p>
      *
      * @return void
      */
-    public static function microsleep (int $seconds):void {
+    public static function microsleep (int $microseconds):void {
 
-        usleep(min($seconds, 999_999));
+        usleep(min($microseconds, 999_999));
 
     }
 
