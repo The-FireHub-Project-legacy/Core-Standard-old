@@ -126,11 +126,11 @@ final class SplAutoload {
      * extension separated by comma.
      * </p>
      *
-     * @return void A list of default file extensions for default autoloader.
+     * @return string A list of default file extensions for default autoloader.
      */
-    public static function extensions (?string $file_extensions = null):void {
+    public static function extensions (?string $file_extensions = null):string {
 
-        spl_autoload_extensions($file_extensions);
+        return spl_autoload_extensions($file_extensions);
 
     }
 
