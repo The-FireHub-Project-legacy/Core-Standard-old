@@ -77,7 +77,7 @@ final class Preloader implements Loader {
 
         $file = self::HOME_FOLDER.$namespace.DIRECTORY_SEPARATOR.$this->class_prefix.$classname.'.php';
 
-        if (is_file($file)) require $file;
+        if (is_file($file)) require_once $file;
 
     }
 
