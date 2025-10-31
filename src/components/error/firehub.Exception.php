@@ -19,6 +19,10 @@ use Exception as InternalException, Throwable;
 
 use function array_key_first;
 
+/**
+ * ### Main Exception
+ * @since 1.0.0
+ */
 class Exception extends InternalException {
 
     /**
@@ -83,7 +87,7 @@ class Exception extends InternalException {
      */
     public function prependMessage (string $message):static {
 
-        $this->message = $message.' '.$this->getMessage();
+        $this->message = $message.$this->getMessage();
 
         return $this;
 
@@ -101,7 +105,7 @@ class Exception extends InternalException {
      */
     public function appendMessage (string $message):static {
 
-        $this->message = $this->getMessage().' '.$message;
+        $this->message = $this->getMessage().$message;
 
         return $this;
 
