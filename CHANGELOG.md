@@ -1,6 +1,11 @@
 # Release Notes for v0.x.x.pre-alpha
 
-## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...develop-pre-alpha-m1)
+## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.5...develop-pre-alpha-m1)
+
+## [v0.1.5](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...v0.1.5) – (2025-11-03)
+
+### Added
+- Create Tests ([#51](https://github.com/The-FireHub-Project/Core-Standard/issues/51))
 
 ## [v0.1.4](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.3...v0.1.4) – (2025-10-21)
 
