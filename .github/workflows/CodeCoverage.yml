@@ -38,6 +38,14 @@ jobs:
           files: ./coverage-integration.xml
           flags: integration
           token: ${{ secrets.CODECOV_TOKEN }}
+      - name: Run PHPUnit smoke tests with coverage and test results
+        run: vendor/bin/phpunit --testsuite smoke --coverage-clover=coverage-smoke.xml --log-junit junit.xml
+      - name: Upload smoke coverage to Codecov
+        uses: codecov/codecov-action@v5
+        with:
+          files: ./coverage-smoke.xml
+          flags: smoke
+          token: ${{ secrets.CODECOV_TOKEN }}
       - name: Upload test results to Codecov
         if: ${{ !cancelled() }}
         uses: codecov/test-results-action@v1

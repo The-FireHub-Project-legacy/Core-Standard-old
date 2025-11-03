@@ -89,7 +89,7 @@ final class FireHubConfigurator {
         private(set) readonly string $app_path
     ) {
 
-        foreach ($this->preloaders as $preloader) require $preloader;
+        foreach ($this->preloaders as $preloader) require_once $preloader;
 
         Autoload::prepend(new Preloader('firehub.'));
 
