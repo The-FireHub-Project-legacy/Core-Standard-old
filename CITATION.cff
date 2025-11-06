@@ -9,7 +9,7 @@ license: OSL-3.0
 identifiers:
   - type: doi
     value: 10.5281/zenodo.15804459
-    description: The concept DOI of the work.Standard
+    description: The concept DOI of the work.
   - type: url
     value: "https://github.com/The-FireHub-Project/Core-Standard/releases/tag/v0.1.0"
     description: The GitHub release URL of this version.
