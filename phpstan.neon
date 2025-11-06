@@ -13,6 +13,7 @@ parameters:
     checkFunctionNameCase: true
     checkImplicitMixed: true
     checkInternalClassCaseSensitivity: true
+    checkMissingTypehints: true
     checkTooWideReturnTypesInProtectedAndPublicMethods: true
     checkUninitializedProperties: true
     reportAlwaysTrueInLastCondition: true
