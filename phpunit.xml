@@ -7,10 +7,10 @@
         <testsuite name="unit">
             <directory>tests/unit</directory>
         </testsuite>
-        <testsuite name="integration">
+        <testsuite name="integration" processIsolation="true">
             <directory>tests/integration</directory>
         </testsuite>
-        <testsuite name="smoke">
+        <testsuite name="smoke" processIsolation="true">
             <directory>tests/smoke</directory>
         </testsuite>
     </testsuites>
