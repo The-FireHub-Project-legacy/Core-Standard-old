@@ -31,7 +31,7 @@ final class DataDataProvider {
     public static function string ():array {
 
         return [
-            ['test', Type::T_STRING],
+            ['firehub', Type::T_STRING],
             ['', Type::T_STRING]
         ];
 
