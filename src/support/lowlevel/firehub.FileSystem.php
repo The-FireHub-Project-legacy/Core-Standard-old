@@ -800,7 +800,7 @@ class FileSystem {
             ($statistics = $symlink ? lstat($path) : stat($path))
                 ? $statistics
                 : throw new GetStatisticsException()->fromPath($path),
-            static fn($value, $key) => DataIs::string($key)
+            static fn(int $value, int|string $key) => DataIs::string($key)
         );
 
     }
