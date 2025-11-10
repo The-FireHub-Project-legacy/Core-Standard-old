@@ -29,7 +29,7 @@ use FireHub\Core\Initializers\Bootloaders\ {
     RegisterAutoloaders, RegisterConstants, RegisterHelpers
 };
 use PHPUnit\Framework\Attributes\ {
-    CoversClass, Group, RunTestsInSeparateProcesses, Small
+    CoversClass, Group, Small
 };
 
 /**
@@ -49,7 +49,6 @@ use PHPUnit\Framework\Attributes\ {
 #[CoversClass(RegisterConstants::class)]
 #[CoversClass(RegisterHelpers::class)]
 #[CoversClass(Kernel::class)]
-#[RunTestsInSeparateProcesses]
 final class SmokeTest extends Base {
 
     /**
