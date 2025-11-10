@@ -22,24 +22,24 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Install composer dependencies
         run: composer install  --no-interaction --no-progress --prefer-dist
-      - name: Run PHPUnit unit tests with coverage and test results
-        run: vendor/bin/phpunit --testsuite unit --coverage-clover=coverage-unit.xml --log-junit junit.xml
+      - name: Run Pest unit tests with coverage and test results
+        run: vendor/bin/pest --testsuite unit --coverage-clover=coverage-unit.xml --log-junit junit.xml
       - name: Upload unit coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           files: ./coverage-unit.xml
           flags: unit
           token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Run PHPUnit integration tests with coverage and test results
-        run: vendor/bin/phpunit --testsuite integration --coverage-clover=coverage-integration.xml --log-junit junit.xml
+      - name: Run Pest integration tests with coverage and test results
+        run: vendor/bin/pest --testsuite integration --coverage-clover=coverage-integration.xml --log-junit junit.xml
       - name: Upload integration coverage to Codecov
         uses: codecov/codecov-action@v5
         with:
           files: ./coverage-integration.xml
           flags: integration
           token: ${{ secrets.CODECOV_TOKEN }}
-      - name: Run PHPUnit smoke tests with coverage and test results
-        run: vendor/bin/phpunit --testsuite smoke --coverage-clover=coverage-smoke.xml --log-junit junit.xml
+      - name: Run Pest smoke tests with coverage and test results
+        run: vendor/bin/pest --testsuite smoke --coverage-clover=coverage-smoke.xml --log-junit junit.xml
       - name: Upload smoke coverage to Codecov
         uses: codecov/codecov-action@v5
         with:

@@ -13,7 +13,7 @@ jobs:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macOS-latest]
         php-versions: ['8.4']
-    name: Run PHPUnit with PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
+    name: Run Pest with PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -27,5 +27,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Install composer dependencies
         run: composer install  --no-interaction --no-progress --prefer-dist
-      - name: Run PHPUnit
-        run: phpunit
+      - name: Run Pest
+        run: pest
