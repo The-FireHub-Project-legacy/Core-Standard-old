@@ -44,3 +44,10 @@ it('contains returns correct result', function (bool $expected, string $actual, 
     [false, 'j', ''],
     [true, 'j', 'ijk']
 ]);
+
+it('add and strip slashes works correctly', function (string $expected, string $actual, ?string $characters = null, bool $c_representation = false) {
+    expect(StrSB::addSlashes($actual, $characters))->toBe($expected);
+    expect(StrSB::stripSlashes($expected, $c_representation))->toBe($actual);
+})->with([
+    ["O\\\\\\'Reilly", "O\'Reilly"]
+]);
