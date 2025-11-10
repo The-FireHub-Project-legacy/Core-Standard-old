@@ -1,4 +1,4 @@
-name: PHPUnit
+name: Pest
 on:
   push:
     branches:
@@ -21,11 +21,10 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, zip, apcu
-          tools: phpunit:12.x
+          extensions: mbstring, zip, apcu, sockets
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       - name: Install composer dependencies
         run: composer install  --no-interaction --no-progress --prefer-dist
       - name: Run Pest
-        run: pest
+        run: ./vendor/bin/pest
