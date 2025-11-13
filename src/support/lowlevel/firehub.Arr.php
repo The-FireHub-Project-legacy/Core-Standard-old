@@ -1408,7 +1408,13 @@ final class Arr {
      * You can change this behavior by setting preserve_keys to true.
      * </p>
      *
-     * @return ($preserve_keys is true ? array<TKey, TValue> : array<TKey|int, TValue>) Sliced array.
+     * @return (
+     *  $preserve_keys is true
+     *  ? array<TKey, TValue>
+     *  : ($array is list
+     *      ? list<TValue>
+     *      : array<array-key, TValue>)
+     * ) Converted value.
      *
      * @note Named keys will always retain their name.
      */
@@ -1449,7 +1455,7 @@ final class Arr {
      * are inserted in the place specified by the offset.
      * Keys in a replacement array aren't preserved.
      * </p>
-     * @phpstan-param-out array<TKey, TValue|TReplacedValue> $array
+     * @phpstan-param-out ($array is list ? list<TValue> : array<TValue|TReplacedValue>) $array
      *
      * @return array<TKey, TValue> Spliced array.
      *
@@ -1597,15 +1603,15 @@ final class Arr {
      * Pops and returns the last element value of th $array, shortening the $array by one element.
      * @since 1.0.0
      *
-     * @template TKey of array-key
-     * @template TValue
+     * @template TArray of array<array-key, mixed>
      *
-     * @param array<TKey, TValue> &$array <p>
+     * @param TArray &$array <p>
      * The array to get the value from.
      * </p>
-     * @phpstan-param-out array<TKey, TValue> $array
+     * @phpstan-param-out TArray $array
      *
-     * @return null|TValue The last value of an array. If an array is empty (or is not an array), null will be returned.
+     * @return null|value-of<TArray> The last value of an array. If an array is empty (or is not an array), null will
+     * be returned.
      *
      * @note This function will reset the array pointer of the input array after use.
      */
@@ -1622,16 +1628,15 @@ final class Arr {
      * The length of an array increases by the number of variables pushed.
      * @since 1.0.0
      *
-     * @template TKey of array-key
-     * @template TValue
+     * @template TArray of array<array-key, mixed>
      *
-     * @param array<TKey, TValue> &$array <p>
+     * @param TArray &$array <p>
      * The input array.
      * </p>
-     * @param TValue ...$values [optional] <p>
+     * @param value-of<TArray> ...$values [optional] <p>
      * The values to push onto the end of the array.
      * </p>
-     * @phpstan-param-out array<TKey, TValue> $array
+     * @phpstan-param-out TArray $array
      *
      * @return int The new number of elements in the array.
      *
@@ -1640,7 +1645,7 @@ final class Arr {
      */
     public static function push (array &$array, mixed ...$values):int {
 
-        return array_push($array, ...$values);
+        return array_push($array, ...$values); // @phpstan-ignore paramOut.type
 
     }
 
@@ -1652,15 +1657,14 @@ final class Arr {
      * All numerical array keys will be modified to start counting from zero while literal keys won't be affected.
      * @since 1.0.0
      *
-     * @template TKey of array-key
-     * @template TValue
+     * @template TArray of array<array-key, mixed>
      *
-     * @param array<TKey, TValue> &$array <p>
+     * @param TArray &$array <p>
      * Array to shift.
      * </p>
-     * @phpstan-param-out array<TKey, TValue> $array
+     * @phpstan-param-out TArray $array
      *
-     * @return null|TValue The shifted value, or null if an array is empty or is not an array.
+     * @return null|value-of<TArray> The shifted value, or null if an array is empty or is not an array.
      *
      * @note This function will reset the array pointer of the input array after use.
      */
@@ -1678,16 +1682,15 @@ final class Arr {
      * All numerical array keys will be modified to start counting from zero, while literal keys won't be changed.
      * @since 1.0.0
      *
-     * @template TKey of array-key
-     * @template TValue
+     * @template TArray of array<array-key, mixed>
      *
-     * @param array<TKey, TValue> &$array <p>
+     * @param TArray &$array <p>
      * The input array.
      * </p>
-     * @param TValue ...$values [optional] <p>
+     * @param mixed ...$values [optional] <p>
      * The values to prepend.
      * </p>
-     * @phpstan-param-out array<TKey, TValue> $array
+     * @phpstan-param-out TArray $array
      *
      * @return int The new number of elements in the array.
      *
@@ -1695,7 +1698,7 @@ final class Arr {
      */
     public static function unshift (array &$array, mixed ...$values):int {
 
-        return array_unshift($array, ...$values);
+        return array_unshift($array, ...$values); // @phpstan-ignore paramOut.type
 
     }
 
