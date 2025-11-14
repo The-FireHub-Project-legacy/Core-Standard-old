@@ -144,7 +144,7 @@ class Exception extends InternalException {
      */
     final public function __call (string $method, array $arguments):static {
 
-        $key = array_key_first($arguments);
+        $key = array_key_first($arguments) ?? '';
 
         $this->info[$method] = $arguments[$key] ?? '';
 

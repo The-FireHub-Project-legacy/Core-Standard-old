@@ -232,12 +232,14 @@ final class Arr {
      *
      * @caution Associative (string) keys will be maintained, but numeric keys will be re-indexed.
      * @note Resets array's internal pointer to the first element.
+     *
+     * @todo Check if array_multisort always return true from php 8.5
      */
     public static function multiSort (array &$array):true {
 
         try {
 
-            return array_multisort(...$array)
+            return array_multisort(...$array) // @phpstan-ignore ternary.alwaysTrue
                 ?: throw new FailedSortMultiArrayException;
 
         } catch (ValueError) {
