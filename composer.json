@@ -6,7 +6,7 @@
     "homepage": "https://the-firehub-project.github.io/Core/",
     "license": "OSL-3.0",
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-mbstring": "*"
     },
     "require-dev": {
@@ -21,11 +21,10 @@
         "pestphp/pest-plugin-arch": "^4",
         "ext-zip": "*",
         "ext-openssl": "*",
-        "ext-apcu": "*",
         "ext-sockets": "*"
     },
     "suggest": {
-        "php-64bit": "^8.4",
+        "php-64bit": "^8.5",
         "ext-apcu": "*"
     },
     "minimum-stability": "dev",
