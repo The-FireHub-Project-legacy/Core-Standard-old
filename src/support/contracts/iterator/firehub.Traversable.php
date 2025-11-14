@@ -13,14 +13,21 @@
  * @version GIT: $Id$ Blob checksum.
  */
 
-namespace FireHub\Core\Support\Exceptions;
+namespace FireHub\Core\Support\Contracts\Iterator;
 
-use FireHub\Core\Components\Error\Exception;
+use Traversable as InternalTraversable;
 
 /**
- * ### Number exception
+ * ### Base traversable contract
+ *
+ * Interface to detect if a class is traversable using foreach.
  * @since 1.0.0
  *
- * @method $this fromNumber (int|float $number) ### Number from where exception came from
+ * @template TKey
+ * @template TValue
+ *
+ * @extends InternalTraversable<TKey, TValue>
  */
-class NumException extends Exception {}
+interface Traversable extends InternalTraversable {
+
+}
