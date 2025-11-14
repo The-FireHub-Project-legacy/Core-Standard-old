@@ -1269,6 +1269,36 @@ final class ArrTest extends Base {
      *
      * @return void
      */
+    #[TestWith([1, ['one' => 1, 'two' => 2, 'three' => 3]])]
+    public function testFirst (mixed $expected, array $actual):void {
+
+        $this->assertSame($expected, Arr::first($actual));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param null|array-key $expected
+     * @param array<array-key, mixed> $actual
+     *
+     * @return void
+     */
+    #[TestWith([3, ['one' => 1, 'two' => 2, 'three' => 3]])]
+    public function testLast (mixed $expected, array $actual):void {
+
+        $this->assertSame($expected, Arr::last($actual));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param null|array-key $expected
+     * @param array<array-key, mixed> $actual
+     *
+     * @return void
+     */
     #[TestWith(['one', ['one' => 1, 'two' => 2, 'three' => 3]])]
     public function testFirstKey (null|int|string $expected, array $actual):void {
 

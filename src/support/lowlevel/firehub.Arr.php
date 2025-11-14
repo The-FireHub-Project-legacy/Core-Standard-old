@@ -47,6 +47,7 @@ use function array_fill_keys;
 use function array_filter;
 use function array_find;
 use function array_find_key;
+use function array_first;
 use function array_flip;
 use function array_intersect;
 use function array_intersect_assoc;
@@ -58,6 +59,7 @@ use function array_key_exists;
 use function array_key_first;
 use function array_key_last;
 use function array_keys;
+use function array_last;
 use function array_map;
 use function array_merge;
 use function array_merge_recursive;
@@ -1701,6 +1703,48 @@ final class Arr {
     public static function unshift (array &$array, mixed ...$values):int {
 
         return array_unshift($array, ...$values); // @phpstan-ignore paramOut.type
+
+    }
+
+    /**
+     * ### Get the first item from an array
+     *
+     * Get the first item of the given $array without affecting the internal array pointer.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param array<TKey, TValue> $array <p>
+     * An array.
+     * </p>
+     *
+     * @return null|TValue First item from $array or null if an array is empty.
+     */
+    public static function first (array $array):mixed {
+
+        return array_first($array);
+
+    }
+
+    /**
+     * ### Get the last item from an array
+     *
+     * Get the last item of the given $array without affecting the internal array pointer.
+     * @since 1.0.0
+     *
+     * @template TKey of array-key
+     * @template TValue
+     *
+     * @param array<TKey, TValue> $array <p>
+     * An array.
+     * </p>
+     *
+     * @return null|TValue Last item from $array or null if an array is empty.
+     */
+    public static function last (array $array):mixed {
+
+        return array_last($array);
 
     }
 
