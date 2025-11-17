@@ -42,7 +42,7 @@ Read our [Support](https://github.com/The-FireHub-Project/.github/blob/master/.g
 
 **This project has been extensively tested, and here are the results with icicle graph:**
 
-<img src="https://codecov.io/gh/The-FireHub-Project/Core-Standard/graphs/icicle.svg?token=38D32MP5TL" width="100%" height="200px" alt="codecov_icicle_graph">
+<img src="https://codecov.io/gh/The-FireHub-Project/Core-Standard/graphs/icicle.svg?token=9GCJPPBBHP" width="100%" height="200px" alt="codecov_icicle_graph">
 
 > [!NOTE]
 > The top section represents the entire project. Proceeding with folders and finally individual files. The size and color of each slice is representing the number of statements and the coverage, respectively.

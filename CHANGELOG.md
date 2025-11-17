@@ -1,6 +1,12 @@
 # Release Notes for v0.x.x.pre-alpha
 
-## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.5...develop-pre-alpha-m1)
+## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.6...develop-pre-alpha-m1)
+
+### Added
+
+- Added first and last methods for Arr low-level proxy class ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [7356eb4](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/7356eb4))
+- Create some basic data structure stuff ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [65dd32f](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/65dd32f))
+- Create Arrayable contract ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [1ae25d2](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/1ae25d2))
 
 ## [v0.1.5](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...v0.1.5) – (2025-11-03)
 
@@ -20,9 +26,9 @@
 ## [v0.1.2](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.1...v0.1.2) – (2025-10-16)
 
 ### Added
-- Created SplAutoload low-level support class ([#25](https://github.com/The-FireHub-Project/Core-Standard/issues/25), [45aea0d](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/45aea0d))
-- Created Type and Category data enums ([#26](https://github.com/The-FireHub-Project/Core-Standard/issues/26), [4590f00](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/4590f00))
-- Created Data low-level support class ([#26](https://github.com/The-FireHub-Project/Core-Standard/issues/26), [d512f75](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/d512f75))
+- Create SplAutoload low-level support class ([#25](https://github.com/The-FireHub-Project/Core-Standard/issues/25), [45aea0d](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/45aea0d))
+- Create Type and Category data enums ([#26](https://github.com/The-FireHub-Project/Core-Standard/issues/26), [4590f00](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/4590f00))
+- Create Data low-level support class ([#26](https://github.com/The-FireHub-Project/Core-Standard/issues/26), [d512f75](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/d512f75))
 - Create Char low-level support classes ([#27](https://github.com/The-FireHub-Project/Core-Standard/issues/27), [dd4db97](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/dd4db97))
 - Create DataIs low-level support classes ([#29](https://github.com/The-FireHub-Project/Core-Standard/issues/29), [7789ac4](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/7789ac4))
 - Create Obj and Cls low-level support classes ([#28](https://github.com/The-FireHub-Project/Core-Standard/issues/28), [3f04b8e](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/3f04b8e))
