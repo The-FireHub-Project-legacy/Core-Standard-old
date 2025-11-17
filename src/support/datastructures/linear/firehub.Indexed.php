@@ -73,6 +73,27 @@ class Indexed implements Linear, SequentialAccess {
     /**
      * {@inheritDoc}
      *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->toArray();
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function toArray ():array {
+
+        return $this->storage;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * Removing single item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;

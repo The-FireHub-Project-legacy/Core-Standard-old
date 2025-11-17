@@ -77,6 +77,27 @@ class Associative implements Linear, RandomAccess {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
+     * $collection->toArray();
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function toArray ():array {
+
+        return $this->storage;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
      * $collection->exist('firstname')
      *
      * // true

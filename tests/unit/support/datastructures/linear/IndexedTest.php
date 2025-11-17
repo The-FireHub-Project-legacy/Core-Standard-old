@@ -1,0 +1,214 @@
+<?php declare(strict_types = 1);
+
+/**
+ * This file is part of the FireHub Web Application Framework package
+ *
+ * @author Danijel Galić <danijel.galic@outlook.com>
+ * @copyright 2025 FireHub Web Application Framework
+ * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
+ *
+ * @package Core\Test
+ *
+ * @version GIT: $Id$ Blob checksum.
+ */
+
+namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
+
+use FireHub\Core\Testing\Base;
+use FireHub\Core\Support\DataStructures\Linear\Indexed;
+use FireHub\Tests\DataProviders\DataStructureDataProvider;
+use PHPUnit\Framework\Attributes\ {
+    CoversClass, DataProviderExternal, Group, Small
+};
+
+/**
+ * ### Test indexed data structure class
+ * @since 1.0.0
+ */
+#[Small]
+#[Group('datastructures')]
+#[CoversClass(Indexed::class)]
+final class IndexedTest extends Base {
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
+    public function testCount (Indexed $collection):void {
+
+        $this->assertSame(5, $collection->count());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testCount2 (Indexed $collection):void {
+
+        $this->assertSame(6, $collection->count());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testToArray (Indexed $collection):void {
+
+        $this->assertSame(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard'], $collection->toArray());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testShift (Indexed $collection):void {
+
+        $tested_collection = new Indexed(['Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+        $collection->shift();
+
+        $this->assertEquals($tested_collection, $collection);
+
+        $tested_collection = new Indexed();
+
+        $collection->shift(6);
+
+        $this->assertEquals($tested_collection, $collection);
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testPop (Indexed $collection):void {
+
+        $tested_collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard']);
+
+        $collection->pop();
+
+        $this->assertEquals($tested_collection, $collection);
+
+        $tested_collection = new Indexed();
+
+        $collection->pop(6);
+
+        $this->assertEquals($tested_collection, $collection);
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testPrepend (Indexed $collection):void {
+
+        $tested_collection = new Indexed(['Johnie', 'Janie', 'Baby', 'John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+
+        $collection->prepend('Johnie', 'Janie', 'Baby');
+
+        $this->assertEquals($tested_collection, $collection);
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testAppend (Indexed $collection):void {
+
+        $tested_collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard', 'Johnie', 'Janie', 'Baby']);
+
+        $collection->append('Johnie', 'Janie', 'Baby');
+
+        $this->assertEquals($tested_collection, $collection);
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testHead (Indexed $collection):void {
+
+        $this->assertEquals('John', $collection->head());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
+    public function testHeadEmpty (Indexed $collection):void {
+
+        $this->assertEquals(null, $collection->head());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testTail (Indexed $collection):void {
+
+        $this->assertEquals('Richard', $collection->tail());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
+    public function testTailEmpty (Indexed $collection):void {
+
+        $this->assertEquals(null, $collection->tail());
+
+    }
+
+}

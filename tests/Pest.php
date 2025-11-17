@@ -19,9 +19,13 @@ pest()
     ->in('smoke');
 
 pest()
-    ->group('unit-lowlevel')
+    ->group('datastructures')
+    ->in('unit\support\datastructures');
+
+pest()
+    ->group('lowlevel')
     ->in('unit\support\lowlevel');
 
 pest()
-    ->group('unit-components')
-    ->in('unit\support\lowlevel');
+    ->group('components')
+    ->in('unit\components');

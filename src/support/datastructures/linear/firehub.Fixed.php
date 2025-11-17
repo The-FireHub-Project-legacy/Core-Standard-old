@@ -122,6 +122,33 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
     /**
      * {@inheritDoc}
      *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = new Fixed(3);
+     *
+     * $collection[0] = 'one';
+     * $collection[1] = 'two';
+     * $collection[2] = 'three';
+     *
+     * $collection->toArray();
+     *
+     * // ['one, 'two', 'three']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Iterator To convert data structure to array.
+     */
+    public function toArray ():array {
+
+        return Iterator::toArray($this);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * Removing single item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Fixed;

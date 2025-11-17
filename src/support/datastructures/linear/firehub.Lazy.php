@@ -55,6 +55,31 @@ class Lazy implements Linear {
     ) {}
 
     /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Lazy;
+     *
+     * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->toArray();
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function toArray ():array {
+
+        $result = [];
+        foreach ($this as $key => $value)
+            $result[] = [$key, $value];
+
+        return $result;
+
+    }
+
+    /**
      * @inheritDoc
      *
      * @since 1.0.0
