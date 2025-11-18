@@ -31,6 +31,8 @@ use Traversable;
  *
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
+ *
+ * @phpstan-consistent-constructor
  */
 class Indexed implements Linear, SequentialAccess {
 
@@ -56,7 +58,7 @@ class Indexed implements Linear, SequentialAccess {
      *
      * @uses \FireHub\Core\Support\LowLevel\Arr::values() To help with removing keys from an array.
      *
-     * @param null|list<TValue> $storage [optional] <p>
+     * @param null|array<array-key, TValue> $storage [optional] <p>
      * Array to create underlying storage data.
      * </p>
      *
@@ -67,6 +69,28 @@ class Indexed implements Linear, SequentialAccess {
     public function __construct (?array $storage = null) {
 
         $this->storage = Arr::values($storage ?? []);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = Indexed::fromArray(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @return static<TValue> This object created from provider array.
+     */
+    public static function fromArray (array $array):static {
+
+        /** @var static<TValue> */
+        return new static($array);
 
     }
 
@@ -104,7 +128,6 @@ class Indexed implements Linear, SequentialAccess {
      *
      * // ['Jane', 'Jane', 'Jane', 'Richard', 'Richard']
      * </code>
-     *
      * Removing more than one item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
@@ -146,7 +169,6 @@ class Indexed implements Linear, SequentialAccess {
      *
      * // ['John', 'Jane', 'Jane', 'Jane', 'Richard']
      * </code>
-     *
      * Removing more than one item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;

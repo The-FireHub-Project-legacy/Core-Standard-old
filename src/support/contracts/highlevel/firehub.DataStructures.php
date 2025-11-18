@@ -16,7 +16,7 @@
 namespace FireHub\Core\Support\Contracts\HighLevel;
 
 use FireHub\Core\Support\Contracts\ {
-    Arrayable, Countable
+    ArrayConvertable, Countable
 };
 use FireHub\Core\Support\Contracts\Iterator\IteratorAggregate;
 
@@ -29,6 +29,6 @@ use FireHub\Core\Support\Contracts\Iterator\IteratorAggregate;
  *
  * @extends \FireHub\Core\Support\Contracts\Iterator\IteratorAggregate<TKey, TValue>
  */
-interface DataStructures extends Arrayable, Countable, IteratorAggregate {
+interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate {
 
 }

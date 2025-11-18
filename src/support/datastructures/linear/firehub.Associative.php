@@ -34,6 +34,8 @@ use Traversable;
  *
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\RandomAccess<TKey, TValue>
+ *
+ * @phpstan-consistent-constructor
  */
 class Associative implements Linear, RandomAccess {
 
@@ -66,6 +68,28 @@ class Associative implements Linear, RandomAccess {
     public function __construct (?array $storage = null) {
 
         $this->storage = $storage ?? [];
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = Associative::fromArray(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @return static<TKey, TValue> This object created from provider array.
+     */
+    public static function fromArray (array $array):static {
+
+        /** @var static<TKey, TValue> */
+        return new static($array);
 
     }
 
@@ -152,7 +176,6 @@ class Associative implements Linear, RandomAccess {
      *
      * // John
      * </code>
-     *
      * If you try to get key that doesn't exist:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
@@ -216,7 +239,6 @@ class Associative implements Linear, RandomAccess {
      *
      * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'gender' => 'female']
      * </code>
-     *
      * If you try to an existing key:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
@@ -253,7 +275,6 @@ class Associative implements Linear, RandomAccess {
      *
      * // ['firstname' => 'Jane', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
      * </code>
-     *
      * If you try to replace with key that doesn't exist:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
@@ -313,7 +334,6 @@ class Associative implements Linear, RandomAccess {
      *
      * // ['lastname' => 'Doe', 'age' => 25, 10 => 2]
      * </code>
-     *
      * If you try to delete with key that doesn't exist:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
@@ -350,7 +370,6 @@ class Associative implements Linear, RandomAccess {
      *
      * // John
      * </code>
-     *
      * If you try to delete with key that doesn't exist:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;

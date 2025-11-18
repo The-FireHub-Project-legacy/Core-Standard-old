@@ -29,6 +29,8 @@ use Closure, Generator, Traversable;
  * @template TValue
  *
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
+ *
+ * @phpstan-consistent-constructor
  */
 class Lazy implements Linear {
 
@@ -60,11 +62,38 @@ class Lazy implements Linear {
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Lazy;
      *
+     * $collection = Lazy::fromArray(['firstname', 'John'], ['lastname', 'Doe'], ['age', 25], [10, 2]);
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @return static<TKey, TValue> This object created from provider array.
+     */
+    public static function fromArray (array $array):static {
+
+        /** @var array<array{TKey, TValue}> $array */
+        return new static (static function () use ($array) {
+
+            foreach ($array as $item)
+                yield $item[0] => $item[1];
+
+        });
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Lazy;
+     *
      * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
      * $collection->toArray();
      *
-     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
+     * // ['firstname', 'John'], ['lastname', 'Doe'], ['age', 25], [10, 2]
      * </code>
      *
      * @since 1.0.0

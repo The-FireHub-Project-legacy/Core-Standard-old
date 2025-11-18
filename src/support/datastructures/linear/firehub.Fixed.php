@@ -19,7 +19,7 @@ use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\SequentialAccess;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\LowLevel\ {
-    Iterator, NumInt
+    DataIs, Iterator, NumInt
 };
 use SplFixedArray;
 
@@ -36,6 +36,8 @@ use SplFixedArray;
  * @extends SplFixedArray<TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, ?TValue>
+ *
+ * @phpstan-consistent-constructor
  */
 class Fixed extends SplFixedArray implements Linear, SequentialAccess {
 
@@ -60,6 +62,68 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
     public function __construct (int $size) {
 
         parent::__construct($size);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = Fixed::fromArray([1 => 'one, 2 => 'two', 3 => 'three']);
+     *
+     * // ['one, 'two', 'three']
+     * </code>
+     * With preserved keys:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = Fixed::fromArray([1 => 'one, 2 => 'two', 3 => 'three']);
+     *
+     * // [0 => null, 1 => 'one, 2 => 'two', 3 => 'three']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::int() To check if all $array keys are integers.
+     * @uses \FireHub\Core\Support\LowLevel\Iterator::count() To count $array parameter items.
+     *
+     * @param array<array-key, mixed> $array <p>
+     * Data in form of array from new object will be created.
+     * </p>
+     * @param bool $preserve_keys [optional] <p>
+     * Save the numeric indexes used in the original array.
+     * </p>
+     *
+     * @return static<TValue> This object created from provider array.
+     */
+    public static function fromArray (array $array, bool $preserve_keys = false):static {
+
+        if ($preserve_keys) {
+
+            $max = null;
+            foreach ($array as $key => $value)
+                if (($max === null || $key > $max) && DataIs::int($key))
+                    /** @var non-negative-int $max */ $max = $key;
+
+            $storage = new static($max + 1);
+
+            foreach ($array as $key => $value)
+                $storage[$key] = $value;
+
+        } else {
+
+            $storage = new static(Iterator::count($array));
+
+            $i = 0;
+            foreach ($array as $value)
+                $storage[$i++] = $value;
+
+        }
+
+        /** @var static<TValue> */
+        return $storage;
 
     }
 
@@ -163,7 +227,6 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      *
      * // ['two', 'three']
      * </code>
-     *
      * Removing more than one item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Fixed;
@@ -215,7 +278,6 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      *
      * // ['one', 'two']
      * </code>
-     *
      * Removing more than one item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Fixed;

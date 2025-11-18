@@ -38,6 +38,23 @@ final class LazyTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testFromArray (Lazy $collection):void {
+
+        $this->assertSame(
+            $collection->toArray(),
+            Lazy::fromArray([['firstname', 'John'], ['lastname', 'Doe'], ['age', 25], [10, 2]])->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
     public function testCount (Lazy $collection):void {
 
         $this->assertSame(4, $collection->count());

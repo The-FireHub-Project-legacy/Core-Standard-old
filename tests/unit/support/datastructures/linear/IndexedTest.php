@@ -37,6 +37,23 @@ final class IndexedTest extends Base {
      *
      * @return void
      */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testFromArray (Indexed $collection):void {
+
+        $this->assertEquals(
+            $collection,
+            Indexed::fromArray(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard'])
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
     public function testCount (Indexed $collection):void {
 

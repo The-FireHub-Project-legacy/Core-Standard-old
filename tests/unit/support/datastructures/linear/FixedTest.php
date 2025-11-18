@@ -18,7 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Core\Support\DataStructures\Linear\Fixed;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use PHPUnit\Framework\Attributes\ {
-    CoversClass, DataProviderExternal, Group, Small
+    CoversClass, DataProviderExternal, Group, Small, TestWith
 };
 
 /**
@@ -29,6 +29,40 @@ use PHPUnit\Framework\Attributes\ {
 #[Group('datastructures')]
 #[CoversClass(Fixed::class)]
 final class FixedTest extends Base {
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testFromArray (Fixed $collection):void {
+
+        $this->assertEquals(
+            $collection,
+            Fixed::fromArray(['one', 'two', 'three'])
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param array<array-key, mixed> $expected
+     *
+     * @return void
+     */
+    #[TestWith([[0 => null, 1 => 'one', 2 => 'two', 3 => 'three']])]
+    public function testFromArrayWithKeys (array $expected):void {
+
+        $this->assertEquals(
+            $expected,
+            Fixed::fromArray([1 => 'one', 2 => 'two', 3 => 'three'], true)->toArray()
+        );
+
+    }
 
     /**
      * @since 1.0.0
