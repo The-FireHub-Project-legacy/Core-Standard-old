@@ -55,6 +55,26 @@ final class AssociativeTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
      *
+     * @throws \FireHub\Core\Support\Exceptions\JSON\EncodingException
+     * @throws \FireHub\Core\Support\Exceptions\JSON\DecodingException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testJson (Associative $collection):void {
+
+        $json = $collection->toJson();
+
+        $this->assertSame('{"firstname":"John","lastname":"Doe","age":25,"10":2}', $json);
+        $this->assertEquals($collection, Associative::fromJson($json));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]

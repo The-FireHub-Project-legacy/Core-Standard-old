@@ -222,7 +222,7 @@ final class Folder extends FileSystem {
         return disk_total_space($path)
             ?: throw new DiskSpaceException()
                 ->fromPath($path)
-                ->withMessage("Could not get disk space for path: {$path}.");
+                ->withMessage("Could not get disk space for path: $path.");
 
     }
 
@@ -248,7 +248,7 @@ final class Folder extends FileSystem {
         return disk_free_space($path)
             ?: throw new DiskSpaceException()
                 ->fromPath($path)
-                ->withMessage("Could not get free disk space for path: {$path}.");
+                ->withMessage("Could not get free disk space for path: $path.");
 
     }
 

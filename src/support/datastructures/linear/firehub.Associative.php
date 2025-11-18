@@ -7,7 +7,7 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 7.0
+ * @php-version 7.4
  * @package Core\Support
  *
  * @version GIT: $Id$ Blob checksum.
@@ -84,7 +84,7 @@ class Associative implements Linear, RandomAccess {
      *
      * @since 1.0.0
      *
-     * @return static<TKey, TValue> This object created from provider array.
+     * @return static<TKey, TValue> This object created from a provider array.
      */
     public static function fromArray (array $array):static {
 
@@ -107,6 +107,8 @@ class Associative implements Linear, RandomAccess {
      * </code>
      *
      * @since 1.0.0
+     *
+     * @return array<TKey, TValue> Object as an array.
      */
     public function toArray ():array {
 
@@ -131,7 +133,8 @@ class Associative implements Linear, RandomAccess {
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::offsetExists() As overloaded method.
      *
-     * @notice This method only delegates to array access method. Please use array access method for large data sets.
+     * @notice This method only delegates to the array access method. Please use the array access method for large
+     * data sets.
      */
     public function exist (mixed $key):bool {
 
@@ -275,7 +278,7 @@ class Associative implements Linear, RandomAccess {
      *
      * // ['firstname' => 'Jane', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
      * </code>
-     * If you try to replace with key that doesn't exist:
+     * If you try to replace with a key that doesn't exist:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
      *
@@ -334,7 +337,7 @@ class Associative implements Linear, RandomAccess {
      *
      * // ['lastname' => 'Doe', 'age' => 25, 10 => 2]
      * </code>
-     * If you try to delete with key that doesn't exist:
+     * If you try to delete with a key that doesn't exist:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
      *
@@ -370,7 +373,7 @@ class Associative implements Linear, RandomAccess {
      *
      * // John
      * </code>
-     * If you try to delete with key that doesn't exist:
+     * If you try to delete with a key that doesn't exist:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
      *
@@ -394,6 +397,17 @@ class Associative implements Linear, RandomAccess {
         $this->remove($key);
 
         return $value;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
+    public function jsonSerialize ():array {
+
+        return $this->storage;
 
     }
 

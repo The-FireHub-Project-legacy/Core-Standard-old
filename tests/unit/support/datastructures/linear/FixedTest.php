@@ -69,6 +69,26 @@ final class FixedTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
      *
+     * @throws \FireHub\Core\Support\Exceptions\JSON\EncodingException
+     * @throws \FireHub\Core\Support\Exceptions\JSON\DecodingException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testJson (Fixed $collection):void {
+
+        $json = $collection->toJson();
+
+        $this->assertSame('["one","two","three"]', $json);
+        $this->assertEquals($collection, Fixed::fromJson($json));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]

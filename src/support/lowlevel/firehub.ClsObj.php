@@ -161,7 +161,7 @@ abstract class ClsObj {
 
             throw new NotFoundException()
                 ->fromClass($class)
-                ->withMessage("Cannot get methods for class: {$class}, class not found");
+                ->withMessage("Cannot get methods for class: $class, class not found");
 
         }
 

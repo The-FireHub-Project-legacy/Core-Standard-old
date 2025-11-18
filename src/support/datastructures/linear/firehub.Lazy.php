@@ -7,7 +7,7 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 7.0
+ * @php-version 7.4
  * @package Core\Support
  *
  * @version GIT: $Id$ Blob checksum.
@@ -69,7 +69,7 @@ class Lazy implements Linear {
      *
      * @since 1.0.0
      *
-     * @return static<TKey, TValue> This object created from provider array.
+     * @return static<TKey, TValue> This object created from a provider array.
      */
     public static function fromArray (array $array):static {
 
@@ -97,6 +97,8 @@ class Lazy implements Linear {
      * </code>
      *
      * @since 1.0.0
+     *
+     * @return array<array{TKey, TValue}> Object as an array.
      */
     public function toArray ():array {
 
@@ -105,6 +107,17 @@ class Lazy implements Linear {
             $result[] = [$key, $value];
 
         return $result;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
+    public function jsonSerialize ():array {
+
+        return $this->toArray();
 
     }
 

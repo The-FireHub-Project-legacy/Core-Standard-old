@@ -63,7 +63,7 @@ final class JSON {
      *
      * @throws \FireHub\Core\Support\Exceptions\JSON\EncodingException If JSON encoding throws an error.
      *
-     * @return non-empty-string JSON encoded string on success or false on failure.
+     * @return non-empty-string JSON encoded string.
      *
      * @note All string data for $value parameter must be UTF-8 encoded.
      * @note Method already includes Flag::JSON_THROW_ON_ERROR.

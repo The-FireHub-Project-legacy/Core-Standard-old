@@ -7,7 +7,7 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 7.0
+ * @php-version 7.4
  * @package Core\Support
  *
  * @version GIT: $Id$ Blob checksum.
@@ -90,13 +90,13 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      * @uses \FireHub\Core\Support\LowLevel\Iterator::count() To count $array parameter items.
      *
      * @param array<array-key, mixed> $array <p>
-     * Data in form of array from new object will be created.
+     * Data in form of an array from new object will be created.
      * </p>
      * @param bool $preserve_keys [optional] <p>
      * Save the numeric indexes used in the original array.
      * </p>
      *
-     * @return static<TValue> This object created from provider array.
+     * @return static<TValue> This object created from a provider array.
      */
     public static function fromArray (array $array, bool $preserve_keys = false):static {
 
@@ -202,7 +202,9 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Iterator To convert data structure to array.
+     * @uses \FireHub\Core\Support\LowLevel\Iterator::toArray() To convert data structure to array.
+     *
+     * @return array<int, null|TValue> Object as an array.
      */
     public function toArray ():array {
 
@@ -246,7 +248,8 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set the size for shifted data structure.
-     * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get larger number of zero and current data structure size.
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the largest number of zero and current data structure
+     * size.
      *
      * @caution This method will iterate over all items.
      */
@@ -296,8 +299,9 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
-     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set the size for popped data structure.
-     * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get larger number of zero and current data structure size.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set the size for the popped data structure.
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the largest number of zero and current data structure
+     * size.
      */
     public function pop (int $items = 1):void {
 
@@ -435,6 +439,20 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
         $size = $this->getSize();
 
         return $size > 0 ? $this[$size - 1] : null;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @return array<array-key, mixed> Data which can be serialized by json_encode(), which is a value of any type
+     * other than a resource.
+     */
+    public function jsonSerialize ():array {
+
+        return parent::jsonSerialize();
 
     }
 

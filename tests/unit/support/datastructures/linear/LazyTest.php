@@ -52,6 +52,26 @@ final class LazyTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
      *
+     * @throws \FireHub\Core\Support\Exceptions\JSON\EncodingException
+     * @throws \FireHub\Core\Support\Exceptions\JSON\DecodingException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testJson (Lazy $collection):void {
+
+        $json = $collection->toJson();
+
+        $this->assertSame('[["firstname","John"],["lastname","Doe"],["age",25],[10,2]]', $json);
+        $this->assertSame($collection->toArray(), Lazy::fromJson($json)->toArray());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]

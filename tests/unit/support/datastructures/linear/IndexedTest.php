@@ -52,6 +52,26 @@ final class IndexedTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
      *
+     * @throws \FireHub\Core\Support\Exceptions\JSON\EncodingException
+     * @throws \FireHub\Core\Support\Exceptions\JSON\DecodingException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testJson (Indexed $collection):void {
+
+        $json = $collection->toJson();
+
+        $this->assertSame('["John","Jane","Jane","Jane","Richard","Richard"]', $json);
+        $this->assertEquals($collection, Indexed::fromJson($json));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]

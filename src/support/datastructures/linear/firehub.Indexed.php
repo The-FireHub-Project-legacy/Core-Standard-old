@@ -7,7 +7,7 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 7.0
+ * @php-version 7.4
  * @package Core\Support
  *
  * @version GIT: $Id$ Blob checksum.
@@ -85,7 +85,7 @@ class Indexed implements Linear, SequentialAccess {
      *
      * @since 1.0.0
      *
-     * @return static<TValue> This object created from provider array.
+     * @return static<TValue> This object created from a provider array.
      */
     public static function fromArray (array $array):static {
 
@@ -108,6 +108,8 @@ class Indexed implements Linear, SequentialAccess {
      * </code>
      *
      * @since 1.0.0
+     *
+     * @return list<TValue> Object as an array.
      */
     public function toArray ():array {
 
@@ -118,7 +120,7 @@ class Indexed implements Linear, SequentialAccess {
     /**
      * {@inheritDoc}
      *
-     * Removing single item:
+     * Removing a single item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
      *
@@ -263,6 +265,17 @@ class Indexed implements Linear, SequentialAccess {
     public function head ():mixed {
 
         return Arr::first($this->storage);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
+    public function jsonSerialize ():array {
+
+        return $this->storage;
 
     }
 
