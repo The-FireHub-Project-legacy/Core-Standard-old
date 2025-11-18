@@ -19,6 +19,7 @@ use FireHub\Core\Support\Contracts\ {
     ArrayConvertable, Countable, JsonSerializeConvertable
 };
 use FireHub\Core\Support\Contracts\Iterator\IteratorAggregate;
+use FireHub\Core\Support\Contracts\Magic\SerializableConvertable;
 
 /**
  * ### Data structures
@@ -29,6 +30,6 @@ use FireHub\Core\Support\Contracts\Iterator\IteratorAggregate;
  *
  * @extends \FireHub\Core\Support\Contracts\Iterator\IteratorAggregate<TKey, TValue>
  */
-interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate, JsonSerializeConvertable {
+interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate, JsonSerializeConvertable, SerializableConvertable {
 
 }

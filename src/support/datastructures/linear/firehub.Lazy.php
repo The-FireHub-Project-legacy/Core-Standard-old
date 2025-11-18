@@ -135,6 +135,48 @@ class Lazy implements Linear {
     }
 
     /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Lazy::toArray() To get data structure an array.
+     *
+     * @return array<array{TKey, TValue}> An associative array of key/value pairs that represent the serialized form
+     * of the object.
+     */
+    public function __serialize ():array {
+
+        return $this->toArray();
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Lazy::invoke() To invoke storage.
+     *
+     * @param array<array{TKey, TValue}> $data <p>
+     * Serialized data.
+     * </p>
+     *
+     * @phpstan-ignore-next-line method.childParameterType
+     */
+    public function __unserialize (array $data):void {
+
+        $this->storage = static function () use ($data) {
+
+            foreach ($data as $item)
+                yield $item[0] => $item[1];
+
+        };
+
+        $this->invoke();
+
+    }
+
+    /**
      * ### Invoke storage
      * @since 1.0.0
      *

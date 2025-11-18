@@ -89,6 +89,23 @@ final class FixedTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
      *
+     * @throws \FireHub\Core\Support\Exceptions\Data\CannotSerializeException
+     * @throws \FireHub\Core\Support\Exceptions\Data\UnserializeFailedException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testSerialize (Fixed $collection):void {
+
+        $this->assertEquals($collection, Fixed::unserialize($collection->serialize()));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]

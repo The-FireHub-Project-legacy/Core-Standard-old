@@ -18,8 +18,9 @@ namespace FireHub\Core\Support\DataStructures\Traits;
 use FireHub\Core\Support\Enums\JSON\ {
     Flag, Flags\Decode, Flags\Encode
 };
+use FireHub\Core\Support\Exceptions\Data\UnserializeFailedException;
 use FireHub\Core\Support\LowLevel\ {
-    DataIs, Iterator, JSON
+    Data, DataIs, Iterator, JSON
 };
 
 /**
@@ -106,6 +107,64 @@ trait Enumerable {
     public function toJson (int $depth = 512, Flag|Encode ...$flags):string {
 
         return JSON::encode($this, $depth, ...$flags);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->serialize();
+     *
+     * // O:54:"FireHub\Core\Support\DataStructures\Linear\Associative":4:{s:9:"firstname";s:4:"John";s:8:"lastname";s:3:"Doe";s:3:"age";i:25;i:10;i:2;}
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Data::serialize() To generate a storable representation of an object.
+     *
+     * @throws \FireHub\Core\Support\Exceptions\Data\CannotSerializeException If try to serialize an anonymous class,
+     * function, or resource.
+     *
+     * @warning When [[Data#serialize()]] serializes objects, the leading backslash is not included in the class name of
+     * namespaced classes for maximum compatibility.
+     * @note This is a binary string that may include null bytes and needs to be stored and handled as such.
+     * For example, [[Data#serialize()]] output should generally be stored in a BLOB field in a database, rather than
+     * a CHAR or TEXT field.
+     */
+    public function serialize ():string {
+
+        return Data::serialize($this);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * Associative::unserialize('O:54:"FireHub\Core\Support\DataStructures\Linear\Associative":4:{s:9:"firstname";s:4:"John";s:8:"lastname";s:3:"Doe";s:3:"age";i:25;i:10;i:2;}');
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Data::unserialize() To create an object from a stored representation.
+     *
+     * @throws \FireHub\Core\Support\Exceptions\Data\UnserializeFailedException If  unserialize data is not
+     * of the right class.
+     *
+     */
+    public static function unserialize (string $data, int $max_depth = 4096):static {
+
+        return ($data = Data::unserialize($data, true, $max_depth)) instanceof static
+            ? $data : throw new UnserializeFailedException;
 
     }
 

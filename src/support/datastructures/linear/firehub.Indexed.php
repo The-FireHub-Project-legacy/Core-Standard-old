@@ -269,17 +269,6 @@ class Indexed implements Linear, SequentialAccess {
     }
 
     /**
-     * @inheritDoc
-     *
-     * @since 1.0.0
-     */
-    public function jsonSerialize ():array {
-
-        return $this->storage;
-
-    }
-
-    /**
      * {@inheritDoc}
      *
      * <code>
@@ -307,9 +296,51 @@ class Indexed implements Linear, SequentialAccess {
      *
      * @since 1.0.0
      */
+    public function jsonSerialize ():array {
+
+        return $this->storage;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
     public function getIterator ():Traversable {
 
         yield from $this->storage;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @return array<TValue> An associative array of key/value pairs that represent the serialized form
+     * of the object.
+     */
+    public function __serialize ():array {
+
+        return $this->storage;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To help with removing keys from an $data.
+     *
+     * @param array<TValue> $data <p>
+     * Serialized data.
+     * </p>
+     */
+    public function __unserialize (array $data):void {
+
+        $this->storage = Arr::values($data);
 
     }
 

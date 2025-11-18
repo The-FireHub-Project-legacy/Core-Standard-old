@@ -72,6 +72,23 @@ final class LazyTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
      *
+     * @throws \FireHub\Core\Support\Exceptions\Data\CannotSerializeException
+     * @throws \FireHub\Core\Support\Exceptions\Data\UnserializeFailedException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testSerialize (Lazy $collection):void {
+
+        $this->assertEquals($collection->toArray(), Lazy::unserialize($collection->serialize())->toArray());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]

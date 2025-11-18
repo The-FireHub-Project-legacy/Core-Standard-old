@@ -75,6 +75,23 @@ final class AssociativeTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
      *
+     * @throws \FireHub\Core\Support\Exceptions\Data\CannotSerializeException
+     * @throws \FireHub\Core\Support\Exceptions\Data\UnserializeFailedException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testSerialize (Associative $collection):void {
+
+        $this->assertEquals($collection, Associative::unserialize($collection->serialize()));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]

@@ -72,6 +72,23 @@ final class IndexedTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
      *
+     * @throws \FireHub\Core\Support\Exceptions\Data\CannotSerializeException
+     * @throws \FireHub\Core\Support\Exceptions\Data\UnserializeFailedException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testSerialize (Indexed $collection):void {
+
+        $this->assertEquals($collection, Indexed::unserialize($collection->serialize()));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]

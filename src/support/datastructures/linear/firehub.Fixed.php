@@ -456,4 +456,38 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
 
     }
 
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::jsonSerialize() To get data as array.
+     */
+    public function __serialize ():array {
+
+        return $this->jsonSerialize();
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Iterables::count() To count array parameter items.
+     *
+     * @param array<array-key, null|TValue> $data <p>
+     * Serialized data.
+     * </p>
+     */
+    public function __unserialize (array $data):void {
+
+        $this->setSize(Iterator::count($data));
+
+        $i = 0;
+        foreach ($data as $item)
+            $this[$i++] = $item;
+
+    }
+
 }
