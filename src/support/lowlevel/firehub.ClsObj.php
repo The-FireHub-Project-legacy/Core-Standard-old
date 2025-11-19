@@ -207,7 +207,7 @@ abstract class ClsObj {
      */
     final public static function parents (object|string $object_or_class, bool $autoload = true):array {
 
-        if ((@$result = class_parents($object_or_class, $autoload)) !== false)
+        if (($result = @class_parents($object_or_class, $autoload)) !== false)
             return $result;
 
         $class = DataIs::string($object_or_class) ? $object_or_class : $object_or_class::class;
@@ -242,7 +242,7 @@ abstract class ClsObj {
      */
     final public static function implements (object|string $object_or_class, bool $autoload = true):array {
 
-        if ((@$result = class_implements($object_or_class, $autoload)) !== false)
+        if (($result = @class_implements($object_or_class, $autoload)) !== false)
             return $result;
 
         $class = DataIs::string($object_or_class) ? $object_or_class : $object_or_class::class;
@@ -277,7 +277,7 @@ abstract class ClsObj {
      */
     final public static function uses (object|string $object_or_class, bool $autoload = true):array {
 
-        if ((@$result = class_uses($object_or_class, $autoload)) !== false)
+        if (($result = @class_uses($object_or_class, $autoload)) !== false)
             return $result;
 
         $class = DataIs::string($object_or_class) ? $object_or_class : $object_or_class::class;
