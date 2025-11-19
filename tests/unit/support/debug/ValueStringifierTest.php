@@ -239,7 +239,7 @@ final class ValueStringifierTest extends Base {
     public static function resourceDataProvider ():array {
 
         return [
-            [fopen('php://stdout', 'wb'), 'resource', false]
+            [fopen('php://stdout', 'wb'), 'resource']
         ];
 
 
