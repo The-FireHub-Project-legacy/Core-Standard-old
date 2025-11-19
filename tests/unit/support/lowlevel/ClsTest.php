@@ -341,7 +341,7 @@ final class ClsTest extends Base {
 
         $this->expectException(NotFoundException::class);
 
-        @Cls::parents($name);
+        Cls::parents($name, false);
 
     }
 
@@ -373,7 +373,7 @@ final class ClsTest extends Base {
 
         $this->expectException(NotFoundException::class);
 
-        @Cls::implements($name);
+        Cls::implements($name, false);
 
     }
 
@@ -405,7 +405,7 @@ final class ClsTest extends Base {
 
         $this->expectException(NotFoundException::class);
 
-        @Cls::uses($name);
+        Cls::uses($name, false);
 
     }
 

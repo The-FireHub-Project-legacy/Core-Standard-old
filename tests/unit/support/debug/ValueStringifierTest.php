@@ -213,7 +213,7 @@ final class ValueStringifierTest extends Base {
     public static function objectDataProvider ():array {
 
         return [
-            [new stdClass, 'stdClass', false]
+            [new stdClass, 'stdClass']
         ];
 
     }

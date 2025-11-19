@@ -7,6 +7,10 @@
 - Added first and last methods for Arr low-level proxy class ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [7356eb4](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/7356eb4))
 - Create some basic data structure stuff ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [65dd32f](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/65dd32f))
 - Create Arrayable contract ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [1ae25d2](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/1ae25d2))
+- Create ArrayConvertable contracts ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [f14667c](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/f14667c))
+- Create JsonSerialize and JsonSerializeConvertable contracts ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [4def09d](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/4def09d))
+- Create Serialize and SerializeConvertable contracts ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [4062c53](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/4062c53))
+- Create ValueStringifier debug class ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [c9627c7](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/c9627c7))
 
 ## [v0.1.5](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...v0.1.5) – (2025-11-03)
 

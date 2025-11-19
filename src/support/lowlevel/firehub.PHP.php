@@ -225,7 +225,7 @@ final class PHP {
      */
     public static function getConfigurationOptions (?string $extension = null):array {
 
-        $options = ini_get_all($extension)
+        @$options = ini_get_all($extension)
             ?: throw new NotValidExtensionException()->fromExtension($extension ?? '');
 
         foreach ($options as $option => $values)
