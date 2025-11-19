@@ -15,8 +15,8 @@
 namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 
 use FireHub\Core\Testing\Base;
-use FireHub\Core\Support\DataStructures\Linear\Fixed;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
+use FireHub\Core\Support\DataStructures\Linear\Fixed;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small, TestWith
 };

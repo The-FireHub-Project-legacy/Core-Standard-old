@@ -15,7 +15,6 @@
 namespace FireHub\Tests\Unit\Support\LowLevel;
 
 use FireHub\Core\Testing\Base;
-use FireHub\Tests\DataProviders\StringDataProvider;
 use FireHub\Core\Support\Enums\Side;
 use FireHub\Core\Support\Enums\String\ {
     CaseFolding, Encoding
@@ -25,7 +24,7 @@ use FireHub\Core\Support\LowLevel\ {
     StrMB, StrSafe
 };
 use PHPUnit\Framework\Attributes\ {
-    CoversClass, DataProviderExternal, Group, Small, TestWith
+    CoversClass, Group, Small, TestWith
 };
 use Stringable;
 

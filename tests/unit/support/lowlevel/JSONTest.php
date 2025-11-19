@@ -17,7 +17,7 @@ namespace FireHub\Tests\Unit\Support\LowLevel;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\JSONDataProvider;
 use FireHub\Core\Support\Enums\JSON\ {
-    Flag, Flags\Decode, Flags\Encode, Flags\Validate
+    Flag, Flags\Decode, Flags\Encode
 };
 use FireHub\Core\Support\Exceptions\JSON\ {
     DecodingException, EncodingException
