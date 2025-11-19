@@ -20,6 +20,7 @@ use FireHub\Core\Support\Contracts\ {
 };
 use FireHub\Core\Support\Contracts\Iterator\IteratorAggregate;
 use FireHub\Core\Support\Contracts\Magic\SerializableConvertable;
+use FireHub\Core\Support\DataStructures\Operation\CountBy;
 
 /**
  * ### Data structures
@@ -31,5 +32,15 @@ use FireHub\Core\Support\Contracts\Magic\SerializableConvertable;
  * @extends \FireHub\Core\Support\Contracts\Iterator\IteratorAggregate<TKey, TValue>
  */
 interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate, JsonSerializeConvertable, SerializableConvertable {
+
+    /**
+     * ### Count operations for data structures
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\CountBy As return.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Operation\CountBy<$this> Count operation class.
+     */
+    public function countBy ():CountBy;
 
 }

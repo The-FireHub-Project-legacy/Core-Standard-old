@@ -15,6 +15,7 @@
 
 namespace FireHub\Core\Support\DataStructures\Traits;
 
+use FireHub\Core\Support\DataStructures\Operation\CountBy;
 use FireHub\Core\Support\Enums\JSON\ {
     Flag, Flags\Decode, Flags\Encode
 };
@@ -56,6 +57,17 @@ trait Enumerable {
             DataIs::array($data = JSON::decode($json, true, $depth, ...$flags))
                 ? $data : []
         );
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
+    public function countBy ():CountBy {
+
+        return new CountBy($this);
 
     }
 
