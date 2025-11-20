@@ -55,6 +55,95 @@ final class AssociativeTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
      *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testEach (Associative $collection):void {
+
+        $called = [];
+
+        $collection->each(function($value) use (&$called) {
+            if ($value === 25) return false;
+            $called[] = $value;
+        });
+
+        $this->assertSame(['John', 'Doe'], $called);
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testWhen (Associative $collection):void {
+
+        $collection->when(
+            true,
+            fn($collection) => $collection['middlename'] = 'Marry',
+            fn($collection) => $collection['middlename'] = 'Jenny'
+        );
+
+        $this->assertSame(
+            ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Marry'],
+            $collection->toArray()
+        );
+
+        $collection->when(
+            false,
+            fn($collection) => $collection['middlename'] = 'Marry',
+            fn($collection) => $collection['middlename'] = 'Jenny'
+        );
+
+        $this->assertSame(
+            ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Jenny'],
+            $collection->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testUnless (Associative $collection):void {
+
+        $collection->unless(
+            true,
+            fn($collection) => $collection['middlename'] = 'Marry',
+            fn($collection) => $collection['middlename'] = 'Jenny'
+        );
+
+        $this->assertSame(
+            ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Jenny'],
+            $collection->toArray()
+        );
+
+        $collection->unless(
+            false,
+            fn($collection) => $collection['middlename'] = 'Marry',
+            fn($collection) => $collection['middlename'] = 'Jenny'
+        );
+
+        $this->assertSame(
+            ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Marry'],
+            $collection->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
      * @throws \FireHub\Core\Support\Exceptions\JSON\EncodingException
      * @throws \FireHub\Core\Support\Exceptions\JSON\DecodingException
      *

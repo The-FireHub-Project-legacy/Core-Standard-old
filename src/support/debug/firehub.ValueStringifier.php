@@ -60,11 +60,11 @@ final class ValueStringifier {
      *
      * // '{"firstname":"John","lastname":"Doe","age":25,"10":2}'
      *
-     * $str = new ValueStringifier()->stringify(
-     *  new class implements Stringable {
-     *      public function __toString():string {
-     *          return 'hi!';
-     *  }
+     * $str = new ValueStringifier()->stringable(
+     *     new class implements Stringable {
+     *         public function __toString():string {
+     *             return 'hi!';
+     *         }
      * });
      *
      * // 'hi!'
@@ -209,10 +209,10 @@ final class ValueStringifier {
      * use \FireHub\Core\Support\Debug\ValueStringifier;
      *
      * $str = new ValueStringifier()->stringable(
-     *  new class implements Stringable {
-     *      public function __toString():string {
-     *          return 'hi!';
-     *  }
+     *     new class implements Stringable {
+     *         public function __toString():string {
+     *             return 'hi!';
+     *         }
      * });
      *
      * // 'hi!'

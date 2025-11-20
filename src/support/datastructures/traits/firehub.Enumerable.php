@@ -24,6 +24,8 @@ use FireHub\Core\Support\LowLevel\ {
     Data, DataIs, Iterator, JSON
 };
 
+use const FireHub\Core\Support\Constants\Number\MAX;
+
 /**
  * ### Enumerable data structure methods that every element meets a given criterion
  * @since 1.0.0
@@ -91,6 +93,137 @@ trait Enumerable {
     public function count ():int {
 
         return Iterator::count($this);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->each(fn($value, $key) => print($key.': '.$value.', '));
+     *
+     * // firstname: John, lastname: Doe, age: 25, 10: 2,
+     * </code>
+     * You can limit the number of elements:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->each(fn($value, $key) => print($key.': '.$value.', '), limit: 2);
+     *
+     * // firstname: John, lastname: Doe,
+     * </code>
+     * You can also stop at any time with returning false:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->each(fn($value, $key) => $value === 25 ? false : print($key.': '.$value.', '));
+     *
+     * // firstname: John, lastname: Doe,
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function each (callable $callback, int $limit = MAX):static {
+
+        $counter = 0;
+
+        foreach ($this as $key => $value)
+            if ($counter++ >= $limit || $callback($value, $key) === false) break;
+
+        return $this;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->when(
+     *     true,
+     *     fn($collection) => $collection['middlename'] = 'Marry',
+     *     fn($collection) => $collection['middlename'] = 'Jenny'
+     * );
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Marry']
+     * </code>
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->when(
+     *     false,
+     *     fn($collection) => $collection['middlename'] = 'Marry',
+     *     fn($collection) => $collection['middlename'] = 'Jenny'
+     * );
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Jenny']
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function when (bool $condition, callable $condition_meet, ?callable $condition_not_meet = null):static {
+
+        if ($condition)
+            $condition_meet($this);
+        else if ($condition_not_meet !== null)
+            $condition_not_meet($this);
+
+        return $this;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->unless(
+     *     true,
+     *     fn($collection) => $collection['middlename'] = 'Marry',
+     *     fn($collection) => $collection['middlename'] = 'Jenny'
+     * );
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Jenny']
+     * </code>
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->unless(
+     *     false,
+     *     fn($collection) => $collection['middlename'] = 'Marry',
+     *     fn($collection) => $collection['middlename'] = 'Jenny'
+     * );
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Marry']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Traits\Enumerable::when() As opposite od unless.
+     */
+    public function unless (bool $condition, callable $condition_meet, ?callable $condition_not_meet = null):static {
+
+        $this->when(!$condition, $condition_meet, $condition_not_meet);
+
+        return $this;
 
     }
 

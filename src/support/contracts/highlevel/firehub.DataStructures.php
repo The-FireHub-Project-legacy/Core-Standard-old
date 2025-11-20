@@ -22,6 +22,8 @@ use FireHub\Core\Support\Contracts\Iterator\IteratorAggregate;
 use FireHub\Core\Support\Contracts\Magic\SerializableConvertable;
 use FireHub\Core\Support\DataStructures\Operation\CountBy;
 
+use const FireHub\Core\Support\Constants\Number\MAX;
+
 /**
  * ### Data structures
  * @since 1.0.0
@@ -42,5 +44,58 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      * @return \FireHub\Core\Support\DataStructures\Operation\CountBy<$this> Count operation class.
      */
     public function countBy ():CountBy;
+
+    /**
+     * ### Call a user-generated function on each item in the data structure
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Constants\Number\MAX As default limit.
+     *
+     * @param callable(TValue, TKey):(false|void) $callback <p>
+     * Function to call on each item in a data structure.
+     * </p>
+     * @param positive-int $limit [optional] <p>
+     * Maximum number of elements that is allowed to be iterated.
+     * </p>
+     *
+     * @return static This data structure.
+     */
+    public function each (callable $callback, int $limit = MAX):static;
+
+    /**
+     * ### Execute the given callback when the first argument given to the method evaluates to true
+     * @since 1.0.0
+     *
+     * @param bool $condition <p>
+     * Condition to meet.
+     * </p>
+     * @param callable(static):mixed $condition_meet <p>
+     * Callback if the condition is met.
+     * </p>
+     * @param null|callable(static):mixed $condition_not_meet [optional] <p>
+     * Callback if the condition is not met.
+     * </p>
+     *
+     * @return static This data structure.
+     */
+    public function when (bool $condition, callable $condition_meet, ?callable $condition_not_meet = null):static;
+
+    /**
+     * ### Execute the given callback unless the first argument given to the method evaluates to true
+     * @since 1.0.0
+     *
+     * @param bool $condition <p>
+     * Condition to meet.
+     * </p>
+     * @param callable(static):mixed $condition_meet <p>
+     * Callback if the condition is met.
+     * </p>
+     * @param null|callable(static):mixed $condition_not_meet [optional] <p>
+     * Callback if the condition is not met.
+     * </p>
+     *
+     * @return static This data structure.
+     */
+    public function unless (bool $condition, callable $condition_meet, ?callable $condition_not_meet = null):static;
 
 }
