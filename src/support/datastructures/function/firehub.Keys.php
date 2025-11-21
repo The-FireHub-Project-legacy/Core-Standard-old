@@ -44,6 +44,29 @@ readonly class Keys {
 
     /**
      * ### Call an object as a function
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Function\Keys;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $keys = new Keys($collection);
+     *
+     * // ['firstname', 'lastname', 'age', 10]
+     * </code>
+     * You can use function to filter keys based on a callback result:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Function\Keys;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $keys = new Keys($collection)fn($value, $key) => $value !== 25);
+     *
+     * // ['firstname', 'lastname', 10]
+     * </code>
+     *
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Indexed As return.

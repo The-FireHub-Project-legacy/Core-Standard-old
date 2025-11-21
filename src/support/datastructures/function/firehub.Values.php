@@ -44,6 +44,29 @@ readonly class Values {
 
     /**
      * ### Call an object as a function
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Function\Values;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $values = new Values($collection);
+     *
+     * // ['John', 'Doe', 25, 2]
+     * </code>
+     * You can use function to filter values based on a callback result:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Function\Values;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $values = new Values($collection)(fn($value, $key) => $key !== 'age');
+     *
+     * // ['John', 'Doe', 2]
+     * </code>
+     *
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Indexed As return.

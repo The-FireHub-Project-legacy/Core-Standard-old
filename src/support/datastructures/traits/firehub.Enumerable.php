@@ -15,10 +15,13 @@
 
 namespace FireHub\Core\Support\DataStructures\Traits;
 
-use FireHub\Core\Support\DataStructures\Linear\Indexed;
+use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
+use FireHub\Core\Support\DataStructures\Linear\ {
+    Indexed, Associative
+};
 use FireHub\Core\Support\DataStructures\Operation\CountBy;
 use FireHub\Core\Support\DataStructures\Function\ {
-    Keys, Values
+    Combine, Keys, Values
 };
 use FireHub\Core\Support\Enums\JSON\ {
     Flag, Flags\Decode, Flags\Encode
@@ -294,6 +297,33 @@ trait Enumerable {
     public function values (?callable $callback = null):Indexed {
 
         return new Values($this)($callback);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed([1, 2, 3, 4, 5]);
+     * $collection2 = new Indexed(['one', 'two', 'three', 'four', 'five']);
+     *
+     * $combined = $collection->combine($collection2);
+     *
+     * // [1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Function\Combine As function.
+     *
+     * @throws \FireHub\Core\Support\Exceptions\Arr\KeysAndValuesDiffNumberOfElemsException If arguments $keys and
+     * $values don't have the same number of elements.
+     */
+    public function combine (DataStructures $data_structure):Associative {
+
+        return new Combine($this)($data_structure);
 
     }
 

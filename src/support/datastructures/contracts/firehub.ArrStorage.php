@@ -15,14 +15,18 @@
 
 namespace FireHub\Core\Support\DataStructures\Contracts;
 
+use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
+
 /**
  * ### Data structures which have an array as their underlying storage data
  * @since 1.0.0
  *
  * @template TKey of array-key
  * @template TValue
+ *
+ * @extends \FireHub\Core\Support\Contracts\HighLevel\DataStructures<TKey, TValue>
  */
-interface ArrStorage {
+interface ArrStorage extends DataStructures {
 
     /**
      * ### Underlying storage data

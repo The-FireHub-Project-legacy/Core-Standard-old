@@ -17,6 +17,7 @@ namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
+use FireHub\Core\Support\DataStructures\Function\Combine;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
 };
@@ -28,6 +29,7 @@ use PHPUnit\Framework\Attributes\ {
 #[Small]
 #[Group('datastructures')]
 #[CoversClass(Indexed::class)]
+#[CoversClass(Combine::class)]
 final class IndexedTest extends Base {
 
     /**
@@ -37,8 +39,25 @@ final class IndexedTest extends Base {
      *
      * @return void
      */
-    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
     public function testFromArray (Indexed $collection):void {
+
+        $this->assertEquals(
+            [1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five'],
+            $collection->combine(new Indexed(['one', 'two', 'three', 'four', 'five']))->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testCombine (Indexed $collection):void {
 
         $this->assertEquals(
             $collection,

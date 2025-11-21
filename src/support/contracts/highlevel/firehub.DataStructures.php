@@ -20,7 +20,9 @@ use FireHub\Core\Support\Contracts\ {
 };
 use FireHub\Core\Support\Contracts\Iterator\IteratorAggregate;
 use FireHub\Core\Support\Contracts\Magic\SerializableConvertable;
-use FireHub\Core\Support\DataStructures\Linear\Indexed;
+use FireHub\Core\Support\DataStructures\Linear\ {
+    Indexed, Associative
+};
 use FireHub\Core\Support\DataStructures\Operation\CountBy;
 
 use const FireHub\Core\Support\Constants\Number\MAX;
@@ -126,5 +128,23 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      * @return \FireHub\Core\Support\DataStructures\Linear\Indexed<TValue> Values from the data structure.
      */
     public function values (?callable $callback = null):Indexed;
+
+    /**
+     * ### Combines the values of the data structure, as keys, with the values of another data structure
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Associative As return.
+     *
+     * @template TCombinedKey
+     * @template TCombinedValue
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures<TCombinedKey, TCombinedValue> $data_structure <p>
+     * Data structure to be used for values.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Linear\Associative<TValue&array-key, TCombinedValue> New combined data
+     * structure.
+     */
+    public function combine (DataStructures $data_structure):Associative;
 
 }
