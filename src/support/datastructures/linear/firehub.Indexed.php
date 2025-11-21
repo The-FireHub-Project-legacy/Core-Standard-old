@@ -7,7 +7,7 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 7.4
+ * @php-version 8.4
  * @package Core\Support
  *
  * @version GIT: $Id$ Blob checksum.
@@ -16,7 +16,9 @@
 namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
-use FireHub\Core\Support\DataStructures\Contracts\SequentialAccess;
+use FireHub\Core\Support\DataStructures\Contracts\ {
+    ArrStorage, SequentialAccess
+};
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\LowLevel\Arr;
 use Traversable;
@@ -29,12 +31,13 @@ use Traversable;
  *
  * @template TValue
  *
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<int, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Indexed implements Linear, SequentialAccess {
+class Indexed implements ArrStorage, Linear, SequentialAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -50,7 +53,7 @@ class Indexed implements Linear, SequentialAccess {
      *
      * @var list<TValue>
      */
-    protected array $storage = [];
+    protected(set) array $storage = [];
 
     /**
      * ### Constructor

@@ -20,6 +20,7 @@ use FireHub\Core\Support\Contracts\ {
 };
 use FireHub\Core\Support\Contracts\Iterator\IteratorAggregate;
 use FireHub\Core\Support\Contracts\Magic\SerializableConvertable;
+use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Operation\CountBy;
 
 use const FireHub\Core\Support\Constants\Number\MAX;
@@ -97,5 +98,33 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      * @return static This data structure.
      */
     public function unless (bool $condition, callable $condition_meet, ?callable $condition_not_meet = null):static;
+
+    /**
+     * ### Get keys from the data structure
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Indexed As return.
+     *
+     * @param null|callable(TValue, TKey):bool $callback [optional] <p>
+     * If specified, then only keys where the user function is true are returned.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Linear\Indexed<TKey> Keys from the data structure.
+     */
+    public function keys (?callable $callback = null):Indexed;
+
+    /**
+     * ### Get values from the data structure
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Indexed As return.
+     *
+     * @param null|callable(TValue, TKey):bool $callback [optional] <p>
+     * If specified, then only values where the user function is true are returned.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Linear\Indexed<TValue> Values from the data structure.
+     */
+    public function values (?callable $callback = null):Indexed;
 
 }

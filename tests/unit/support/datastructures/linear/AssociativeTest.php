@@ -17,6 +17,9 @@ namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Associative;
+use FireHub\Core\Support\DataStructures\Function\ {
+    Keys, Values
+};
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
 };
@@ -31,6 +34,8 @@ use PHPUnit\Framework\Attributes\ {
 #[Small]
 #[Group('datastructures')]
 #[CoversClass(Associative::class)]
+#[CoversClass(Keys::class)]
+#[CoversClass(Values::class)]
 final class AssociativeTest extends Base {
 
     /**
@@ -135,6 +140,48 @@ final class AssociativeTest extends Base {
         $this->assertSame(
             ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Marry'],
             $collection->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testKeys (Associative $collection):void {
+
+        $this->assertEquals(
+            ['firstname', 'lastname', 'age', 10],
+            $collection->keys()->toArray()
+        );
+        $this->assertEquals(
+            ['firstname', 'lastname', 10],
+            $collection->keys(fn($value, $key) => $value !== 25)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testValues (Associative $collection):void {
+
+        $this->assertEquals(
+            ['John', 'Doe', 25, 2],
+            $collection->values()->toArray()
+        );
+        $this->assertEquals(
+            ['John', 'Doe', 2],
+            $collection->values(fn($value, $key) => $key !== 'age')->toArray()
         );
 
     }

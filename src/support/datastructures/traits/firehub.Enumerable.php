@@ -15,7 +15,11 @@
 
 namespace FireHub\Core\Support\DataStructures\Traits;
 
+use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Operation\CountBy;
+use FireHub\Core\Support\DataStructures\Function\ {
+    Keys, Values
+};
 use FireHub\Core\Support\Enums\JSON\ {
     Flag, Flags\Decode, Flags\Encode
 };
@@ -235,6 +239,72 @@ trait Enumerable {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
+     * $keys = $collection->keys();
+     *
+     * // ['firstname', 'lastname', 'age', 10]
+     * </code>
+     * You can use function to filter keys based on a callback result:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $keys = $collection->keys(fn($value, $key) => $value !== 25);
+     *
+     * // ['firstname', 'lastname', 10]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Function\Keys As function.
+     */
+    public function keys (?callable $callback = null):Indexed {
+
+        return new Keys($this)($callback);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $values = $collection->values();
+     *
+     * // ['John', 'Doe', 25, 2]
+     * </code>
+     * You can use function to filter values based on a callback result:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $values = $collection->values(fn($value, $key) => $key !== 'age');
+     *
+     * // ['John', 'Doe', 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Function\Values As function.
+     */
+    public function values (?callable $callback = null):Indexed {
+
+        return new Values($this)($callback);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
      * $collection->toJson();
      *
      * // {"firstname":"John","lastname":"Doe","age":25,"10":2}
@@ -302,7 +372,7 @@ trait Enumerable {
      *
      * @uses \FireHub\Core\Support\LowLevel\Data::unserialize() To create an object from a stored representation.
      *
-     * @throws \FireHub\Core\Support\Exceptions\Data\UnserializeFailedException If  unserialize data is not
+     * @throws \FireHub\Core\Support\Exceptions\Data\UnserializeFailedException If unserialize data is not
      * of the right class.
      *
      */

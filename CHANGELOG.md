@@ -11,6 +11,7 @@
 - Create JsonSerialize and JsonSerializeConvertable contracts ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [4def09d](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/4def09d))
 - Create Serialize and SerializeConvertable contracts ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [4062c53](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/4062c53))
 - Create ValueStringifier debug class ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [c9627c7](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/c9627c7))
+- Create CountBy data structure operation ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [37451e7](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/37451e7))
 
 ## [v0.1.5](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...v0.1.5) – (2025-11-03)
 

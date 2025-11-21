@@ -7,7 +7,7 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 7.4
+ * @php-version 8.4
  * @package Core\Support
  *
  * @version GIT: $Id$ Blob checksum.
@@ -16,7 +16,9 @@
 namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
-use FireHub\Core\Support\DataStructures\Contracts\RandomAccess;
+use FireHub\Core\Support\DataStructures\Contracts\ {
+    ArrStorage, RandomAccess
+};
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
@@ -32,12 +34,13 @@ use Traversable;
  * @template TKey of array-key
  * @template TValue
  *
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<TKey, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\RandomAccess<TKey, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Associative implements Linear, RandomAccess {
+class Associative implements ArrStorage, Linear, RandomAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -53,7 +56,7 @@ class Associative implements Linear, RandomAccess {
      *
      * @var array<TKey, TValue>
      */
-    protected array $storage;
+    protected(set) array $storage = [];
 
     /**
      * ### Constructor
