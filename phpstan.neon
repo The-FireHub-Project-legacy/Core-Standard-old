@@ -7,6 +7,7 @@ parameters:
     excludePaths:
         analyseAndScan:
             - src/testing/
+    tmpDir: vendor/phpstan/cache/
     treatPhpDocTypesAsCertain: false
     checkDynamicProperties: true
     checkExplicitMixedMissingReturn: true
