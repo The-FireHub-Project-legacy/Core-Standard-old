@@ -13,6 +13,7 @@
 - Create ValueStringifier debug class ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [c9627c7](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/c9627c7))
 - Create CountBy data structure operation ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [37451e7](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/37451e7))
 - Create Keys and Values functions ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [fa4dd52](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/fa4dd52)
+- Create Combine method for DataStructures ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [3a684fc](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/3a684fc)
 
 ## [v0.1.5](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...v0.1.5) – (2025-11-03)
 

@@ -7,7 +7,7 @@
  * @copyright 2025 FireHub Web Application Framework
  * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
  *
- * @php-version 7.4
+ * @php-version 8.4
  * @package Core
  *
  * @version GIT: $Id$ Blob checksum.
@@ -22,13 +22,15 @@ use FireHub\Core\Initializers\Exceptions\ {
     FailedToLoadBootloaderException, NotBootloaderException, NotKernelException
 };
 use FireHub\Core\Support\LowLevel\ {
-    Cls, DataIs
+    Arr, Cls, DataIs
 };
 
 /**
  * ### Main FireHub class for bootstrapping
  *
- * This class contains all system definitions, constants, and dependant components for FireHub bootstrapping.
+ * This class contains all system definitions, constants, and dependent components for FireHub bootstrapping.
+ *
+ * <img width="500" src ="https://raw.githubusercontent.com/The-FireHub-Project/the-firehub-project.github.io/master/resources/graphics/logo/firehub.svg"/>
  * @since 1.0.0
  */
 final class FireHub {
@@ -40,13 +42,11 @@ final class FireHub {
      * @var array<int|class-string<\FireHub\Core\Initializers\Bootloader>,
      *     class-string<\FireHub\Core\Initializers\Bootloader>|array<array-key, mixed>>
      */
-    private array $bootloaders = [] {
-        get => [...$this->bootloaders, ...[
-            \FireHub\Core\Initializers\Bootloaders\RegisterConstants::class,
-            \FireHub\Core\Initializers\Bootloaders\RegisterHelpers::class,
-            \FireHub\Core\Initializers\Bootloaders\RegisterAutoloaders::class
-        ]];
-    }
+    private array $bootloaders = [
+        \FireHub\Core\Initializers\Bootloaders\RegisterConstants::class,
+        \FireHub\Core\Initializers\Bootloaders\RegisterHelpers::class,
+        \FireHub\Core\Initializers\Bootloaders\RegisterAutoloaders::class
+    ];
 
     /**
      * ### Constructor
@@ -97,6 +97,7 @@ final class FireHub {
      * ### Load bootloaders
      * @since 1.0.0
      *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::distinct() To filter duplicate bootloaders.
      * @uses \FireHub\Core\Support\LowLevel\Cls::ofClass() To check if all provided bootloaders are a real bootloader.
      * @uses \FireHub\Core\Support\LowLevel\DataIs::string() To check if $key or $value of bootloaders is a string.
      * @uses \FireHub\Core\Support\LowLevel\DataIs::array() To check if $value of bootloaders is an array.
@@ -110,7 +111,7 @@ final class FireHub {
      */
     private function loadBootloaders ():self {
 
-        foreach ([...$this->bootloaders, ...$this->configurator->bootloaders] as $key => $value)
+        foreach (Arr::distinct([...$this->bootloaders, ...$this->configurator->bootloaders]) as $key => $value)
             match (true) {
                 DataIs::string($key) && DataIs::array($value) && Cls::ofClass($key, Bootloader::class)
                     => new $key(...$value)->load() ?: throw new FailedToLoadBootloaderException()->fromClass($key),
