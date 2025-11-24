@@ -16,7 +16,8 @@ namespace FireHub\Tests\Unit\Support\LowLevel;
 
 use FireHub\Core\Testing\Base;
 use FireHub\Core\Support\Exceptions\PHP\ {
-    FailedToSetConfigurationOption, NotValidConfigurationOptionException, NotValidExtensionException
+    FailedToSetConfigurationOption, NotValidConfigurationOptionException, NotValidExtensionException,
+    InvalidMicrosecondsException
 };
 use FireHub\Core\Support\LowLevel\PHP;
 use PHPUnit\Framework\Attributes\ {
@@ -459,6 +460,8 @@ final class PHPTest extends Base {
      *
      * @param int<0, 999999> $microseconds
      *
+     * @throws \FireHub\Core\Support\Exceptions\PHP\InvalidMicrosecondsException
+     *
      * @return void
      */
     #[TestWith([1])]
@@ -467,6 +470,23 @@ final class PHPTest extends Base {
         PHP::microsleep($microseconds);
 
         $this->assertTrue(true);
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param int $value
+     *
+     * @return void
+     */
+    #[TestWith([-1])]
+    #[TestWith([1_000_000])]
+    public function testMicrosleepInvalidMicroseconds (int $value):void {
+
+        $this->expectException(InvalidMicrosecondsException::class);
+
+        PHP::microsleep($value);
 
     }
 

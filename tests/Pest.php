@@ -27,5 +27,9 @@ pest()
     ->in('unit\support\lowlevel');
 
 pest()
+    ->group('utils')
+    ->in('unit\support\utils');
+
+pest()
     ->group('components')
     ->in('unit\components');

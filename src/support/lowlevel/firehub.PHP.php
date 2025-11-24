@@ -18,7 +18,7 @@ namespace FireHub\Core\Support\LowLevel;
 use FireHub\Core\Support\Enums\PHP\IniAccessLevel;
 use FireHub\Core\Support\Exceptions\PHP\ {
     FailedToGetProcessIDException, FailedToGetServerAPIException, FailedToSetConfigurationOption,
-    NotValidConfigurationOptionException, NotValidExtensionException
+    InvalidMicrosecondsException, NotValidConfigurationOptionException, NotValidExtensionException
 };
 
 use function extension_loaded;
@@ -487,11 +487,17 @@ final class PHP {
      * Halt time in microseconds.
      * </p>
      *
+     * @throws \FireHub\Core\Support\Exceptions\PHP\InvalidMicrosecondsException If the number of microseconds is
+     * less than 0 or more than 999_999.
+     *
      * @return void
      */
     public static function microsleep (int $microseconds):void {
 
-        usleep(min($microseconds, 999_999));
+        if ($microseconds < 0 || $microseconds > 999_999)
+            throw new InvalidMicrosecondsException()->fromMicroseconds($microseconds);
+
+        usleep($microseconds);
 
     }
 
