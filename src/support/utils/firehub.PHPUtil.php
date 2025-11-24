@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\Utils;
 
 use FireHub\Core\Support\LowLevel\PHP;
 
-use function FireHub\Core\Support\Helpers\splitMicroseconds;
+use function FireHub\Core\Support\Helpers\DataTime\splitMicroseconds;
 
 /**
  * ### PHP utility class
@@ -36,7 +36,8 @@ final class PHPUtil {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Helpers\splitMicroseconds() To split $microseconds into seconds and microseconds.
+     * @uses \FireHub\Core\Support\Helpers\DataTime\splitMicroseconds() To split $microseconds into seconds
+     * and microseconds.
      * @uses \FireHub\Core\Support\LowLevel\PHP::sleep() To sleep for a number of seconds from $microseconds.
      * @uses \FireHub\Core\Support\LowLevel\PHP::microsleep() To sleep for a number of microseconds from remaining from
      * $microseconds.

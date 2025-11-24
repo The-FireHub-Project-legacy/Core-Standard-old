@@ -13,7 +13,7 @@
  * @version GIT: $Id$ Blob checksum.
  */
 
-namespace FireHub\Core\Support\Helpers;
+namespace FireHub\Core\Support\Helpers\DataTime;
 
 use FireHub\Core\Support\LowLevel\NumInt;
 use FireHub\Core\Support\Exceptions\Number\ {
@@ -24,7 +24,7 @@ use FireHub\Core\Support\Exceptions\Number\ {
  * ### Split microseconds into seconds and microseconds
  *
  * <code>
- * use function FireHub\Core\Support\Helpers\splitMicroseconds;
+ * use function FireHub\Core\Support\Helpers\DataTime\splitMicroseconds;
  *
  * splitMicroseconds(4_451_000);
  *
