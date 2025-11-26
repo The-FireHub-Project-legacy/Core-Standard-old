@@ -102,6 +102,31 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
     public function unless (bool $condition, callable $condition_meet, ?callable $condition_not_meet = null):static;
 
     /**
+     * ### Creates a new data structure with applied callback to the elements of the data structure
+     * @since 1.0.0
+     *
+     * @param callable(TValue, TKey=):TValue $callback <p>
+     * A callable to run for each element in a data structure.
+     * </p>
+     *
+     * @return static<TKey, TValue> New data structure containing the results of applying the callback function to
+     * the corresponding values of a data structure.
+     */
+    public function apply (callable $callback):static;
+
+    /**
+     * ### Applies the callback to the elements of the data structure
+     * @since 1.0.0
+     *
+     * @param callable(TValue, TKey=):TValue $callback <p>
+     * A callable to run for each element in a data structure.
+     * </p>
+     *
+     * @return $this The same data structure with applied callback to the corresponding values of a data structure.
+     */
+    public function transform (callable $callback):self;
+
+    /**
      * ### Get keys from the data structure
      * @since 1.0.0
      *

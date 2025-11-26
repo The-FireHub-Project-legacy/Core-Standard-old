@@ -300,4 +300,23 @@ final class FixedTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testTransform (Fixed $collection):void {
+
+        $expected = new Fixed(3);
+        $expected[0] = 'one-1';
+        $expected[1] = 'two-1';
+        $expected[2] = 'three-1';
+
+        $this->assertEquals($expected, $collection->transform(fn($value) => $value.'-1'));
+
+    }
+
 }

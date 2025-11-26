@@ -295,6 +295,35 @@ class Indexed implements ArrStorage, Linear, SequentialAccess {
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed([1, 2, 3, 4, 5]);
+     *
+     * $collection->transform(fn($value) => $value + 1);
+     *
+     * // [2, 3, 4, 5, 6]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::map() To apply the callback to the elements of the given array.
+     *
+     * @param callable(TValue):TValue $callback <p>
+     * A callable to run for each element in a data structure.
+     * </p>
+     */
+    public function transform (callable $callback):self {
+
+        $this->storage = Arr::map($this->storage, $callback);
+
+        return $this;
+
+    }
+
+    /**
      * @inheritDoc
      *
      * @since 1.0.0

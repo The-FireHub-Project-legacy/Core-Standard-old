@@ -29,7 +29,7 @@ use FireHub\Core\Support\Enums\JSON\ {
 };
 use FireHub\Core\Support\Exceptions\Data\UnserializeFailedException;
 use FireHub\Core\Support\LowLevel\ {
-    Data, DataIs, DateAndTime, Iterator, JSON, PHP
+    Data, DataIs, DateAndTime, Iterator, JSON
 };
 
 use const FireHub\Core\Support\Constants\Number\MAX;
@@ -232,6 +232,37 @@ trait Enumerable {
         $this->when(!$condition, $condition_meet, $condition_not_meet);
 
         return $this;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->apply(fn($value) => $value.'-1')
+     *
+     * // ['firstname' => 'John-1', 'lastname' => 'Doe-1', 'age' => '25-1', 10 => '2-1']
+     * </code>
+     * Transform with keys:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->apply(fn($value, $key) => $key === 'age' ? $value.'-1' : $value)
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => '25-1', 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function apply (callable $callback):static {
+
+        return (clone $this)->transform($callback); // @phpstan-ignore return.type
 
     }
 

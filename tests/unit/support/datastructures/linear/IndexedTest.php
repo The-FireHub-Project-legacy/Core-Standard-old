@@ -286,4 +286,18 @@ final class IndexedTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
+    public function testTransform (Indexed $collection):void {
+
+        $this->assertEquals([2, 3, 4, 5, 6], $collection->transform(fn($value) => $value + 1)->toArray());
+
+    }
+
 }

@@ -90,7 +90,7 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      * @uses \FireHub\Core\Support\LowLevel\Iterator::count() To count $array parameter items.
      *
      * @param array<array-key, mixed> $array <p>
-     * Data in form of an array from new object will be created.
+     * Data in form of an array from a new object will be created.
      * </p>
      * @param bool $preserve_keys [optional] <p>
      * Save the numeric indexes used in the original array.
@@ -215,7 +215,7 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
     /**
      * {@inheritDoc}
      *
-     * Removing single item:
+     * Removing a single item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Fixed;
      *
@@ -247,7 +247,7 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
-     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set the size for shifted data structure.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set the size for the shifted data structure.
      * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the largest number of zero and current data structure
      * size.
      *
@@ -267,7 +267,7 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
     /**
      * {@inheritDoc}
      *
-     * Removing single item:
+     * Removing a single item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Fixed;
      *
@@ -328,7 +328,7 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get size of the current data structure.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set new size for data structure.
      * @uses \FireHub\Core\Support\LowLevel\Iterator::count() To count $values.
      *
@@ -370,7 +370,7 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get size of the current data structure.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set new size for data structure.
      * @uses \FireHub\Core\Support\LowLevel\Iterator::count() To count $values.
      */
@@ -405,7 +405,7 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get first item from storage.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the first item from storage.
      */
     public function head ():mixed {
 
@@ -432,13 +432,44 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get first item from storage.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the first item from storage.
      */
     public function tail ():mixed {
 
         $size = $this->getSize();
 
         return $size > 0 ? $this[$size - 1] : null;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = new Fixed(3);
+     *
+     * $collection[0] = 'one';
+     * $collection[1] = 'two';
+     * $collection[2] = 'three';
+     *
+     * $collection->transform(fn($value) => $value.'-1')
+     *
+     * // ['one-1', 'two-1', 'three-1']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @param callable(TValue):TValue $callback <p>
+     * A callable to run for each element in a data structure.
+     * </p>
+     */
+    public function transform (callable $callback):self {
+
+        foreach ($this as $key => $value) $this[$key] = $callback($value);
+
+        return $this;
 
     }
 

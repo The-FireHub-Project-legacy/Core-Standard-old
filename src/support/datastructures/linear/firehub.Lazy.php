@@ -111,6 +111,34 @@ class Lazy implements Linear {
     }
 
     /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Lazy;
+     *
+     * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->transform(fn($value, $key) => $key === 'age' ? $value.'-1' : $value)
+     *
+     * // ['firstname', 'John'], ['lastname', 'Doe'], ['age', '25-1'], [10, 2]
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function transform (callable $callback):self {
+
+        $storage = ($this->storage)();
+
+        $this->storage = static function () use ($callback, $storage) {
+            foreach ($storage as $key => $value)
+                yield $key => $callback($value, $key);
+        };
+
+        return $this;
+
+    }
+
+    /**
      * @inheritDoc
      *
      * @since 1.0.0

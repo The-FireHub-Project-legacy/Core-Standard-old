@@ -519,6 +519,74 @@ final class AssociativeTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testApply (Associative $collection):void {
+
+        $this->assertEquals(
+            ['firstname' => 'John-1', 'lastname' => 'Doe-1', 'age' => '25-1', 10 => '2-1'],
+            $collection->apply(fn($value) => $value.'-1')->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testApplyWithKeys (Associative $collection):void {
+
+        $this->assertEquals(
+            ['firstname' => 'John', 'lastname' => 'Doe', 'age' => '25-1', 10 => 2],
+            $collection->apply(fn($value, $key) => $key === 'age' ? $value.'-1' : $value)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testTransform (Associative $collection):void {
+
+        $this->assertEquals(
+            ['firstname' => 'John-1', 'lastname' => 'Doe-1', 'age' => '25-1', 10 => '2-1'],
+            $collection->transform(fn($value) => $value.'-1')->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testTransformWithKeys (Associative $collection):void {
+
+        $this->assertEquals(
+            ['firstname' => 'John', 'lastname' => 'Doe', 'age' => '25-1', 10 => 2],
+            $collection->transform(fn($value, $key) => $key === 'age' ? $value.'-1' : $value)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
     public function testOffsetExist (Associative $collection):void {
 
         $this->assertTrue(isset($collection['firstname']));

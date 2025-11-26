@@ -1195,7 +1195,10 @@ final class Arr {
      * If only an array is provided, [[Arr#map()]] will return the input array.
      * </p>
      *
-     * @return array<TKey, TReturn> Array containing all the elements of arr1 after applying the callback function.
+     * @return ($array is list
+     *  ? list<TReturn>
+     *  : array<TKey, TReturn>
+     * ) Array containing all the elements of arr1 after applying the callback function.
      */
     public static function map (array $array, callable $callback):array {
 

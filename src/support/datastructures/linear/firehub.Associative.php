@@ -23,7 +23,8 @@ use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
 };
-use Traversable;
+use FireHub\Core\Support\LowLevel\Arr;
+use ArgumentCountError, Traversable;
 
 /**
  * ### Associative array collection type
@@ -400,6 +401,49 @@ class Associative implements ArrStorage, Linear, RandomAccess {
         $this->remove($key);
 
         return $value;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->transform(fn($value) => $value.'-1')
+     *
+     * // ['firstname' => 'John-1', 'lastname' => 'Doe-1', 'age' => '25-1', 10 => '2-1']
+     * </code>
+     * Transform with keys:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->transform(fn($value, $key) => $key === 'age' ? $value.'-1' : $value)
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => '25-1', 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::map() To apply the callback to the elements of the given array.
+     */
+    public function transform (callable $callback):self {
+
+        try {
+
+            $this->storage = Arr::map($this->storage, $callback);
+
+        } catch (ArgumentCountError) {
+
+            foreach ($this->storage as $key => $value) $this->storage[$key] = $callback($value, $key);
+
+        }
+
+        return $this;
 
     }
 
