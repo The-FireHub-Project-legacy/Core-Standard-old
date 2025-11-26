@@ -17,18 +17,19 @@ namespace FireHub\Core\Support\DataStructures\Traits;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
 use FireHub\Core\Support\DataStructures\Linear\ {
-    Indexed, Associative
+    Indexed, Associative, Lazy
 };
 use FireHub\Core\Support\DataStructures\Operation\CountBy;
 use FireHub\Core\Support\DataStructures\Function\ {
     Combine, Keys, Values
 };
+use FireHub\Core\Support\Utils\PHPUtil;
 use FireHub\Core\Support\Enums\JSON\ {
     Flag, Flags\Decode, Flags\Encode
 };
 use FireHub\Core\Support\Exceptions\Data\UnserializeFailedException;
 use FireHub\Core\Support\LowLevel\ {
-    Data, DataIs, Iterator, JSON
+    Data, DataIs, DateAndTime, Iterator, JSON, PHP
 };
 
 use const FireHub\Core\Support\Constants\Number\MAX;
@@ -331,6 +332,49 @@ trait Enumerable {
      * {@inheritDoc}
      *
      * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed([1, 2, 3, 4, 5]);
+     *
+     * $combined = $collection->throttle(1_000_000);
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\DateAndTime::time() To get current Unix timestamp.
+     * @uses \FireHub\Core\Support\LowLevel\DateAndTime::microtime() To get current Unix microseconds.
+     * @uses \FireHub\Core\Support\Utils\PHPUtil::sleepMicroseconds() To sleep for a number of $microseconds.
+     *
+     * @todo Get current time with Zwick::now() method.
+     */
+    public function throttle (int $microseconds):Lazy {
+
+        return new Lazy(function () use ($microseconds) {
+
+            $interval = $microseconds / 1_000_000;
+            $next = DateAndTime::time() + DateAndTime::microtime() / 1_000_000 + $interval;
+
+            foreach ($this as $key => $value) {
+
+                yield $key => $value;
+
+                $now = DateAndTime::time() + DateAndTime::microtime() / 1_000_000;
+
+                if ($now < $next)
+                    PHPUtil::sleepMicroseconds($microseconds);
+
+                $next += $interval;
+
+            }
+
+        });
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
@@ -402,7 +446,7 @@ trait Enumerable {
      *
      * @uses \FireHub\Core\Support\LowLevel\Data::unserialize() To create an object from a stored representation.
      *
-     * @throws \FireHub\Core\Support\Exceptions\Data\UnserializeFailedException If unserialize data is not
+     * @throws \FireHub\Core\Support\Exceptions\Data\UnserializeFailedException If unserialized data is not
      * of the right class.
      *
      */

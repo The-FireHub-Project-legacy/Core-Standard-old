@@ -37,6 +37,8 @@ final class IndexedTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
      *
+     * @throws \FireHub\Core\Support\Exceptions\Arr\KeysAndValuesDiffNumberOfElemsException
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]

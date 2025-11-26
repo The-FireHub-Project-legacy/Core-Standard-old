@@ -15,14 +15,18 @@
 
 namespace FireHub\Core\Support\DataStructures\Contracts;
 
+use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
+
 /**
  * ### Sequential access data structure whose elements can be accessed in a sequential, ordered manner
  * @since 1.0.0
  *
  * @template TKey
  * @template TValue
+ *
+ * @extends \FireHub\Core\Support\Contracts\HighLevel\DataStructures<TKey, TValue>
  */
-interface SequentialAccess {
+interface SequentialAccess extends DataStructures {
 
     /**
      * ### Removes an item at the beginning of the data structure

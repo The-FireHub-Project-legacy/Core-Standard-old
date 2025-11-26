@@ -15,6 +15,7 @@
 
 namespace FireHub\Core\Support\DataStructures\Contracts;
 
+use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
 use FireHub\Core\Support\Contracts\ArrayAccessible;
 use FireHub\Core\Support\Contracts\Magic\Overloadable;
 
@@ -25,9 +26,10 @@ use FireHub\Core\Support\Contracts\Magic\Overloadable;
  * @template TKey
  * @template TValue
  *
+ * @extends \FireHub\Core\Support\Contracts\HighLevel\DataStructures<TKey, TValue>
  * @extends \FireHub\Core\Support\Contracts\ArrayAccessible<TKey, TValue>
  */
-interface RandomAccess extends ArrayAccessible, Overloadable {
+interface RandomAccess extends DataStructures, ArrayAccessible, Overloadable {
 
     /**
      * ### Whether the key in the data structure exist

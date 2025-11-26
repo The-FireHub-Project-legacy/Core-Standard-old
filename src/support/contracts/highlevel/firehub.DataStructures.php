@@ -21,7 +21,7 @@ use FireHub\Core\Support\Contracts\ {
 use FireHub\Core\Support\Contracts\Iterator\IteratorAggregate;
 use FireHub\Core\Support\Contracts\Magic\SerializableConvertable;
 use FireHub\Core\Support\DataStructures\Linear\ {
-    Indexed, Associative
+    Indexed, Associative, Lazy
 };
 use FireHub\Core\Support\DataStructures\Operation\CountBy;
 
@@ -146,5 +146,20 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      * structure.
      */
     public function combine (DataStructures $data_structure):Associative;
+
+    /**
+     * ### Throttle the lazy data structure such that each value is returned after the specified number of seconds
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Lazy As return.
+     *
+     * @param positive-int $microseconds <p>
+     * Number of microseconds to throttle each value.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Linear\Lazy<TKey, TValue> New Lazy data structure
+     * with throttle from the current data structure.
+     */
+    public function throttle (int $microseconds):Lazy;
 
 }
