@@ -461,7 +461,7 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      *
      * @since 1.0.0
      *
-     * @param callable(TValue):TValue $callback <p>
+     * @param callable(null|TValue):(null|TValue) $callback <p>
      * A callable to run for each element in a data structure.
      * </p>
      */
