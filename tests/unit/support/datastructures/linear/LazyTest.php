@@ -136,4 +136,42 @@ final class LazyTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testApplyToKeys (Lazy $collection):void {
+
+        $this->assertSame(
+            [
+                ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
+            ],
+            $collection->applyToKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testTransformKeys (Lazy $collection):void {
+
+        $this->assertSame(
+            [
+                ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
+            ],
+            $collection->transformKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)->toArray()
+        );
+
+    }
+
 }

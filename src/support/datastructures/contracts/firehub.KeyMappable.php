@@ -49,9 +49,8 @@ interface KeyMappable extends DataStructures {
      * A callable to run for each key in a data structure.
      * </p>
      *
-     * @return static<TKey, TValue> The same data structure with applied callback to the corresponding keys
-     * of a data structure.
+     * @return $this The same data structure with applied callback to the corresponding keys of a data structure.
      */
-    public function transformKeys (callable $callback):static;
+    public function transformKeys (callable $callback):self;
 
 }

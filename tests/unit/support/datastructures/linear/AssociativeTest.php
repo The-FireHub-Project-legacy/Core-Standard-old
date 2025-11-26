@@ -587,6 +587,40 @@ final class AssociativeTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testApplyToKeys (Associative $collection):void {
+
+        $this->assertEquals(
+            ['firstname' => 'John', 'lastname-1' => 'Doe', 'age' => 25, 10 => 2],
+            $collection->applyToKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testTransformKeys (Associative $collection):void {
+
+        $this->assertEquals(
+            ['firstname' => 'John', 'lastname-1' => 'Doe', 'age' => 25, 10 => 2],
+            $collection->transformKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
     public function testOffsetExist (Associative $collection):void {
 
         $this->assertTrue(isset($collection['firstname']));

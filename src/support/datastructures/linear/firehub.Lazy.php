@@ -16,6 +16,7 @@
 namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
+use FireHub\Core\Support\DataStructures\Contracts\KeyMappable;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use Closure, Generator, Traversable;
 
@@ -29,10 +30,11 @@ use Closure, Generator, Traversable;
  * @template TValue
  *
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\KeyMappable<TKey, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Lazy implements Linear {
+class Lazy implements Linear, KeyMappable {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -132,6 +134,57 @@ class Lazy implements Linear {
         $this->storage = static function () use ($callback, $storage) {
             foreach ($storage as $key => $value)
                 yield $key => $callback($value, $key);
+        };
+
+        return $this;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Lazy;
+     *
+     * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->applyToKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)
+     *
+     * // ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses static::transformKeys() To apply the callback to the keys of the data structure.
+     */
+    public function applyToKeys (callable $callback):static {
+
+        return (clone $this)->transformKeys($callback); // @phpstan-ignore return.type
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Lazy;
+     *
+     * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->transformKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)
+     *
+     * // ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function transformKeys (callable $callback):self {
+
+        $storage = ($this->storage)();
+
+        $this->storage = static function () use ($callback, $storage) {
+            foreach ($storage as $key => $value)
+                yield $callback($value, $key) => $value;
         };
 
         return $this;

@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, RandomAccess
+    ArrStorage, KeyMappable, RandomAccess
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
@@ -37,11 +37,12 @@ use ArgumentCountError, Traversable;
  *
  * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<TKey, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\KeyMappable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\RandomAccess<TKey, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Associative implements ArrStorage, Linear, RandomAccess {
+class Associative implements ArrStorage, Linear, KeyMappable, RandomAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -442,6 +443,57 @@ class Associative implements ArrStorage, Linear, RandomAccess {
             foreach ($this->storage as $key => $value) $this->storage[$key] = $callback($value, $key);
 
         }
+
+        return $this;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->applyToKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)
+     *
+     * // ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function applyToKeys (callable $callback):static {
+
+        $storage = [];
+
+        foreach ($this->storage as $key => $value) $storage[$callback($value, $key)] = $value;
+
+        return new static($storage);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->transformKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)
+     *
+     * // ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses static::applyToKeys() To apply the callback to the keys of the data structure.
+     * @uses static::toArray() To get data structure as an array.
+     */
+    public function transformKeys (callable $callback):self {
+
+        $this->storage = $this->applyToKeys($callback)->toArray();
 
         return $this;
 
