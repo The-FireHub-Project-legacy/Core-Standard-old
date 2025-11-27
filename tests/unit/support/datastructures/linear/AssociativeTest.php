@@ -18,7 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Associative;
 use FireHub\Core\Support\DataStructures\Function\ {
-    Keys, Values
+    ChunkInto, Keys, Values
 };
 use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
@@ -35,6 +35,7 @@ use PHPUnit\Framework\Attributes\ {
 #[Small]
 #[Group('datastructures')]
 #[CoversClass(Associative::class)]
+#[CoversClass(ChunkInto::class)]
 #[CoversClass(Keys::class)]
 #[CoversClass(Values::class)]
 final class AssociativeTest extends Base {
@@ -183,6 +184,26 @@ final class AssociativeTest extends Base {
         $this->assertEquals(
             ['John', 'Doe', 2],
             $collection->values(fn($value, $key) => $key !== 'age')->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testChunkInto (Associative $collection):void {
+
+        $this->assertEquals(
+            [
+                [0, new Associative(['firstname' => 'John', 'lastname' => 'Doe'])],
+                [1, new Associative(['age' => 25, 10 => 2])]
+            ],
+            new ChunkInto($collection)(2)->toArray()
         );
 
     }

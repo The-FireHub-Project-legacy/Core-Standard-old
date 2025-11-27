@@ -62,7 +62,7 @@ readonly class Keys {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $keys = new Keys($collection)fn($value, $key) => $value !== 25);
+     * $keys = new Keys($collection)(fn($value, $key) => $value !== 25);
      *
      * // ['firstname', 'lastname', 10]
      * </code>
