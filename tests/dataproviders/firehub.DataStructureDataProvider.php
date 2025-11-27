@@ -33,7 +33,7 @@ final class DataStructureDataProvider extends Base {
     public static function indexedInt ():array {
 
         return [
-            [new Indexed([1, 2, 3, 4, 5])],
+            [new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])],
         ];
 
     }

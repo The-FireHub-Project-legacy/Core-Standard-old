@@ -20,12 +20,12 @@ use FireHub\Core\Support\DataStructures\Linear\Lazy;
 use FireHub\Core\Support\LowLevel\NumInt;
 
 /**
- * ### Split the data structure into the given group size filling non-terminal groups first
+ * ### Split the data structure into the given number of groups filling non-terminal groups first
  * @since 1.0.0
  *
  * @template TDataStructure of \FireHub\Core\Support\DataStructures\Contracts\Chunkable
  */
-readonly class ChunkInto {
+readonly class ChunkIn {
 
     /**
      * ### Constructor
@@ -48,11 +48,11 @@ readonly class ChunkInto {
      *
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
-     * use FireHub\Core\Support\DataStructures\Function\ChunkInto;
+     * use FireHub\Core\Support\DataStructures\Function\ChunkIn;
      *
      * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
      *
-     * $chunks = new ChunkInto($collection)(3);
+     * $chunks = new ChunkIn($collection)(4);
      *
      * // [
      * //   [0, Indexed([1, 2, 3, 4])],
@@ -65,26 +65,24 @@ readonly class ChunkInto {
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Lazy As return.
      * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the maximum value from 1 and $size_of_group.
-     * @uses \FireHub\Core\Support\DataStructures\Contracts\Chunkable::chunk() To chunk the data structure.
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::ceil() To round fractions for the number of elements in a group
+     * divided by number of groups.
+     * @uses \FireHub\Core\Support\DataStructures\Function\ChunkInto As a chunking function.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Chunkable::chunk() To count the number of elements in
+     * a data structure.
      *
-     * @param positive-int $size_of_group <p>
-     * Size of each group.
+     * @param positive-int $number_of_groups <p>
+     * Number of groups.
      * </p>
      *
      * @return \FireHub\Core\Support\DataStructures\Linear\Lazy<int, TDataStructure<key-of<TDataStructure>,value-of<TDataStructure>>>
      * New chunked data structure.
      */
-    public function __invoke (int $size_of_group):Lazy {
+    public function __invoke (int $number_of_groups):Lazy {
 
-        $size_of_group = NumInt::max($size_of_group, 1);
-
-        $counter = 0;
-
-        return $this->data_structure->chunk(function() use (&$counter, $size_of_group) {
-
-            return ++$counter % $size_of_group === 0;
-
-        });
+        return new ChunkInto($this->data_structure)(
+            NumInt::max(NumInt::ceil($this->data_structure->count() / $number_of_groups), 1)
+        );
 
     }
 

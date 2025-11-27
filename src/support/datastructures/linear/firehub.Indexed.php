@@ -303,11 +303,11 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAc
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
      *
-     * $collection = new Indexed([1, 2, 3, 4, 5]);
+     * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
      *
      * $collection->transform(fn($value) => $value + 1);
      *
-     * // [2, 3, 4, 5, 6]
+     * // [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
      * </code>
      *
      * @since 1.0.0

@@ -17,7 +17,9 @@ namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
-use FireHub\Core\Support\DataStructures\Function\Combine;
+use FireHub\Core\Support\DataStructures\Function\ {
+    ChunkIn, ChunkInto, Combine
+};
 use FireHub\Core\Support\Enums\ControlFlowSignal;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
@@ -30,8 +32,27 @@ use PHPUnit\Framework\Attributes\ {
 #[Small]
 #[Group('datastructures')]
 #[CoversClass(Indexed::class)]
+#[CoversClass(ChunkIn::class)]
+#[CoversClass(ChunkInto::class)]
 #[CoversClass(Combine::class)]
 final class IndexedTest extends Base {
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testFromArray (Indexed $collection):void {
+
+        $this->assertEquals(
+            $collection,
+            Indexed::fromArray(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard'])
+        );
+
+    }
 
     /**
      * @since 1.0.0
@@ -43,11 +64,17 @@ final class IndexedTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
-    public function testFromArray (Indexed $collection):void {
+    public function testCombine (Indexed $collection):void {
 
         $this->assertEquals(
-            [1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five'],
-            $collection->combine(new Indexed(['one', 'two', 'three', 'four', 'five']))->toArray()
+            [
+                1 => 'one', 2 => 'two', 3 => 'three', 4 => 'four',
+                5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight',
+                9 => 'nine', 10 => 'ten'
+            ],
+            $collection->combine(
+                new Indexed(['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'])
+            )->toArray()
         );
 
     }
@@ -59,12 +86,37 @@ final class IndexedTest extends Base {
      *
      * @return void
      */
-    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
-    public function testCombine (Indexed $collection):void {
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
+    public function testCheckIn (Indexed $collection):void {
 
         $this->assertEquals(
-            $collection,
-            Indexed::fromArray(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard'])
+            [
+                [0, new Indexed([1, 2, 3, 4])],
+                [1, new Indexed([5, 6, 7, 8])],
+                [2, new Indexed([9, 10])]
+            ],
+            new ChunkIn($collection)(3)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
+    public function testCheckInto (Indexed $collection):void {
+
+        $this->assertEquals(
+            [
+                [0, new Indexed([1, 2, 3, 4])],
+                [1, new Indexed([5, 6, 7, 8])],
+                [2, new Indexed([9, 10])]
+            ],
+            new ChunkInto($collection)(4)->toArray()
         );
 
     }
@@ -116,7 +168,7 @@ final class IndexedTest extends Base {
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
     public function testCount (Indexed $collection):void {
 
-        $this->assertSame(5, $collection->count());
+        $this->assertSame(10, $collection->count());
 
     }
 
@@ -297,7 +349,10 @@ final class IndexedTest extends Base {
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
     public function testTransform (Indexed $collection):void {
 
-        $this->assertEquals([2, 3, 4, 5, 6], $collection->transform(fn($value) => $value + 1)->toArray());
+        $this->assertEquals(
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            $collection->transform(fn($value) => $value + 1)->toArray()
+        );
 
     }
 
@@ -311,7 +366,10 @@ final class IndexedTest extends Base {
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
     public function testTransformWithKeys (Indexed $collection):void {
 
-        $this->assertEquals([2, 3, 4, 5, 6], $collection->transform(fn($value, $key) => $value + 1)->toArray());
+        $this->assertEquals(
+            [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+            $collection->transform(fn($value, $key) => $value + 1)->toArray()
+        );
 
     }
 

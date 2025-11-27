@@ -190,19 +190,26 @@ abstract class Num {
     }
 
     /**
-     * ### Find highest value
+     * ### Find the highest value
      * @since 1.0.0
      *
      * @template TInt of int|float
+     * @template TInts of int|float
      *
      * @param TInt $value <p>
      * Any comparable value.
      * </p>
-     * @param TInt ...$values <p>
+     * @param TInts ...$values <p>
      * Any comparable values.
      * </p>
      *
-     * @return TInt Value considered "highest" according to standard comparisons.
+     * @return (
+     *  TInt is float
+     *      ? float
+     *      : (TInt is positive-int
+     *          ? positive-int
+     *          : (TInts is positive-int ? positive-int : non-positive-int))
+     * ) Value considered "highest" according to standard comparisons.
      */
     final public static function max (float|int $value, float|int ...$values):float|int {
 
@@ -211,19 +218,27 @@ abstract class Num {
     }
 
     /**
-     * ### Find lowest value
+     * ### Find the lowest value
      * @since 1.0.0
      *
      * @template TInt of int|float
+     * @template TInts of int|float
      *
      * @param TInt $value <p>
      * Any comparable value.
      * </p>
-     * @param TInt ...$values <p>
+     * @param TInts ...$values <p>
      * Any comparable values.
      * </p>
      *
      * @return TInt Value considered "lowest" according to standard comparisons.
+     * @return (
+     *  TInt is float
+     *      ? float
+     *      : (TInt is negative-int
+     *          ? negative-int
+     *          : (TInts is negative-int ? negative-int : non-negative-int))
+     * ) Value considered "lowest" according to standard comparisons.
      */
     final public static function min (float|int $value, float|int ...$values):float|int {
 
