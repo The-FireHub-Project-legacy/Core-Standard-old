@@ -20,6 +20,7 @@ use FireHub\Core\Support\DataStructures\Linear\Associative;
 use FireHub\Core\Support\DataStructures\Function\ {
     Keys, Values
 };
+use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
 };
@@ -609,6 +610,31 @@ final class AssociativeTest extends Base {
         $this->assertEquals(
             ['firstname' => 'John', 'lastname-1' => 'Doe', 'age' => 25, 10 => 2],
             $collection->transformKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testFilter (Associative $collection):void {
+
+        $this->assertEquals(
+            ['firstname' => 'John', 'lastname' => 'Doe', 10 => 2],
+            $collection->filter(fn($value, $key) => $value !== 25)->toArray()
+        );
+
+        $this->assertEquals(
+            ['firstname' => 'John', 'lastname' => 'Doe'],
+            $collection->filter(function ($value, $key) {
+                if ($value === 25) return FilterSignal::BREAK;
+                return true;
+            })->toArray()
         );
 
     }

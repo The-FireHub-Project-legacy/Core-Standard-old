@@ -17,6 +17,7 @@ namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Fixed;
+use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small, TestWith
 };
@@ -316,6 +317,35 @@ final class FixedTest extends Base {
         $expected[2] = 'three-1';
 
         $this->assertEquals($expected, $collection->transform(fn($value) => $value.'-1'));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testFilter (Fixed $collection):void {
+
+        $expected = new Fixed(2);
+        $expected[0] = 'one';
+        $expected[1] = 'two';
+
+        $this->assertEquals(
+            $expected,
+            $collection->filter(fn($value, $key) => $value !== 'three')
+        );
+
+        $this->assertEquals(
+            $expected,
+            $collection->filter(function ($value, $key) {
+                if ($value === 'three') return FilterSignal::BREAK;
+                return true;
+            })
+        );
 
     }
 

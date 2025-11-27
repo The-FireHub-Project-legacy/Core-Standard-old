@@ -17,9 +17,10 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, KeyMappable, RandomAccess
+    ArrStorage, Filterable, KeyMappable, RandomAccess
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
+use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
 };
@@ -36,13 +37,14 @@ use ArgumentCountError, Traversable;
  * @template TValue
  *
  * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<TKey, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<TKey, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\KeyMappable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\RandomAccess<TKey, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Associative implements ArrStorage, Linear, KeyMappable, RandomAccess {
+class Associative implements ArrStorage, Filterable, Linear, KeyMappable, RandomAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -496,6 +498,56 @@ class Associative implements ArrStorage, Linear, KeyMappable, RandomAccess {
         $this->storage = $this->applyToKeys($callback)->toArray();
 
         return $this;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->filter(fn($value, $key) => $value !== 25);
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 10 => 2]
+     * </code>
+     * You can force early break:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->filter(function ($value, $key) {
+     *     if ($value === 25) return FilterSignal::BREAK;
+     *     return true;
+     * });
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe']
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function filter (callable $callback):static {
+
+        $storage = [];
+
+        foreach ($this->storage as $key => $value) {
+
+            $result = $callback($value, $key);
+
+            if ($result === true) {
+                $storage[$key] = $value;
+                continue;
+            }
+
+            if ($result === FilterSignal::BREAK) break;
+
+        }
+
+        return new static($storage);
 
     }
 

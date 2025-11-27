@@ -17,11 +17,12 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, SequentialAccess
+    ArrStorage, Filterable, SequentialAccess
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
+use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
 use FireHub\Core\Support\LowLevel\Arr;
-use Traversable;
+use ArgumentCountError, Traversable;
 
 /**
  * ### Indexed array collection type
@@ -32,12 +33,13 @@ use Traversable;
  * @template TValue
  *
  * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Indexed implements ArrStorage, Linear, SequentialAccess {
+class Indexed implements ArrStorage, Filterable, Linear, SequentialAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -310,16 +312,70 @@ class Indexed implements ArrStorage, Linear, SequentialAccess {
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\Arr::map() To apply the callback to the elements of the given array.
-     *
-     * @param callable(TValue):TValue $callback <p>
-     * A callable to run for each element in a data structure.
-     * </p>
      */
     public function transform (callable $callback):self {
 
-        $this->storage = Arr::map($this->storage, $callback);
+        try {
+
+            $this->storage = Arr::map($this->storage, $callback);
+
+        } catch (ArgumentCountError) {
+
+            foreach ($this->storage as $key => $value) $this->storage[] = $callback($value, $key);
+
+        }
 
         return $this;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->filter(fn($value, $key) => $value !== 'Jane');
+     *
+     * // ['John', 'Richard', 'Richard']
+     * </code>
+     * You can force early break:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->filter(function ($value, $key) {
+     *     if ($value === 'Jane') return FilterSignal::BREAK;
+     *     return true;
+     * });
+     *
+     * // ['John']
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function filter (callable $callback):static {
+
+        $storage = [];
+
+        foreach ($this->storage as $key => $value) {
+
+            $result = $callback($value, $key);
+
+            if ($result === true) {
+                $storage[] = $value;
+                continue;
+            }
+
+            if ($result === FilterSignal::BREAK) break;
+
+        }
+
+        return new static($storage);
 
     }
 

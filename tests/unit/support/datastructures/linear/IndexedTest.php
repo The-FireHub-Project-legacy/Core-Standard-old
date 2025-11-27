@@ -18,6 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Function\Combine;
+use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
 };
@@ -297,6 +298,31 @@ final class IndexedTest extends Base {
     public function testTransform (Indexed $collection):void {
 
         $this->assertEquals([2, 3, 4, 5, 6], $collection->transform(fn($value) => $value + 1)->toArray());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testFilter (Indexed $collection):void {
+
+        $this->assertEquals(
+            ['John', 'Richard', 'Richard'],
+            $collection->filter(fn($value, $key) => $value !== 'Jane')->toArray()
+        );
+
+        $this->assertEquals(
+            ['John'],
+            $collection->filter(function ($value, $key) {
+                if ($value === 'Jane') return FilterSignal::BREAK;
+                return true;
+            })->toArray()
+        );
 
     }
 

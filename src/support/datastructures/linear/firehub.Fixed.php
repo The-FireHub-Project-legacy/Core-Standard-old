@@ -16,8 +16,11 @@
 namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
-use FireHub\Core\Support\DataStructures\Contracts\SequentialAccess;
+use FireHub\Core\Support\DataStructures\Contracts\ {
+    Filterable, SequentialAccess
+};
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
+use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
 use FireHub\Core\Support\LowLevel\ {
     DataIs, Iterator, NumInt
 };
@@ -34,12 +37,13 @@ use SplFixedArray;
  * @template TValue
  *
  * @extends SplFixedArray<TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, ?TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, ?TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Fixed extends SplFixedArray implements Linear, SequentialAccess {
+class Fixed extends SplFixedArray implements Filterable, Linear, SequentialAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -460,16 +464,73 @@ class Fixed extends SplFixedArray implements Linear, SequentialAccess {
      * </code>
      *
      * @since 1.0.0
-     *
-     * @param callable(null|TValue):(null|TValue) $callback <p>
-     * A callable to run for each element in a data structure.
-     * </p>
      */
     public function transform (callable $callback):self {
 
-        foreach ($this as $key => $value) $this[$key] = $callback($value);
+        foreach ($this as $key => $value) $this[$key] = $callback($value, $key);
 
         return $this;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = new Fixed(3);
+     *
+     * $collection[0] = 'one';
+     * $collection[1] = 'two';
+     * $collection[2] = 'three';
+     *
+     * $collection->filter(fn($value, $key) => $value !== 'three');
+     *
+     * // ['one', 'two']
+     * </code>
+     * You can force early break:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     * use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+     *
+     * $collection = new Fixed(3);
+     *
+     * $collection[0] = 'one';
+     * $collection[1] = 'two';
+     * $collection[2] = 'three';
+     *
+     * $collection->filter(function ($value, $key) {
+     *     if ($value === 'three') return FilterSignal::BREAK;
+     *     return true;
+     * });
+     *
+     * // ['one', 'two']
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function filter (callable $callback):static {
+
+        $storage = new static($this->getSize());
+
+        $counter = 0;
+        foreach ($this as $key => $value) {
+
+            $result = $callback($value, $key);
+
+            if ($result === true) {
+                $storage[$counter++] = $value;
+                continue;
+            }
+
+            if ($result === FilterSignal::BREAK) break;
+
+        }
+
+        $storage->setSize($counter);
+
+        return $storage;
 
     }
 

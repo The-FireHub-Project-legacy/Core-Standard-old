@@ -17,6 +17,7 @@ namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Lazy;
+use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
 };
@@ -170,6 +171,35 @@ final class LazyTest extends Base {
                 ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
             ],
             $collection->transformKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testFilter (Lazy $collection):void {
+
+        $this->assertEquals(
+            [
+                ['firstname', 'John'], ['lastname', 'Doe'], [10, 2]
+            ],
+            $collection->filter(fn($value, $key) => $value !== 25)->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                ['firstname', 'John'], ['lastname', 'Doe']
+            ],
+            $collection->filter(function ($value, $key) {
+                if ($value === 25) return FilterSignal::BREAK;
+                return true;
+            })->toArray()
         );
 
     }
