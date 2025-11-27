@@ -20,7 +20,7 @@ use FireHub\Core\Support\DataStructures\Contracts\ {
     Filterable, SequentialAccess
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
-use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\LowLevel\ {
     DataIs, Iterator, NumInt
 };
@@ -492,7 +492,7 @@ class Fixed extends SplFixedArray implements Filterable, Linear, SequentialAcces
      * You can force early break:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Fixed;
-     * use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+     * use FireHub\Core\Support\Enums\ControlFlowSignal;
      *
      * $collection = new Fixed(3);
      *
@@ -501,7 +501,7 @@ class Fixed extends SplFixedArray implements Filterable, Linear, SequentialAcces
      * $collection[2] = 'three';
      *
      * $collection->filter(function ($value, $key) {
-     *     if ($value === 'three') return FilterSignal::BREAK;
+     *     if ($value === 'three') return ControlFlowSignal::BREAK;
      *     return true;
      * });
      *
@@ -524,7 +524,7 @@ class Fixed extends SplFixedArray implements Filterable, Linear, SequentialAcces
                 continue;
             }
 
-            if ($result === FilterSignal::BREAK) break;
+            if ($result === ControlFlowSignal::BREAK) break;
 
         }
 

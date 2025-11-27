@@ -32,11 +32,11 @@ interface Filterable extends DataStructures {
      * ### Filter items from data structure
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\DataStructures\Signals\FilterSignal As signal.
+     * @uses \FireHub\Core\Support\Enums\ControlFlowSignal As signal.
      *
-     * @param callable(TValue, TKey=):(bool|\FireHub\Core\Support\DataStructures\Signals\FilterSignal) $callback <p>
+     * @param callable(TValue, TKey=):(bool|\FireHub\Core\Support\Enums\ControlFlowSignal::BREAK) $callback <p>
      * Function to call on each item in a data structure.
-     * Return **true** to keep the item, **false** to remove it, or `FilterSignal::BREAK` to stop iteration early.
+     * Return **true** to keep the item, **false** to remove it, or `ControlFlowSignal::BREAK` to stop iteration early.
      * </p>
      *
      * @return static<TKey, TValue> New filtered data structure.

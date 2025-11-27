@@ -53,11 +53,11 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\Constants\Number\MAX As default limit.
-     * @uses \FireHub\Core\Support\DataStructures\Signals\FilterSignal As signal.
+     * @uses \FireHub\Core\Support\Enums\ControlFlowSignal As signal.
      *
-     * @param callable(TValue, TKey):(void|\FireHub\Core\Support\DataStructures\Signals\FilterSignal) $callback <p>
+     * @param callable(TValue, TKey):(void|\FireHub\Core\Support\Enums\ControlFlowSignal::BREAK) $callback <p>
      * Function to call on each item in a data structure.
-     * Return **void** or `FilterSignal::BREAK` to stop iteration early.
+     * Return **void** or `ControlFlowSignal::BREAK` to stop iteration early.
      * </p>
      * @param positive-int $limit [optional] <p>
      * Maximum number of elements that is allowed to be iterated.

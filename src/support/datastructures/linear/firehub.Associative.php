@@ -17,10 +17,10 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, Filterable, KeyMappable, RandomAccess
+    ArrStorage, Chunkable, Filterable, KeyMappable, RandomAccess
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
-use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
 };
@@ -37,6 +37,7 @@ use ArgumentCountError, Traversable;
  * @template TValue
  *
  * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<TKey, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<TKey, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\KeyMappable<TKey, TValue>
@@ -44,7 +45,7 @@ use ArgumentCountError, Traversable;
  *
  * @phpstan-consistent-constructor
  */
-class Associative implements ArrStorage, Filterable, Linear, KeyMappable, RandomAccess {
+class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappable, RandomAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -516,12 +517,12 @@ class Associative implements ArrStorage, Filterable, Linear, KeyMappable, Random
      * You can force early break:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
-     * use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+     * use FireHub\Core\Support\Enums\ControlFlowSignal;
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
      * $collection->filter(function ($value, $key) {
-     *     if ($value === 25) return FilterSignal::BREAK;
+     *     if ($value === 25) return ControlFlowSignal::BREAK;
      *     return true;
      * });
      *
@@ -543,11 +544,74 @@ class Associative implements ArrStorage, Filterable, Linear, KeyMappable, Random
                 continue;
             }
 
-            if ($result === FilterSignal::BREAK) break;
+            if ($result === ControlFlowSignal::BREAK) break;
 
         }
 
         return new static($storage);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->chunk(fn($value, $key) => $value === 25)->toArray()
+     *
+     * // [
+     * //   [0, Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25])],
+     * //   [1, Associative([10 => 2])]
+     * // ]
+     * </code>
+     * You can force early break:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\Enums\ControlFlowSignal;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->chunk(function ($value, $key) {
+     *     if ($value === 2) return ControlFlowSignal::BREAK;
+     *     return $value === 'Doe';
+     * });
+     *
+     * // [
+     * //   [0, Associative(['firstname' => 'John', 'lastname' => 'Doe'])],
+     * //   [1, Associative(['age' => 25])]
+     * // ]
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function chunk (callable $callback):Lazy {
+
+        return new Lazy(function () use ($callback) {
+
+            $chunks = [];
+            foreach ($this as $key => $value) {
+
+                $result = $callback($value, $key);
+
+                if ($result === ControlFlowSignal::BREAK) break;
+
+                $chunks[$key] = $value;
+                if ($result === true) {
+
+                    yield new static($chunks);
+
+                    $chunks = [];
+
+                }
+
+            }
+
+            if ($chunks) yield new static($chunks);
+
+        });
 
     }
 

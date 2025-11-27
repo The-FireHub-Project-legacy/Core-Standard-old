@@ -17,10 +17,10 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, Filterable, SequentialAccess
+    ArrStorage, Chunkable, Filterable, SequentialAccess
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
-use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\LowLevel\Arr;
 use ArgumentCountError, Traversable;
 
@@ -33,13 +33,14 @@ use ArgumentCountError, Traversable;
  * @template TValue
  *
  * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Indexed implements ArrStorage, Filterable, Linear, SequentialAccess {
+class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -348,12 +349,12 @@ class Indexed implements ArrStorage, Filterable, Linear, SequentialAccess {
      * You can force early break:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
-     * use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+     * use FireHub\Core\Support\Enums\ControlFlowSignal;
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
      * $collection->filter(function ($value, $key) {
-     *     if ($value === 'Jane') return FilterSignal::BREAK;
+     *     if ($value === 'Jane') return ControlFlowSignal::BREAK;
      *     return true;
      * });
      *
@@ -375,11 +376,77 @@ class Indexed implements ArrStorage, Filterable, Linear, SequentialAccess {
                 continue;
             }
 
-            if ($result === FilterSignal::BREAK) break;
+            if ($result === ControlFlowSignal::BREAK) break;
 
         }
 
         return new static($storage);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->chunk(fn($value, $key) => $value === 'Jane')->toArray();
+     *
+     * // [
+     * //   [0, Indexed(['John', 'Jane'])],
+     * //   [1, Indexed(['Jane'])],
+     * //   [2, Indexed(['Jane'])],
+     * //   [3, Indexed(['Richard', 'Richard'])]
+     * // ]
+     * </code>
+     * You can force early break:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\Enums\ControlFlowSignal;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->chunk(function ($value, $key) {
+     *     if ($value === 'Richard') return ControlFlowSignal::BREAK;
+     *     return $value === 'Jane';
+     * });
+     *
+     * // [
+     * //   [0, Indexed(['John', 'Jane'])],
+     * //   [1, Indexed(['Jane'])],
+     * //   [2, Indexed(['Jane'])]
+     * // ]
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function chunk (callable $callback):Lazy {
+
+        return new Lazy(function () use ($callback) {
+
+            $chunks = [];
+            foreach ($this as $key => $value) {
+
+                $result = $callback($value, $key);
+
+                if ($result === ControlFlowSignal::BREAK) break;
+
+                $chunks[] = $value;
+                if ($result === true) {
+
+                    yield new static($chunks);
+
+                    $chunks = [];
+
+                }
+
+            }
+
+            if ($chunks) yield new static($chunks);
+
+        });
 
     }
 
@@ -424,7 +491,7 @@ class Indexed implements ArrStorage, Filterable, Linear, SequentialAccess {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To help with removing keys from an $data.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To help with removing keys from a $data.
      *
      * @param array<TValue> $data <p>
      * Serialized data.

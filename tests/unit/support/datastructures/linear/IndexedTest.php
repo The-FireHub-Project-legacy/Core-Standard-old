@@ -18,7 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Function\Combine;
-use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+use FireHub\Core\Support\Enums\ControlFlowSignal;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
 };
@@ -333,8 +333,42 @@ final class IndexedTest extends Base {
         $this->assertEquals(
             ['John'],
             $collection->filter(function ($value, $key) {
-                if ($value === 'Jane') return FilterSignal::BREAK;
+                if ($value === 'Jane') return ControlFlowSignal::BREAK;
                 return true;
+            })->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testChunk (Indexed $collection):void {
+
+        $this->assertEquals(
+            [
+                [0, new Indexed(['John', 'Jane'])],
+                [1, new Indexed(['Jane'])],
+                [2, new Indexed(['Jane'])],
+                [3, new Indexed(['Richard', 'Richard'])]
+            ],
+            $collection->chunk(fn($value, $key) => $value === 'Jane')->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                [0, new Indexed(['John', 'Jane'])],
+                [1, new Indexed(['Jane'])],
+                [2, new Indexed(['Jane'])]
+            ],
+            $collection->chunk(function ($value, $key) {
+                if ($value === 'Richard') return ControlFlowSignal::BREAK;
+                return $value === 'Jane';
             })->toArray()
         );
 

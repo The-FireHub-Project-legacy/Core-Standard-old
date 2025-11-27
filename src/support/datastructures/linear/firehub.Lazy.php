@@ -20,7 +20,7 @@ use FireHub\Core\Support\DataStructures\Contracts\ {
     Filterable, KeyMappable
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
-use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+use FireHub\Core\Support\Enums\ControlFlowSignal;
 use Closure, Generator, Traversable;
 
 /**
@@ -210,12 +210,12 @@ class Lazy implements Filterable, Linear, KeyMappable {
      * You can force early break:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Lazy;
-     * use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+     * use FireHub\Core\Support\Enums\ControlFlowSignal;
      *
      * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
      * $collection->filter(function ($value, $key) {
-     *     if ($value === 25) return FilterSignal::BREAK;
+     *     if ($value === 25) return ControlFlowSignal::BREAK;
      *     return true;
      * });
      *
@@ -237,7 +237,7 @@ class Lazy implements Filterable, Linear, KeyMappable {
                     continue;
                 }
 
-                if ($result === FilterSignal::BREAK) break;
+                if ($result === ControlFlowSignal::BREAK) break;
 
             }
 

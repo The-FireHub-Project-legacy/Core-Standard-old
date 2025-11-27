@@ -13,16 +13,16 @@
  * @version GIT: $Id$ Blob checksum.
  */
 
-namespace FireHub\Core\Support\DataStructures\Signals;
+namespace FireHub\Core\Support\Enums;
 
 /**
- * ### Signals for filter callback
+ * ### Control flow signals enum
  * @since 1.0.0
  */
-enum FilterSignal {
+enum ControlFlowSignal {
 
     /**
-     * ### Break filter iteration
+     * ### Brake ends execution of the current for, foreach, while, do-while or switch structure
      * @since 1.0.0
      */
     case BREAK;

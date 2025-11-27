@@ -20,7 +20,7 @@ use FireHub\Core\Support\DataStructures\Linear\Associative;
 use FireHub\Core\Support\DataStructures\Function\ {
     Keys, Values
 };
-use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
 };
@@ -69,7 +69,7 @@ final class AssociativeTest extends Base {
         $called = [];
 
         $collection->each(function($value) use (&$called) {
-            if ($value === 25) return FilterSignal::BREAK;
+            if ($value === 25) return ControlFlowSignal::BREAK;
             $called[] = $value;
         });
 
@@ -632,8 +632,39 @@ final class AssociativeTest extends Base {
         $this->assertEquals(
             ['firstname' => 'John', 'lastname' => 'Doe'],
             $collection->filter(function ($value, $key) {
-                if ($value === 25) return FilterSignal::BREAK;
+                if ($value === 25) return ControlFlowSignal::BREAK;
                 return true;
+            })->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testChunk (Associative $collection):void {
+
+        $this->assertEquals(
+            [
+                [0, new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25])],
+                [1, new Associative([10 => 2])]
+            ],
+            $collection->chunk(fn($value, $key) => $value === 25)->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                [0, new Associative(['firstname' => 'John', 'lastname' => 'Doe'])],
+                [1, new Associative(['age' => 25])]
+            ],
+            $collection->chunk(function ($value, $key) {
+                if ($value === 2) return ControlFlowSignal::BREAK;
+                return $value === 'Doe';
             })->toArray()
         );
 

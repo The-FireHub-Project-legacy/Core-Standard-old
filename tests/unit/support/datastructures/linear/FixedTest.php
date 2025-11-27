@@ -17,7 +17,7 @@ namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Fixed;
-use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
+use FireHub\Core\Support\Enums\ControlFlowSignal;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small, TestWith
 };
@@ -342,7 +342,7 @@ final class FixedTest extends Base {
         $this->assertEquals(
             $expected,
             $collection->filter(function ($value, $key) {
-                if ($value === 'three') return FilterSignal::BREAK;
+                if ($value === 'three') return ControlFlowSignal::BREAK;
                 return true;
             })
         );

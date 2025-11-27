@@ -24,10 +24,10 @@ use FireHub\Core\Support\DataStructures\Function\ {
     Combine, Keys, Values
 };
 use FireHub\Core\Support\Utils\PHPUtil;
+use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\Enums\JSON\ {
     Flag, Flags\Decode, Flags\Encode
 };
-use FireHub\Core\Support\DataStructures\Signals\FilterSignal;
 use FireHub\Core\Support\Exceptions\Data\UnserializeFailedException;
 use FireHub\Core\Support\LowLevel\ {
     Data, DataIs, DateAndTime, Iterator, JSON
@@ -145,7 +145,7 @@ trait Enumerable {
         $counter = 0;
 
         foreach ($this as $key => $value)
-            if ($counter++ >= $limit || $callback($value, $key) === FilterSignal::BREAK) break;
+            if ($counter++ >= $limit || $callback($value, $key) === ControlFlowSignal::BREAK) break;
 
         return $this;
 
