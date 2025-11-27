@@ -32,7 +32,7 @@ interface Filterable extends DataStructures {
      * ### Filter items from data structure
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\DataStructures\Signals\FilterSignal As signals.
+     * @uses \FireHub\Core\Support\DataStructures\Signals\FilterSignal As signal.
      *
      * @param callable(TValue, TKey=):(bool|\FireHub\Core\Support\DataStructures\Signals\FilterSignal) $callback <p>
      * Function to call on each item in a data structure.

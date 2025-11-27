@@ -321,7 +321,11 @@ class Indexed implements ArrStorage, Filterable, Linear, SequentialAccess {
 
         } catch (ArgumentCountError) {
 
-            foreach ($this->storage as $key => $value) $this->storage[] = $callback($value, $key);
+            $storage = [];
+
+            foreach ($this->storage as $key => $value) $storage[] = $callback($value, $key);
+
+            $this->storage = $storage;
 
         }
 

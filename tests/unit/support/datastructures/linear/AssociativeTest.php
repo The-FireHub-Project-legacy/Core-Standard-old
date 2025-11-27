@@ -69,7 +69,7 @@ final class AssociativeTest extends Base {
         $called = [];
 
         $collection->each(function($value) use (&$called) {
-            if ($value === 25) return false;
+            if ($value === 25) return FilterSignal::BREAK;
             $called[] = $value;
         });
 

@@ -308,6 +308,20 @@ final class IndexedTest extends Base {
      *
      * @return void
      */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
+    public function testTransformWithKeys (Indexed $collection):void {
+
+        $this->assertEquals([2, 3, 4, 5, 6], $collection->transform(fn($value, $key) => $value + 1)->toArray());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
     public function testFilter (Indexed $collection):void {
 
