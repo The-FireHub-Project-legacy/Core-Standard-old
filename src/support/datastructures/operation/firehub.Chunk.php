@@ -410,13 +410,26 @@ readonly class Chunk {
      *
      * // [
      * //   [0, Indexed([1, 2, 3])],
-     * //   [1, Indexed([2, 3, 4])],
-     * //   [2, Indexed([3, 4, 5])],
-     * //   [3, Indexed([4, 5, 6])],
-     * //   [4, Indexed([5, 6, 7])],
-     * //   [5, Indexed([6, 7, 8])]
-     * //   [6, Indexed([7, 8, 9])],
-     * //   [7, Indexed([8, 9, 10])]
+     * //   [1, Indexed([3, 4, 5])],
+     * //   [2, Indexed([5, 6, 7])],
+     * //   [3, Indexed([7, 8, 9])]
+     * // ]
+     * </code>
+     * You can include partial results.
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Chunk;
+     *
+     * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+     *
+     * $chunk = new Chunk($collection)->sliding(3, 1, true);
+     *
+     * // [
+     * //   [0, Indexed([1, 2, 3])],
+     * //   [1, Indexed([3, 4, 5])],
+     * //   [2, Indexed([5, 6, 7])],
+     * //   [3, Indexed([7, 8, 9])],
+     * //   [4, Indexed([9, 10])]
      * // ]
      * </code>
      *
@@ -429,6 +442,9 @@ readonly class Chunk {
      * @param positive-int $step [optional] <p>
      * Step between chunks.
      * Every non-positive value inside the $widths parameter will be converted to 1.
+     * </p>
+     * @param bool $include_partial [optional] <p>
+     * Whether to include partial chunks.
      * </p>
      *
      * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the maximum value from 1 and $width.
@@ -443,12 +459,12 @@ readonly class Chunk {
      *
      * @caution The remaining elements that cannot slide will be ignored.
      */
-    public function sliding (int $size, int $step = 1):Lazy {
+    public function sliding (int $size, int $step = 1, bool $include_partial = false):Lazy {
 
         $size = NumInt::max($size, 1);
         $step = NumInt::max($step, 1);
 
-        return new Lazy(function () use ($size, $step) {
+        return new Lazy(function () use ($size, $step, $include_partial) {
 
             $keys = []; $values = [];
             foreach ($this->data_structure as $key => $value) {
@@ -469,6 +485,9 @@ readonly class Chunk {
                 }
 
             }
+
+            if ($include_partial && $values)
+                yield $this->data_structure::fromArray(array_combine($keys, $values));
 
         });
     }

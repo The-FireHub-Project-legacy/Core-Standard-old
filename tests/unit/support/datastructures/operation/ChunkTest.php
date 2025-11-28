@@ -187,15 +187,22 @@ final class ChunkTest extends Base {
         $this->assertEquals(
             [
                 [0, new Indexed([1, 2, 3])],
-                [1, new Indexed([2, 3, 4])],
-                [2, new Indexed([3, 4, 5])],
-                [3, new Indexed([4, 5, 6])],
-                [4, new Indexed([5, 6, 7])],
-                [5, new Indexed([6, 7, 8])],
-                [6, new Indexed([7, 8, 9])],
-                [7, new Indexed([8, 9, 10])],
+                [1, new Indexed([3, 4, 5])],
+                [2, new Indexed([5, 6, 7])],
+                [3, new Indexed([7, 8, 9])]
             ],
-            $collection->chunk()->sliding(3, 1)->toArray()
+            $collection->chunk()->sliding(3, 2)->toArray()
+        );
+
+        $this->assertEquals(
+            [
+                [0, new Indexed([1, 2, 3])],
+                [1, new Indexed([3, 4, 5])],
+                [2, new Indexed([5, 6, 7])],
+                [3, new Indexed([7, 8, 9])],
+                [4, new Indexed([9, 10])]
+            ],
+            $collection->chunk()->sliding(3, 2, true)->toArray()
         );
 
     }
