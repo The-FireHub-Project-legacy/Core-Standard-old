@@ -351,11 +351,11 @@ readonly class Chunk {
      *
      * @param positive-int $width <p>
      * Width of the first chunk.
-     * Every 0 inside the $widths parameter will be converted to 1.
+     * Every non-positive value inside the $widths parameter will be converted to 1.
      * </p>
      * @param positive-int ...$widths [optional] <p>
      * Widths of each chunk.
-     * Every 0 inside the $widths parameter will be converted to 1.
+     * Every non-positive value inside the $widths parameter will be converted to 1.
      * </p>
      *
      * @uses \FireHub\Core\Support\LowLevel\Arr::map() To map the widths to positive integers.
@@ -369,10 +369,10 @@ readonly class Chunk {
      */
     public function byWidth (int $width, int ...$widths):Lazy {
 
-        return new Lazy(function () use ($width, $widths) {
+        /** @var non-empty-list<positive-int> $widths */
+        $widths = Arr::map([$width, ...$widths], static fn($w) => NumInt::max(1, $w));
 
-            /** @var non-empty-list<positive-int> $widths */
-            $widths = Arr::map([$width, ...$widths], static fn($w) => NumInt::max(1, $w));
+        return new Lazy(function () use ($widths) {
 
             $width_index = 0; $size = $widths[$width_index]; $count = 0; $chunk = [];
             foreach ($this->data_structure as $key => $value) {
@@ -396,5 +396,82 @@ readonly class Chunk {
         });
 
     }
+
+    /**
+     * ### Split the data structure into the numbers when the value is changed
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Chunk;
+     *
+     * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+     *
+     * $chunk = new Chunk($collection)->sliding(3, 1);
+     *
+     * // [
+     * //   [0, Indexed([1, 2, 3])],
+     * //   [1, Indexed([2, 3, 4])],
+     * //   [2, Indexed([3, 4, 5])],
+     * //   [3, Indexed([4, 5, 6])],
+     * //   [4, Indexed([5, 6, 7])],
+     * //   [5, Indexed([6, 7, 8])]
+     * //   [6, Indexed([7, 8, 9])],
+     * //   [7, Indexed([8, 9, 10])]
+     * // ]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @param positive-int $size <p>
+     * Size of each chunk.
+     * Every non-positive value inside the $widths parameter will be converted to 1.
+     * </p>
+     * @param positive-int $step [optional] <p>
+     * Step between chunks.
+     * Every non-positive value inside the $widths parameter will be converted to 1.
+     * </p>
+     *
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the maximum value from 1 and $width.
+     * @uses \FireHub\Core\Support\LowLevel\Iterables::count() To count elements in the $values parameter.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::combine() To combine keys and values into a new array.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::slice() To extract a slice of the array.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage::fromArray() To create new array storage
+     * data structure from a chunked array.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Lazy As return.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Linear\Lazy<int, TDataStructure> New chunked data structure.
+     *
+     * @caution The remaining elements that cannot slide will be ignored.
+     */
+    public function sliding (int $size, int $step = 1):Lazy {
+
+        $size = NumInt::max($size, 1);
+        $step = NumInt::max($step, 1);
+
+        return new Lazy(function () use ($size, $step) {
+
+            $keys = []; $values = [];
+            foreach ($this->data_structure as $key => $value) {
+
+                /** @var list<array-key> $keys */
+                $keys[] = $key; $values[] = $value;
+                if (Iterables::count($values) >= $size) {
+
+                    yield $this->data_structure::fromArray(Arr::combine(
+                        Arr::slice($keys, 0, $size),
+                        Arr::slice($values, 0, $size)
+                    ));
+
+                    $keys = Arr::slice($keys, $step);
+
+                    $values = Arr::slice($values, $step);
+
+                }
+
+            }
+
+        });
+    }
+
 
 }

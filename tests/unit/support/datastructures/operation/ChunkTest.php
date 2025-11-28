@@ -174,4 +174,30 @@ final class ChunkTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
+    public function testSliding (Indexed $collection):void {
+
+        $this->assertEquals(
+            [
+                [0, new Indexed([1, 2, 3])],
+                [1, new Indexed([2, 3, 4])],
+                [2, new Indexed([3, 4, 5])],
+                [3, new Indexed([4, 5, 6])],
+                [4, new Indexed([5, 6, 7])],
+                [5, new Indexed([6, 7, 8])],
+                [6, new Indexed([7, 8, 9])],
+                [7, new Indexed([8, 9, 10])],
+            ],
+            $collection->chunk()->sliding(3, 1)->toArray()
+        );
+
+    }
+
 }
