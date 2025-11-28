@@ -18,7 +18,9 @@ namespace FireHub\Core\Support\DataStructures\Operation;
 use FireHub\Core\Support\DataStructures\Contracts\ArrStorage;
 use FireHub\Core\Support\DataStructures\Linear\Lazy;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
-use FireHub\Core\Support\LowLevel\NumInt;
+use FireHub\Core\Support\LowLevel\ {
+    Arr, NumInt
+};
 
 /**
  * ### Chunk operations for data structures
@@ -208,6 +210,70 @@ readonly class Chunk {
         return $this->byStep(
             NumInt::max(NumInt::ceil($this->data_structure->count() / $number_of_groups), 1)
         );
+
+    }
+
+    /**
+     * ### Split the data structure into the given number of equal groups
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\Chunk;
+     *
+     * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+     *
+     * $chunk = new Chunk($collection)->split(4);
+     *
+     * // [
+     * //   [0, Indexed([1, 2, 3])],
+     * //   [1, Indexed([4, 5, 6])],
+     * //   [2, Indexed([7, 8])],
+     * //   [3, Indexed([9, 10])]
+     * // ]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the maximum value from 1 and $size_of_group.
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::divide() To divide the number of elements in a data structure
+     * with the number of elements in a group.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::slice() To slice the data structure into chunks.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage::count() To count elements in the data structure.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage::fromArray() To create new array storage
+     * data structure from a chunked array.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Lazy As return.
+     *
+     * @param positive-int $number_of_groups <p>
+     * Number of groups.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Linear\Lazy<int, TDataStructure> New chunked data structure.
+     */
+    public function split (int $number_of_groups):Lazy {
+
+        $number_of_groups = NumInt::max($number_of_groups, 1);
+
+        return new Lazy(function () use ($number_of_groups) {
+
+            $group_size = NumInt::divide($this->data_structure->count(), $number_of_groups);
+
+            $remain = $this->data_structure->count() % $number_of_groups;
+
+            $offset = 0;
+
+            for ($counter = 0; $counter < $number_of_groups; $counter++) {
+
+                $size = $group_size + ($counter < $remain ? 1 : 0);
+
+                yield $this->data_structure::fromArray(
+                    Arr::slice($this->data_structure->storage, $offset, $size, true)
+                );
+
+                $offset += $size;
+
+            }
+
+        });
 
     }
 

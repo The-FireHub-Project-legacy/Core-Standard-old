@@ -110,4 +110,26 @@ final class ChunkTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
+    public function testSplit (Indexed $collection):void {
+
+        $this->assertEquals(
+            [
+                [0, new Indexed([1, 2, 3])],
+                [1, new Indexed([4, 5, 6])],
+                [2, new Indexed([7, 8])],
+                [3, new Indexed([9, 10])]
+            ],
+            $collection->chunk()->split(4)->toArray()
+        );
+
+    }
+
 }
