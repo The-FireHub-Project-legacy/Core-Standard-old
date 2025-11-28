@@ -371,11 +371,13 @@ readonly class Chunk {
 
         return new Lazy(function () use ($width, $widths) {
 
+            /** @var non-empty-list<positive-int> $widths */
             $widths = Arr::map([$width, ...$widths], static fn($w) => NumInt::max(1, $w));
 
             $width_index = 0; $size = $widths[$width_index]; $count = 0; $chunk = [];
             foreach ($this->data_structure as $key => $value) {
 
+                /** @var array-key $key */
                 $chunk[$key] = $value; $count++;
                 if ($count === $size) {
 
@@ -383,7 +385,7 @@ readonly class Chunk {
 
                     $chunk = []; $count = 0;
                     $width_index = ($width_index + 1) % Iterables::count($widths);
-                    $size = $widths[$width_index];
+                    $size = $widths[$width_index]; // @phpstan-ignore offsetAccess.notFound
 
                 }
 
