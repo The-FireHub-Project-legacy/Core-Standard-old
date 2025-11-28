@@ -19,7 +19,7 @@ use FireHub\Core\Support\DataStructures\Contracts\ArrStorage;
 use FireHub\Core\Support\DataStructures\Linear\Lazy;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\LowLevel\ {
-    Arr, NumInt
+    Arr, Iterables, NumInt
 };
 
 /**
@@ -50,7 +50,7 @@ readonly class Chunk {
      * ### Split data structure into chunks until the user function returns true
      *
      * <code>
-     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
      * use FireHub\Core\Support\DataStructures\Operation\Chunk;
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
@@ -129,7 +129,7 @@ readonly class Chunk {
      * ### Split the data structure into the given group size filling non-terminal groups first
      *
      * <code>
-     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
      * use FireHub\Core\Support\DataStructures\Operation\Chunk;
      *
      * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -174,7 +174,7 @@ readonly class Chunk {
      * ### Split the data structure into the given group size filling non-terminal groups first
      *
      * <code>
-     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
      * use FireHub\Core\Support\DataStructures\Operation\Chunk;
      *
      * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -217,7 +217,7 @@ readonly class Chunk {
      * ### Split the data structure into the given number of equal groups
      *
      * <code>
-     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
      * use FireHub\Core\Support\DataStructures\Operation\Chunk;
      *
      * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
@@ -272,6 +272,124 @@ readonly class Chunk {
                 $offset += $size;
 
             }
+
+        });
+
+    }
+
+    /**
+     * ### Split the data structure into the numbers when the value is changed
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Chunk;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $chunk = new Chunk($collection)->byValueChange(4);
+     *
+     * // [
+     * //   [0, Indexed(['John'])],
+     * //   [1, Indexed(['Jane', 'Jane', 'Jane'])],
+     * //   [2, Indexed(['Richard', 'Richard'])]
+     * // ]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage::fromArray() To create new array storage
+     * data structure from a chunked array.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Lazy As return.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Linear\Lazy<int, TDataStructure> New chunked data structure.
+     */
+    public function byValueChange ():Lazy {
+
+        return new Lazy(function () {
+
+            $chunk = []; $last = null; $first = true;
+            foreach ($this->data_structure as $key => $value) {
+
+                if (!$first && $value !== $last) {
+
+                    yield $this->data_structure::fromArray($chunk);
+
+                    $chunk = [];
+
+                }
+
+                /** @var array-key $key */
+                $first = false; $last = $value; $chunk[$key] = $value;
+
+            }
+
+            if ($chunk) yield $this->data_structure::fromArray($chunk);
+
+        });
+
+    }
+
+    /**
+     * ### Split the data structure into the numbers when the value is changed
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Chunk;
+     *
+     * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+     *
+     * $chunk = new Chunk($collection)->byWidth(5, 3, 2);
+     *
+     * // [
+     * //   [0, Indexed([1, 2, 3, 4, 5])],
+     * //   [1, Indexed([6, 7, 8])],
+     * //   [1, Indexed([9, 10])]
+     * // ]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @param positive-int $width <p>
+     * Width of the first chunk.
+     * Every 0 inside the $widths parameter will be converted to 1.
+     * </p>
+     * @param positive-int ...$widths [optional] <p>
+     * Widths of each chunk.
+     * Every 0 inside the $widths parameter will be converted to 1.
+     * </p>
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::map() To map the widths to positive integers.
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the maximum value from 1 and $width.
+     * @uses \FireHub\Core\Support\LowLevel\Iterables::count() To count elements in the $widths parameter.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage::fromArray() To create new array storage
+     * data structure from a chunked array.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Lazy As return.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Linear\Lazy<int, TDataStructure> New chunked data structure.
+     */
+    public function byWidth (int $width, int ...$widths):Lazy {
+
+        return new Lazy(function () use ($width, $widths) {
+
+            $widths = Arr::map([$width, ...$widths], static fn($w) => NumInt::max(1, $w));
+
+            $width_index = 0; $size = $widths[$width_index]; $count = 0; $chunk = [];
+            foreach ($this->data_structure as $key => $value) {
+
+                $chunk[$key] = $value; $count++;
+                if ($count === $size) {
+
+                    yield $this->data_structure::fromArray($chunk);
+
+                    $chunk = []; $count = 0;
+                    $width_index = ($width_index + 1) % Iterables::count($widths);
+                    $size = $widths[$width_index];
+
+                }
+
+            }
+
+            if ($chunk) yield $this->data_structure::fromArray($chunk);
 
         });
 

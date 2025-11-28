@@ -132,4 +132,46 @@ final class ChunkTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testByValueChange (Indexed $collection):void {
+
+        $this->assertEquals(
+            [
+                [0, new Indexed(['John'])],
+                [1, new Indexed(['Jane', 'Jane', 'Jane'])],
+                [2, new Indexed(['Richard', 'Richard'])]
+            ],
+            $collection->chunk()->byValueChange()->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedInt')]
+    public function testByWidth (Indexed $collection):void {
+
+        $this->assertEquals(
+            [
+                [0, new Indexed([1, 2, 3, 4, 5])],
+                [1, new Indexed([6, 7, 8])],
+                [2, new Indexed([9, 10])]
+            ],
+            $collection->chunk()->byWidth(5, 3, 2)->toArray()
+        );
+
+    }
+
 }
