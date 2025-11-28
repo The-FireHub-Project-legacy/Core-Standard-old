@@ -23,7 +23,9 @@ use FireHub\Core\Support\Contracts\Magic\SerializableConvertable;
 use FireHub\Core\Support\DataStructures\Linear\ {
     Indexed, Associative, Lazy
 };
-use FireHub\Core\Support\DataStructures\Operation\CountBy;
+use FireHub\Core\Support\DataStructures\Operation\ {
+    Contains, CountBy
+};
 
 use const FireHub\Core\Support\Constants\Number\MAX;
 
@@ -47,6 +49,16 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      * @return \FireHub\Core\Support\DataStructures\Operation\CountBy<$this> Count operation class.
      */
     public function countBy ():CountBy;
+
+    /**
+     * ### Contains operations for data structures
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\CountBy As return.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Operation\Contains<$this> Contains operation class.
+     */
+    public function contains ():Contains;
 
     /**
      * ### Call a user-generated function on each item in the data structure

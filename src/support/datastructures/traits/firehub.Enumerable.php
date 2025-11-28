@@ -19,7 +19,9 @@ use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
 use FireHub\Core\Support\DataStructures\Linear\ {
     Indexed, Associative, Lazy
 };
-use FireHub\Core\Support\DataStructures\Operation\CountBy;
+use FireHub\Core\Support\DataStructures\Operation\ {
+    Contains, CountBy
+};
 use FireHub\Core\Support\DataStructures\Function\ {
     Combine, Keys, Values
 };
@@ -83,6 +85,17 @@ trait Enumerable {
     public function countBy ():CountBy {
 
         return new CountBy($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
+    public function contains ():Contains {
+
+        return new Contains($this);
 
     }
 
