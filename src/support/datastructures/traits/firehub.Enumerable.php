@@ -57,6 +57,10 @@ trait Enumerable {
      *
      * @since 1.0.0
      *
+     * @uses static::fromArray To create data structure from array.
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::array To check if decoded JSON data is an array.
+     * @uses \FireHub\Core\Support\LowLevel\JSON::decode() To decode $json data.
+     *
      * @throws \FireHub\Core\Support\Exceptions\JSON\DecodingException If JSON decoding throws an error.
      *
      * @note All string data for $json parameter must be UTF-8 encoded.
