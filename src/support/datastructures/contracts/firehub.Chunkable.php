@@ -15,36 +15,27 @@
 
 namespace FireHub\Core\Support\DataStructures\Contracts;
 
-use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
-use FireHub\Core\Support\DataStructures\Linear\Lazy;
+use FireHub\Core\Support\DataStructures\Operation\Chunk;
 
 /**
  * ### Data structure that is capable of being chunked into smaller pieces
  * @since 1.0.0
  *
- * @template TKey
+ * @template TKey of array-key
  * @template TValue
  *
- * @extends \FireHub\Core\Support\Contracts\HighLevel\DataStructures<TKey, TValue>
+ * @extends \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<TKey, TValue>
  */
-interface Chunkable extends DataStructures {
+interface Chunkable extends ArrStorage {
 
     /**
-     * ### Split data structure into chunks by user function
+     * ### Chunk operations for data structures
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\DataStructures\Linear\Lazy As return.
-     * @uses \FireHub\Core\Support\Enums\ControlFlowSignal As signal.
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Chunk As return.
      *
-     * @param callable(TValue, TKey):(bool|\FireHub\Core\Support\Enums\ControlFlowSignal::BREAK) $callback <p>
-     * Function to chunk by.
-     * Return **true** to chunk at the current value, **false** to keep value at the current chunk,
-     * or `ControlFlowSignal::BREAK` to stop iteration early.
-     * </p>
-     *
-     * @return \FireHub\Core\Support\DataStructures\Linear\Lazy<int, static<TKey, TValue>>
-     * New chunked data structure.
+     * @return \FireHub\Core\Support\DataStructures\Operation\Chunk<$this> Chunk operation class.
      */
-    public function chunk (callable $callback):Lazy;
+    public function chunk ():Chunk;
 
 }

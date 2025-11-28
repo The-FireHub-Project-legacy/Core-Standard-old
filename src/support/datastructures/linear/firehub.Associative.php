@@ -19,6 +19,7 @@ use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
     ArrStorage, Chunkable, Filterable, KeyMappable, RandomAccess
 };
+use FireHub\Core\Support\DataStructures\Operation\Chunk;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
@@ -98,6 +99,19 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
 
         /** @var static<TKey, TValue> */
         return new static($array);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Chunk As return.
+     */
+    public function chunk ():Chunk {
+
+        return new Chunk($this);
 
     }
 
@@ -549,69 +563,6 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
         }
 
         return new static($storage);
-
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * <code>
-     * use FireHub\Core\Support\DataStructures\Linear\Associative;
-     *
-     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
-     *
-     * $collection->chunk(fn($value, $key) => $value === 25)->toArray()
-     *
-     * // [
-     * //   [0, Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25])],
-     * //   [1, Associative([10 => 2])]
-     * // ]
-     * </code>
-     * You can force early break:
-     * <code>
-     * use FireHub\Core\Support\DataStructures\Linear\Associative;
-     * use FireHub\Core\Support\Enums\ControlFlowSignal;
-     *
-     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
-     *
-     * $collection->chunk(function ($value, $key) {
-     *     if ($value === 2) return ControlFlowSignal::BREAK;
-     *     return $value === 'Doe';
-     * });
-     *
-     * // [
-     * //   [0, Associative(['firstname' => 'John', 'lastname' => 'Doe'])],
-     * //   [1, Associative(['age' => 25])]
-     * // ]
-     * </code>
-     *
-     * @since 1.0.0
-     */
-    public function chunk (callable $callback):Lazy {
-
-        return new Lazy(function () use ($callback) {
-
-            $chunks = [];
-            foreach ($this as $key => $value) {
-
-                $result = $callback($value, $key);
-
-                if ($result === ControlFlowSignal::BREAK) break;
-
-                $chunks[$key] = $value;
-                if ($result === true) {
-
-                    yield new static($chunks);
-
-                    $chunks = [];
-
-                }
-
-            }
-
-            if ($chunks) yield new static($chunks);
-
-        });
 
     }
 
