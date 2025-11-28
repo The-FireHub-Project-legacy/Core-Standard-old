@@ -56,7 +56,7 @@ readonly class CountBy {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $count_by_values = new CountBy($collection)->value('Jane');
+     * $count = new CountBy($collection)->value('Jane');
      *
      * // 3
      * </code>
@@ -90,7 +90,7 @@ readonly class CountBy {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $count_by_values = new CountBy($collection)->type(Type::T_STRING);
+     * $count = new CountBy($collection)->type(Type::T_STRING);
      *
      * // 2
      * </code>
@@ -125,7 +125,7 @@ readonly class CountBy {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $count_by_values = new CountBy($collection)->values();
+     * $count = new CountBy($collection)->values();
      *
      * // ['Jane' => 3, 'John' => 1, 'Richard' => 2]
      * </code>
@@ -158,7 +158,7 @@ readonly class CountBy {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $count_substrings = new CountBy($collection)->where(fn($value, $key) => substr((string)$value, 0, 1));
+     * $count = new CountBy($collection)->where(fn($value, $key) => substr((string)$value, 0, 1));
      *
      * // ['J' => 4, 'R' => 2]
      * </code>

@@ -36,16 +36,4 @@ interface ArrStorage extends DataStructures {
      */
     public array $storage { get; }
 
-    /**
-     * ### Constructor
-     * @since 1.0.0
-     *
-     * @param null|array<TKey, TValue> $storage [optional] <p>
-     * Array to create underlying storage data.
-     * </p>
-     *
-     * @return void
-     */
-    public function __construct (?array $storage = null);
-
 }
