@@ -16,6 +16,7 @@
 - Create Combine method for DataStructures ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [3a684fc](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/3a684fc)
 - Create apply and transform methods ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [814af88](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/814af88)
 - Create a filter method ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [4ff65d4](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/4ff65d4)
+- Create Reject function ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [b4bd302](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/b4bd302)
 
 ## [v0.1.5](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...v0.1.5) – (2025-11-03)
 
