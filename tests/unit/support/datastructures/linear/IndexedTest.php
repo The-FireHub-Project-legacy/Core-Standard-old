@@ -18,7 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Function\ {
-    ChunkIn, ChunkInto, Combine
+    ChunkIn, ChunkInto, Combine, Reject
 };
 use FireHub\Core\Support\Enums\ControlFlowSignal;
 use PHPUnit\Framework\Attributes\ {
@@ -35,6 +35,7 @@ use PHPUnit\Framework\Attributes\ {
 #[CoversClass(ChunkIn::class)]
 #[CoversClass(ChunkInto::class)]
 #[CoversClass(Combine::class)]
+#[CoversClass(Reject::class)]
 final class IndexedTest extends Base {
 
     /**
@@ -117,6 +118,31 @@ final class IndexedTest extends Base {
                 [2, new Indexed([9, 10])]
             ],
             new ChunkInto($collection)(4)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testReject (Indexed $collection):void {
+
+        $this->assertEquals(
+            ['John', 'Richard', 'Richard'],
+            new Reject($collection)(fn($value, $key) => $value === 'Jane')->toArray()
+        );
+
+        $this->assertEquals(
+            ['John'],
+            new Reject($collection)(function ($value, $key) {
+                if ($value === 'Jane') return ControlFlowSignal::BREAK;
+                return false;
+            })->toArray()
         );
 
     }

@@ -32,7 +32,7 @@ interface Filterable extends DataStructures {
      * ### Filter items from data structure
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Enums\ControlFlowSignal As signal.
+     * @uses \FireHub\Core\Support\Enums\ControlFlowSignal To force early break.
      *
      * @param callable(TValue, TKey=):(bool|\FireHub\Core\Support\Enums\ControlFlowSignal::BREAK) $callback <p>
      * Function to call on each item in a data structure.
