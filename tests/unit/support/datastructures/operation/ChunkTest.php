@@ -32,6 +32,7 @@ use PHPUnit\Framework\Attributes\ {
  */
 #[Small]
 #[Group('datastructures')]
+#[CoversClass(Indexed::class)]
 #[CoversClass(Associative::class)]
 #[CoversClass(Chunk::class)]
 final class ChunkTest extends Base {
