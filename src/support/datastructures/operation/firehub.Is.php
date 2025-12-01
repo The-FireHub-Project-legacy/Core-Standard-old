@@ -167,5 +167,74 @@ readonly class Is {
 
     }
 
+    /**
+     * ### Check if a data structure is homogeneous
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Is;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $is = new Is($collection)->homogeneous();
+     *
+     * // true
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses Data::getDebugType() To get the type of value.
+     *
+     * @return bool True if a data structure is homogeneous, false otherwise.
+     */
+    public function homogeneous ():bool {
+
+        $first = true; $expected_type = null;
+        foreach ($this->data_structure as $value) {
+
+            $type = Data::getDebugType($value);
+
+            if ($first) {
+
+                $expected_type = $type;
+                $first = false;
+                continue;
+
+            }
+
+            if ($type !== $expected_type) return false;
+
+        }
+
+        return true;
+
+    }
+
+    /**
+     * ### Check if a data structure is heterogeneous
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Is;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $is = new Is($collection)->heterogeneous();
+     *
+     * // false
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Is::homogeneous() To check if a data structure is
+     * homogeneous.
+     *
+     * @return bool True if a data structure is heterogeneous, false otherwise.
+     */
+    public function heterogeneous ():bool {
+
+        return !$this->homogeneous();
+
+    }
 
 }

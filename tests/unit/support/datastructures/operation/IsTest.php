@@ -120,12 +120,50 @@ final class IsTest extends Base {
 
     }
 
-
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
     #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
     #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
     public function testNotSequential (DataStructures $collection):void {
 
         $this->assertFalse($collection->is()->sequential());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testHomogeneous (DataStructures $collection):void {
+
+        $this->assertTrue($collection->is()->homogeneous());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testHeterogeneous (DataStructures $collection):void {
+
+        $this->assertTrue($collection->is()->heterogeneous());
 
     }
 
