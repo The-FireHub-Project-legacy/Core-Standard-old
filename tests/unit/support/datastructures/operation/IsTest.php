@@ -24,7 +24,7 @@ use FireHub\Core\Support\DataStructures\Operation\Is;
 use FireHub\Core\Support\Enums\Data\Type;
 use FireHub\Core\Support\LowLevel\DataIs;
 use PHPUnit\Framework\Attributes\ {
-    CoversClass, DataProviderExternal, Group, Small
+    CoversClass, DataProviderExternal, Group, Small, TestWith
 };
 
 /**
@@ -174,6 +174,34 @@ final class IsTest extends Base {
      *
      * @return void
      */
+    #[TestWith([new Indexed([new Indexed(), new Indexed(), new Indexed()])])]
+    public function testClassHomogeneous (DataStructures $collection):void {
+
+        $this->assertTrue($collection->is()->classHomogeneous(Indexed::class));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[TestWith([new Indexed([new Indexed(), new Indexed(), new Fixed(1)])])]
+    public function testNotClassHomogeneous (DataStructures $collection):void {
+
+        $this->assertFalse($collection->is()->classHomogeneous(Indexed::class));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
     #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]
@@ -230,6 +258,39 @@ final class IsTest extends Base {
     public function testNotMultidimensional (DataStructures $collection):void {
 
         $this->assertFalse($collection->is()->multidimensional());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testPure (DataStructures $collection):void {
+
+        $this->assertTrue($collection->is()->pure());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedMixed')]
+    public function testNotPure (DataStructures $collection):void {
+
+        $this->assertFalse($collection->is()->pure());
 
     }
 

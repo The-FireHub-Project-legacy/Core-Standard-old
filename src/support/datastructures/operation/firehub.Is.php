@@ -239,6 +239,38 @@ readonly class Is {
     }
 
     /**
+     * ### Check if a data structure is class homogeneous
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Is;
+     *
+     * $collection = new Indexed([new Indexed, new Indexed, new Indexed]);
+     *
+     * $is = new Is($collection)->classHomogeneous();
+     *
+     * // true
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @param class-string $class <p>
+     * Class name to check against.
+     * </p>
+     *
+     * @return bool True if a data structure is class homogeneous, false otherwise.
+     */
+    public function classHomogeneous (string $class):bool {
+
+        foreach ($this->data_structure as $value)
+            if (!$value instanceof $class)
+                return false;
+
+        return true;
+
+    }
+
+    /**
      * ### Check if a data structure is flat
      *
      * <code>
@@ -291,6 +323,33 @@ readonly class Is {
     public function multidimensional ():bool {
 
         return !$this->flat();
+
+    }
+
+    /**
+     * ### Check if a data structure is truthy
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Is;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $is = new Is($collection)->pure();
+     *
+     * // false
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @return bool True if a data structure is truthy, false otherwise.
+     */
+    public function pure ():bool {
+
+        foreach ($this->data_structure as $value)
+            if (!$value) return false;
+
+        return true;
 
     }
 
