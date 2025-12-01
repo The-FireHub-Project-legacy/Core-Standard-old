@@ -181,7 +181,7 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAc
     /**
      * {@inheritDoc}
      *
-     * Removing single item:
+     * Removing a single item:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
      *
@@ -234,7 +234,7 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAc
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To get only values from $values parameter.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To get only values from the $values parameter.
      */
     public function prepend (mixed ...$values):void {
 
@@ -257,7 +257,7 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAc
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To get only values from $values parameter.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To get only values from the $values parameter.
      */
     public function append (mixed ...$values):void {
 
@@ -280,7 +280,7 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAc
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::first() To get first item from storage.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::first() To get the first item from storage.
      */
     public function head ():mixed {
 
@@ -303,7 +303,7 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAc
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::last() To get last item from storage.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::last() To get the last item from storage.
      */
     public function tail ():mixed {
 
