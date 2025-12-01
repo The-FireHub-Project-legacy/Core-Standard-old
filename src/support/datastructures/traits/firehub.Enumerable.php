@@ -20,7 +20,7 @@ use FireHub\Core\Support\DataStructures\Linear\ {
     Indexed, Associative, Lazy
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
-    Contains, CountBy, Ensure
+    Contains, CountBy, Ensure, Is
 };
 use FireHub\Core\Support\DataStructures\Function\ {
     Combine, Keys, Values
@@ -107,6 +107,17 @@ trait Enumerable {
     public function ensure ():Ensure {
 
         return new Ensure($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
+    public function is ():Is {
+
+        return new Is($this);
 
     }
 
