@@ -202,6 +202,34 @@ final class IsTest extends Base {
      *
      * @return void
      */
+    #[TestWith([new Indexed([new Indexed(), new Indexed(), new Indexed()])])]
+    public function testaAllInstanceOf (DataStructures $collection):void {
+
+        $this->assertTrue($collection->is()->allInstanceOf(DataStructures::class));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[TestWith([new Indexed([new Indexed(), new Indexed(), new Fixed(1)])])]
+    public function testaNotAllInstanceOf (DataStructures $collection):void {
+
+        $this->assertFalse($collection->is()->allInstanceOf(Indexed::class));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
     #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]

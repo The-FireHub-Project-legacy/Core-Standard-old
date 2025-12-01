@@ -247,7 +247,42 @@ readonly class Is {
      *
      * $collection = new Indexed([new Indexed, new Indexed, new Indexed]);
      *
-     * $is = new Is($collection)->classHomogeneous();
+     * $is = new Is($collection)->classHomogeneous(Indexed::class);
+     *
+     * // true
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::object() To check if a value is an object.
+     *
+     * @param class-string $class <p>
+     * Class name to check against.
+     * </p>
+     *
+     * @return bool True if a data structure is class homogeneous, false otherwise.
+     */
+    public function classHomogeneous (string $class):bool {
+
+        foreach ($this->data_structure as $value)
+            if (!DataIs::object($value) || $value::class !== $class)
+                return false;
+
+        return true;
+
+    }
+
+    /**
+     * ### Check if data structure items are all instance of the provided class
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Is;
+     * use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
+     *
+     * $collection = new Indexed([new Indexed, new Indexed, new Fixed]);
+     *
+     * $is = new Is($collection)->allInstanceOf(DataStructures::class);
      *
      * // true
      * </code>
@@ -258,9 +293,9 @@ readonly class Is {
      * Class name to check against.
      * </p>
      *
-     * @return bool True if a data structure is class homogeneous, false otherwise.
+     * @return bool True if data structure items are all instance of the provided class, false otherwise.
      */
-    public function classHomogeneous (string $class):bool {
+    public function allInstanceOf (string $class):bool {
 
         foreach ($this->data_structure as $value)
             if (!$value instanceof $class)
