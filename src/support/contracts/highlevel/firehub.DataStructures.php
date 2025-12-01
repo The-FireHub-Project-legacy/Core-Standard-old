@@ -24,7 +24,7 @@ use FireHub\Core\Support\DataStructures\Linear\ {
     Indexed, Associative, Lazy
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
-    Contains, CountBy
+    Contains, CountBy, Ensure
 };
 
 use const FireHub\Core\Support\Constants\Number\MAX;
@@ -59,6 +59,16 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      * @return \FireHub\Core\Support\DataStructures\Operation\Contains<$this> Contains operation class.
      */
     public function contains ():Contains;
+
+    /**
+     * ### Ensure operations for data structures
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\CountBy As return.
+     *
+         * @return \FireHub\Core\Support\DataStructures\Operation\Ensure<$this> Ensure operation class.
+     */
+    public function ensure ():Ensure;
 
     /**
      * ### Call a user-generated function on each item in the data structure
