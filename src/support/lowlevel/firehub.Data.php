@@ -22,6 +22,7 @@ use FireHub\Core\Support\Exceptions\Data\ {
 };
 use Exception;
 
+use function get_debug_type;
 use function gettype;
 use function serialize;
 use function settype;
@@ -32,6 +33,22 @@ use function unserialize;
  * @since 1.0.0
  */
 final class Data {
+
+    /**
+     * ### Gets the type name of a variable in a way that is suitable for debugging
+     * @since 1.0.0
+     *
+     * @param mixed $value <p>
+     * The variable being type-checked.
+     * </p>
+     *
+     * @return string Type name.
+     */
+    public static function getDebugType (mixed $value):string {
+
+        return get_debug_type($value);
+
+    }
 
     /**
      * ### Gets data type

@@ -520,6 +520,21 @@ final class DataTest extends Base {
      * @param mixed $value
      * @param \FireHub\Core\Support\Enums\Data\Type $type
      *
+     * @return void
+     */
+    #[DataProviderExternal(DataDataProvider::class, 'string')]
+    public function testGetDebugType (mixed $value, Type $type):void {
+
+        $this->assertSame('string', Data::getDebugType($value));
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param mixed $value
+     * @param \FireHub\Core\Support\Enums\Data\Type $type
+     *
      * @throws \FireHub\Core\Support\Exceptions\Data\TypeUnknownException
      *
      * @return void
