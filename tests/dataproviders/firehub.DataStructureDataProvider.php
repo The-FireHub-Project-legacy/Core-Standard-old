@@ -56,6 +56,19 @@ final class DataStructureDataProvider extends Base {
      *
      * @return array[]
      */
+    public static function indexedMixed ():array {
+
+        return [
+            [new Indexed(['John', 10, 12.5, null, false, true, [1, 2, 3]])]
+        ];
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @return array[]
+     */
     public static function indexedEmpty ():array {
 
         return [

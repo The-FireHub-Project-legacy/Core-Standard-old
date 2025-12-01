@@ -167,4 +167,70 @@ final class IsTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testFlat (DataStructures $collection):void {
+
+        $this->assertTrue($collection->is()->flat());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedMixed')]
+    public function testNotFlat (DataStructures $collection):void {
+
+        $this->assertFalse($collection->is()->flat());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedMixed')]
+    public function testMultidimensional (DataStructures $collection):void {
+
+        $this->assertTrue($collection->is()->multidimensional());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testNotMultidimensional (DataStructures $collection):void {
+
+        $this->assertFalse($collection->is()->multidimensional());
+
+    }
+
 }

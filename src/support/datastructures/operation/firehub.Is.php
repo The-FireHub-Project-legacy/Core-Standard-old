@@ -18,8 +18,9 @@ namespace FireHub\Core\Support\DataStructures\Operation;
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
 use FireHub\Core\Support\DataStructures\Contracts\ArrStorage;
 use FireHub\Core\Support\LowLevel\ {
-    Arr, Data, Iterables
+    Arr, Data, DataIs, Iterables
 };
+use Traversable;
 
 /**
  * ### Check is operations for data structures
@@ -234,6 +235,62 @@ readonly class Is {
     public function heterogeneous ():bool {
 
         return !$this->homogeneous();
+
+    }
+
+    /**
+     * ### Check if a data structure is flat
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Is;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $is = new Is($collection)->flat();
+     *
+     * // false
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::array() To check if a value is an array.
+     *
+     * @return bool True if a data structure is flat, false otherwise.
+     */
+    public function flat ():bool {
+
+        foreach ($this->data_structure as $value)
+            if ($value instanceof Traversable || DataIs::array($value))
+                return false;
+
+        return true;
+
+    }
+
+    /**
+     * ### Check if a data structure is multidimensional
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Is;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $is = new Is($collection)->multidimensional();
+     *
+     * // false
+     * </code>
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Is::flat() To check if a data structure is flat.
+     *
+     * @since 1.0.0
+     *
+     * @return bool True if a data structure is multidimensional, false otherwise.
+     */
+    public function multidimensional ():bool {
+
+        return !$this->flat();
 
     }
 
