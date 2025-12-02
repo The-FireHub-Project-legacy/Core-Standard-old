@@ -21,7 +21,9 @@ use FireHub\Core\Support\DataStructures\Contracts\ {
 };
 use FireHub\Core\Support\DataStructures\Operation\Chunk;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
-use FireHub\Core\Support\Enums\ControlFlowSignal;
+use FireHub\Core\Support\Enums\ {
+    ControlFlowSignal, ValueStatus
+};
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
 };
@@ -181,7 +183,8 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::offsetGet() As overloaded method.
      *
-     * @notice This method only delegates to array access method. Please use array access method for large data sets.
+     * @notice This method only delegates to the array access method. Please use the array access method for large
+     * data sets.
      */
     public function get (mixed $key):mixed {
 
@@ -201,7 +204,7 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      *
      * // John
      * </code>
-     * If you try to get key that doesn't exist:
+     * If you try to get a key that doesn't exist:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
      *
@@ -623,10 +626,14 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      * </code>
      *
      * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::keyExist() To check if a key exists in an array.
+     * @uses \FireHub\Core\Support\Enums\ValueStatus::NONE If the key doesn't exist.
      */
     public function offsetGet (mixed $offset):mixed {
 
-        return $this->storage[$offset] ?? null;
+        return Arr::keyExist($offset, $this->storage)
+            ? $this->storage[$offset] : ValueStatus::NONE; // @phpstan-ignore offsetAccess.notFound
 
     }
 
@@ -645,7 +652,7 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      *
      * @since 1.0.0
      *
-     * @phpstan-ignore-next-line method.childParameterTyp
+     * @phpstan-ignore-next-line method.childParameterType
      */
     public function offsetSet (mixed $offset, mixed $value):void {
 

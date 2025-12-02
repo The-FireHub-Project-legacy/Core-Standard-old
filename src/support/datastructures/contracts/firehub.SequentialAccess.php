@@ -80,7 +80,9 @@ interface SequentialAccess extends DataStructures {
      * ### Get first item from data structure
      * @since 1.0.0
      *
-     * @return null|TValue
+     * @uses \FireHub\Core\Support\Enums\ValueStatus As mark value enum.
+     *
+     * @return TValue|\FireHub\Core\Support\Enums\ValueStatus::* First value from a data structure.
      */
     public function head ():mixed;
 
@@ -88,7 +90,9 @@ interface SequentialAccess extends DataStructures {
      * ### Get last item from data structure
      * @since 1.0.0
      *
-     * @return null|TValue
+     * @uses \FireHub\Core\Support\Enums\ValueStatus As mark value enum.
+     *
+     * @return TValue|\FireHub\Core\Support\Enums\ValueStatus::* Last value from a data structure.
      */
     public function tail ():mixed;
 

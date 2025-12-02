@@ -39,7 +39,7 @@ interface RandomAccess extends DataStructures, ArrayAccessible, Overloadable {
      * Key to check for.
      * </p>
      *
-     * @return bool True if the key in the data structure exist, false otherwise.
+     * @return bool True if the key in the data structure exists, false otherwise.
      */
     public function exist (mixed $key):bool;
 
@@ -47,11 +47,13 @@ interface RandomAccess extends DataStructures, ArrayAccessible, Overloadable {
      * ### Get item from data structure
      * @since 1.0.0
      *
+     * @uses \FireHub\Core\Support\Enums\ValueStatus As mark value enum.
+     *
      * @param TKey $key <p>
      * Data structure key.
      * </p>
      *
-     * @return null|TValue Value for key.
+     * @return TValue|\FireHub\Core\Support\Enums\ValueStatus::* Value for a key.
      */
     public function get (mixed $key):mixed;
 
@@ -66,7 +68,7 @@ interface RandomAccess extends DataStructures, ArrayAccessible, Overloadable {
      * @throws \FireHub\Core\Support\DataStructures\Exceptions\KeyDoesntExistException If the key doesn't exist in
      * the data structure.
      *
-     * @return TValue Value for key.
+     * @return TValue Value for a key.
      */
     public function take (mixed $key):mixed;
 
@@ -168,11 +170,13 @@ interface RandomAccess extends DataStructures, ArrayAccessible, Overloadable {
      *
      * @since 1.0.0
      *
+     * @uses \FireHub\Core\Support\Enums\ValueStatus As mark value enum.
+     *
      * @param TKey $name <p>
      * Key name.
      * </p>
      *
-     * @return null|TValue Value.
+     * @return TValue|\FireHub\Core\Support\Enums\ValueStatus::* Value.
      */
     public function __get (mixed $name):mixed;
 
