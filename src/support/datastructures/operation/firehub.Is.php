@@ -169,6 +169,36 @@ readonly class Is {
     }
 
     /**
+     * ### Check if a data structure is associative
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Is;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $is = new Is($collection)->associative();
+     *
+     * // false
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::int To check if a value is an integer.
+     *
+     * @return bool True if a data structure is associative, false otherwise.
+     */
+    public function associative ():bool {
+
+        $i = 0;
+        foreach ($this->data_structure as $key => $value)
+            if ($key !== $i++ || !DataIs::int($key)) return true; // @phpstan-ignore staticMethod.alreadyNarrowedType
+
+        return false;
+
+    }
+
+    /**
      * ### Check if a data structure is homogeneous
      *
      * <code>
@@ -370,7 +400,7 @@ readonly class Is {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $is = new Is($collection)->pure();
+     * $is = new Is($collection)->truthy();
      *
      * // false
      * </code>
@@ -379,11 +409,41 @@ readonly class Is {
      *
      * @return bool True if a data structure is truthy, false otherwise.
      */
-    public function pure ():bool {
+    public function truthy ():bool {
 
         foreach ($this->data_structure as $value)
             if (!$value) return false;
 
+        return true;
+
+    }
+
+    /**
+     * ### Check if a data structure is pure
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Is;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $is = new Is($collection)->pure();
+     *
+     * // false
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::scalar() To check if a value is scalar.
+     *
+     * @return bool True if a data structure is pure, false otherwise.
+     */
+    public function pure ():bool {
+
+        foreach ($this->data_structure as $value) {
+            if ($value !== null && !DataIs::scalar($value))
+                return false;
+        }
         return true;
 
     }

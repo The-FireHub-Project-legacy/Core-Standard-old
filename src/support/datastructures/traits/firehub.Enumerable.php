@@ -20,7 +20,7 @@ use FireHub\Core\Support\DataStructures\Linear\ {
     Indexed, Associative, Lazy
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
-    Contains, CountBy, Ensure, Is
+    Contains, CountBy, Ensure, Find, Is
 };
 use FireHub\Core\Support\DataStructures\Function\ {
     Combine, Keys, Values
@@ -118,6 +118,17 @@ trait Enumerable {
     public function is ():Is {
 
         return new Is($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
+    public function find ():Find {
+
+        return new Find($this);
 
     }
 

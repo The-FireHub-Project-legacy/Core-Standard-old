@@ -142,6 +142,38 @@ final class IsTest extends Base {
      *
      * @return void
      */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testAssociative (DataStructures $collection):void {
+
+        $this->assertTrue($collection->is()->associative());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testNotAssociative (DataStructures $collection):void {
+
+        $this->assertFalse($collection->is()->associative());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
     #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]
@@ -286,6 +318,39 @@ final class IsTest extends Base {
     public function testNotMultidimensional (DataStructures $collection):void {
 
         $this->assertFalse($collection->is()->multidimensional());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testTruthy (DataStructures $collection):void {
+
+        $this->assertTrue($collection->is()->truthy());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedMixed')]
+    public function testNotTruthy (DataStructures $collection):void {
+
+        $this->assertFalse($collection->is()->truthy());
 
     }
 
