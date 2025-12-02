@@ -14,6 +14,7 @@
 
 namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 
+use FireHub\Core\Support\Enums\ValueStatus;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
@@ -289,7 +290,7 @@ final class IndexedTest extends Base {
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
     public function testHeadEmpty (Indexed $collection):void {
 
-        $this->assertEquals(null, $collection->head());
+        $this->assertEquals(ValueStatus::NONE, $collection->head());
 
     }
 
@@ -317,7 +318,7 @@ final class IndexedTest extends Base {
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
     public function testTailEmpty (Indexed $collection):void {
 
-        $this->assertEquals(null, $collection->tail());
+        $this->assertEquals(ValueStatus::NONE, $collection->tail());
 
     }
 
