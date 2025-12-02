@@ -171,6 +171,8 @@ interface RandomAccess extends DataStructures, ArrayAccessible, Overloadable {
      * @param TKey $name <p>
      * Key name.
      * </p>
+     *
+     * @return null|TValue Value.
      */
     public function __get (mixed $name):mixed;
 

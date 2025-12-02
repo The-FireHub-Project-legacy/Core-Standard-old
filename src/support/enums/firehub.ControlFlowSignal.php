@@ -22,7 +22,7 @@ namespace FireHub\Core\Support\Enums;
 enum ControlFlowSignal {
 
     /**
-     * ### Brake ends execution of the current for, foreach, while, do-while or switch structure
+     * ### Brake ends execution of the current for, foreach, while, do-while, or switch structure
      * @since 1.0.0
      */
     case BREAK;
