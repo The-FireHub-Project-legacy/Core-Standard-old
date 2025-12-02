@@ -47,13 +47,13 @@ interface RandomAccess extends DataStructures, ArrayAccessible, Overloadable {
      * ### Get item from data structure
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Enums\ValueStatus As mark value enum.
+     * @uses \FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value As mark value enum.
      *
      * @param TKey $key <p>
      * Data structure key.
      * </p>
      *
-     * @return TValue|\FireHub\Core\Support\Enums\ValueStatus::* Value for a key.
+     * @return TValue|\FireHub\Core\Support\Enums\Status\Key::*|\FireHub\Core\Support\Enums\Status\Value::* Value for a key.
      */
     public function get (mixed $key):mixed;
 
@@ -170,13 +170,13 @@ interface RandomAccess extends DataStructures, ArrayAccessible, Overloadable {
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Enums\ValueStatus As mark value enum.
+     * @uses \FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value As mark value enum.
      *
      * @param TKey $name <p>
      * Key name.
      * </p>
      *
-     * @return TValue|\FireHub\Core\Support\Enums\ValueStatus::* Value.
+     * @return TValue|\FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value::* Value.
      */
     public function __get (mixed $name):mixed;
 

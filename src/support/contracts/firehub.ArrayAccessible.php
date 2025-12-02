@@ -15,7 +15,7 @@
 
 namespace FireHub\Core\Support\Contracts;
 
-use FireHub\Core\Support\Enums\ValueStatus;
+use FireHub\Core\Support\Enums\Status\Key;
 use ArrayAccess;
 
 /**
@@ -47,13 +47,13 @@ interface ArrayAccessible extends ArrayAccess {
      * ### Offset to retrieve
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Enums\ValueStatus As mark value enum.
+     * @uses \FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value As mark value enum.
      *
      * @param TKey $offset <p>
      * Offset to retrieve.
      * </p>
      *
-     * @return TValue|\FireHub\Core\Support\Enums\ValueStatus::* Offset value.
+     * @return TValue|\FireHub\Core\Support\Enums\Status\Key::*|\FireHub\Core\Support\Enums\Status\Value::* Offset value.
      */
     public function offsetGet (mixed $offset):mixed;
 

@@ -14,14 +14,15 @@
 
 namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 
-use FireHub\Core\Support\Enums\ValueStatus;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Function\ {
     Combine, Reject
 };
-use FireHub\Core\Support\Enums\ControlFlowSignal;
+use FireHub\Core\Support\Enums\ {
+    ControlFlowSignal, Status\Key
+};
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
 };
@@ -290,7 +291,7 @@ final class IndexedTest extends Base {
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
     public function testHeadEmpty (Indexed $collection):void {
 
-        $this->assertEquals(ValueStatus::NONE, $collection->head());
+        $this->assertEquals(Key::NONE, $collection->head());
 
     }
 
@@ -318,7 +319,7 @@ final class IndexedTest extends Base {
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
     public function testTailEmpty (Indexed $collection):void {
 
-        $this->assertEquals(ValueStatus::NONE, $collection->tail());
+        $this->assertEquals(Key::NONE, $collection->tail());
 
     }
 

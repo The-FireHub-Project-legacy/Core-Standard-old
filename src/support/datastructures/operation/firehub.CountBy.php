@@ -19,7 +19,7 @@ use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
 use FireHub\Core\Support\DataStructures\Linear\Associative;
 use FireHub\Core\Support\Debug\ValueStringifier;
 use FireHub\Core\Support\Enums\ {
-    ValueStatus, Data\Type
+    Data\Type, Status\Key, Status\Value
 };
 use FireHub\Core\Support\LowLevel\ {
     Data, DataIs
@@ -66,7 +66,7 @@ readonly class CountBy {
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\DataStructures\Operation\CountBy::where To count elements by a user-defined function.
-     * @uses \FireHub\Core\Support\Enums\ValueStatus As mark value enum.
+     * @uses \FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value As mark value enum.
      *
      * @param value-of<TDataStructure> $search <p>
      * The searched key.
@@ -79,7 +79,7 @@ readonly class CountBy {
 
         $result = $this->where(fn($value) => $value === $search);
 
-        return !($result[1] instanceOf ValueStatus) ? $result[1] : 0;
+        return !($result[1] instanceOf Key) && !($result[1] instanceOf Value) ? $result[1] : 0;
 
     }
 
@@ -102,7 +102,7 @@ readonly class CountBy {
      *
      * @uses \FireHub\Core\Support\Enums\Data\Type As parameter.
      * @uses \FireHub\Core\Support\DataStructures\Operation\CountBy::where To count elements by a user-defined function.
-     * @uses \FireHub\Core\Support\Enums\ValueStatus As mark value enum.
+     * @uses \FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value As mark value enum.
      *
      * @param \FireHub\Core\Support\Enums\Data\Type $search <p>
      * The searched typed.
@@ -116,7 +116,7 @@ readonly class CountBy {
 
         $result = $this->where(fn($value) => Data::getType($value) === $search);
 
-        return !($result[1] instanceOf ValueStatus) ? $result[1] : 0;
+        return !($result[1] instanceOf Key) && !($result[1] instanceOf Value) ? $result[1] : 0;
 
     }
 

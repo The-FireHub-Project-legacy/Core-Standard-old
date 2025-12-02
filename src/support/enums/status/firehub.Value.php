@@ -13,34 +13,28 @@
  * @version GIT: $Id$ Blob checksum.
  */
 
-namespace FireHub\Core\Support\Enums;
+namespace FireHub\Core\Support\Enums\Status;
 
 /**
- * ### Mark value enum
+ * ### Value status enum
  * @since 1.0.0
  */
-enum ValueStatus {
+enum Value {
 
     /**
-     * ### Key doesn't exist
+     * ### Value doesn't exist
      * @since 1.0.0
      */
     case NONE;
 
     /**
-     * ### Key exists, but value is explicitly empty
+     * ### Value is explicitly empty
      * @since 1.0.0
      */
     case ABSENT;
 
     /**
-     * ### Values used to exist, but was removed
-     * @since 1.0.0
-     */
-    case DELETED;
-
-    /**
-     * ### Values used to exist, but it's not valid anymore
+     * ### Value used to exist, but it's not valid anymore
      * @since 1.0.0
      */
     case EXPIRED;

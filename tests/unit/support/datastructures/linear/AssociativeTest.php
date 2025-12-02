@@ -21,7 +21,7 @@ use FireHub\Core\Support\DataStructures\Function\ {
     Keys, Values
 };
 use FireHub\Core\Support\Enums\ {
-    ControlFlowSignal, ValueStatus
+    ControlFlowSignal, Status\Key
 };
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
@@ -283,7 +283,7 @@ final class AssociativeTest extends Base {
     public function testGet (Associative $collection):void {
 
         $this->assertSame('John', $collection->get('firstname'));
-        $this->assertSame(ValueStatus::NONE, $collection->get('middlename'));
+        $this->assertSame(Key::NONE, $collection->get('middlename'));
 
     }
 
@@ -300,7 +300,7 @@ final class AssociativeTest extends Base {
     public function testTake (Associative $collection):void {
 
         $this->assertSame('John', $collection->take('firstname'));
-        $this->assertSame(ValueStatus::NONE, $collection->get('middlename'));
+        $this->assertSame(Key::NONE, $collection->get('middlename'));
 
     }
 
@@ -667,7 +667,7 @@ final class AssociativeTest extends Base {
     public function testOffsetGet (Associative $collection):void {
 
         $this->assertSame('John', $collection['firstname']);
-        $this->assertSame(ValueStatus::NONE, $collection['middlename']);
+        $this->assertSame(Key::NONE, $collection['middlename']);
 
     }
 
@@ -736,7 +736,7 @@ final class AssociativeTest extends Base {
     public function testMagicGet (Associative $collection):void {
 
         $this->assertSame('John', $collection->firstname);
-        $this->assertSame(ValueStatus::NONE, $collection->middlename);
+        $this->assertSame(Key::NONE, $collection->middlename);
 
     }
 

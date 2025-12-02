@@ -22,7 +22,7 @@ use FireHub\Core\Support\DataStructures\Contracts\ {
 use FireHub\Core\Support\DataStructures\Operation\Chunk;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ {
-    ControlFlowSignal, ValueStatus
+    ControlFlowSignal, Status\Key
 };
 use FireHub\Core\Support\LowLevel\Arr;
 use ArgumentCountError, Traversable;
@@ -283,12 +283,12 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAc
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\Arr::first() To get the first item from storage.
-     * @uses \FireHub\Core\Support\Enums\ValueStatus::NONE If the key doesn't exist.
+     * @uses \FireHub\Core\Support\Enums\Key::NONE If the key doesn't exist.
      */
     public function head ():mixed {
 
         return empty($this->storage) // @phpstan-ignore return.type
-            ? ValueStatus::NONE
+            ? Key::NONE
             : Arr::first($this->storage);
 
     }
@@ -309,12 +309,12 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAc
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\Arr::last() To get the last item from storage.
-     * @uses \FireHub\Core\Support\Enums\ValueStatus::NONE If the key doesn't exist.
+     * @uses \FireHub\Core\Support\Enums\Key::NONE If the key doesn't exist.
      */
     public function tail ():mixed {
 
         return empty($this->storage) // @phpstan-ignore return.type
-            ? ValueStatus::NONE
+            ? Key::NONE
             : Arr::last($this->storage);
 
     }

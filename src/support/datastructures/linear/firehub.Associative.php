@@ -22,7 +22,7 @@ use FireHub\Core\Support\DataStructures\Contracts\ {
 use FireHub\Core\Support\DataStructures\Operation\Chunk;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ {
-    ControlFlowSignal, ValueStatus
+    ControlFlowSignal, Status\Key
 };
 use FireHub\Core\Support\DataStructures\Exceptions\ {
     KeyAlreadyExistException, KeyDoesntExistException
@@ -220,7 +220,8 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::offsetExists() As overloaded method.
      * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::offsetGet() As overloaded method.
      *
-     * @notice This method only delegates to array access method. Please use array access method for large data sets.
+     * @notice This method only delegates to the array access method. Please use the array access method for large
+     * data sets.
      */
     public function take (mixed $key):mixed {
 
@@ -628,12 +629,12 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\Arr::keyExist() To check if a key exists in an array.
-     * @uses \FireHub\Core\Support\Enums\ValueStatus::NONE If the key doesn't exist.
+     * @uses \FireHub\Core\Support\Enums\Key::NONE If the key doesn't exist.
      */
     public function offsetGet (mixed $offset):mixed {
 
         return Arr::keyExist($offset, $this->storage)
-            ? $this->storage[$offset] : ValueStatus::NONE; // @phpstan-ignore offsetAccess.notFound
+            ? $this->storage[$offset] : Key::NONE; // @phpstan-ignore offsetAccess.notFound
 
     }
 
@@ -727,7 +728,8 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::offsetGet() As overloaded method.
      *
-     * @notice This method only delegates to array access method. Please use array access method for large data sets.
+     * @notice This method only delegates to the array access method. Please use the array access method for large
+     * data sets.
      */
     public function __get (mixed $name):mixed {
 
@@ -752,7 +754,8 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::offsetSet() As overloaded method.
      *
-     * @notice This method only delegates to array access method. Please use array access method for large data sets.
+     * @notice This method only delegates to the array access method. Please use the array access method for large
+     * data sets.
      */
     public function __set (mixed $name, mixed $value):void {
 
@@ -777,7 +780,8 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::offsetExists() As overloaded method.
      *
-     * @notice This method only delegates to array access method. Please use array access method for large data sets.
+     * @notice This method only delegates to the array access method. Please use the array access method for large
+     * data sets.
      */
     public function __isset (mixed $name):bool {
 
@@ -802,7 +806,8 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::offsetUnset() As overloaded method.
      *
-     * @notice This method only delegates to array access method. Please use array access method for large data sets.
+     * @notice This method only delegates to the array access method. Please use the array access method for large
+     * data sets.
      */
     public function __unset (mixed $name):void {
 
