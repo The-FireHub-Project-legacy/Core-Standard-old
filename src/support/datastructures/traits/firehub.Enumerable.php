@@ -23,7 +23,7 @@ use FireHub\Core\Support\DataStructures\Operation\ {
     Contains, CountBy, Ensure, Find, Is
 };
 use FireHub\Core\Support\DataStructures\Function\ {
-    Combine, Keys, Values
+    Combine, Keys, Reduce, Values
 };
 use FireHub\Core\Support\Utils\PHPUtil;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
@@ -450,6 +450,27 @@ trait Enumerable {
             }
 
         });
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $combined = $collection->reduce(fn($carry, $value) => $carry.'-'.$value);
+     *
+     * // '-John-Jane-Jane-Jane-Richard-Richard'
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function reduce (callable $callback, mixed $initial = null):mixed {
+
+        return new Reduce($this)($callback, $initial);
 
     }
 

@@ -18,7 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Function\ {
-    Combine, Reject
+    Combine, Reduce, Reject
 };
 use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
@@ -35,6 +35,7 @@ use PHPUnit\Framework\Attributes\ {
 #[Group('datastructures')]
 #[CoversClass(Indexed::class)]
 #[CoversClass(Combine::class)]
+#[CoversClass(Reduce::class)]
 #[CoversClass(Reject::class)]
 final class IndexedTest extends Base {
 
@@ -101,6 +102,23 @@ final class IndexedTest extends Base {
                 if ($value === 'Jane') return ControlFlowSignal::BREAK;
                 return false;
             })->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testReduce (Indexed $collection):void {
+
+        $this->assertSame(
+            '-John-Jane-Jane-Jane-Richard-Richard',
+            $collection->reduce(fn($carry, $value) => $carry.'-'.$value)
         );
 
     }

@@ -17,6 +17,7 @@ namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Fixed;
+use FireHub\Core\Support\DataStructures\Function\Reduce;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small, TestWith
@@ -29,6 +30,7 @@ use PHPUnit\Framework\Attributes\ {
 #[Small]
 #[Group('datastructures')]
 #[CoversClass(Fixed::class)]
+#[CoversClass(Reduce::class)]
 final class FixedTest extends Base {
 
     /**
@@ -113,6 +115,23 @@ final class FixedTest extends Base {
     public function testCount (Fixed $collection):void {
 
         $this->assertSame(3, $collection->count());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testReduce (Fixed $collection):void {
+
+        $this->assertSame(
+            '-one-two-three',
+            $collection->reduce(fn($carry, $value) => $carry.'-'.$value)
+        );
 
     }
 

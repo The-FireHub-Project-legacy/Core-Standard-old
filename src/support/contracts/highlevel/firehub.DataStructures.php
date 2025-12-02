@@ -231,4 +231,22 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      */
     public function throttle (int $microseconds):Lazy;
 
+    /**
+     * ### Reduces the data structure to a single value, passing the result of each iteration into the later iteration
+     * @since 1.0.0
+     *
+     * @template TReturn
+     *
+     * @param callable(null|TReturn, TValue):TReturn $callback <p>
+     * The callable function.
+     * </p>
+     * @param null|TReturn $initial [optional] <p>
+     * If the optional initial is available, it will be used at the beginning of the process,
+     * or as a final result in case the array is empty.
+     * </p>
+     *
+     * @return null|TReturn Resulting value or null if the array is empty and the initial is not passed.
+     */
+    public function reduce (callable $callback, mixed $initial = null):mixed;
+
 }
