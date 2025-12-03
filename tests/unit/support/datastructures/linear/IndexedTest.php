@@ -18,7 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Function\ {
-    Combine, Partition, Reduce, Reject
+    Combine, Partition, Reduce, Reject, Slice
 };
 use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
@@ -38,6 +38,7 @@ use PHPUnit\Framework\Attributes\ {
 #[CoversClass(Partition::class)]
 #[CoversClass(Reduce::class)]
 #[CoversClass(Reject::class)]
+#[CoversClass(Slice::class)]
 final class IndexedTest extends Base {
 
     /**
@@ -103,6 +104,28 @@ final class IndexedTest extends Base {
                 if ($value === 'Jane') return ControlFlowSignal::BREAK;
                 return false;
             })->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testSlice (Indexed $collection):void {
+
+        $this->assertSame(
+            ['Jane', 'Jane', 'Richard', 'Richard'],
+            new Slice($collection)(2)->toArray()
+        );
+
+        $this->assertSame(
+            ['Jane', 'Jane'],
+            new Slice($collection)(2, 2)->toArray()
         );
 
     }

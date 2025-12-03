@@ -17,7 +17,9 @@ namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Fixed;
-use FireHub\Core\Support\DataStructures\Function\Reduce;
+use FireHub\Core\Support\DataStructures\Function\ {
+    Reduce, Slice
+};
 use FireHub\Core\Support\Enums\ControlFlowSignal;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small, TestWith
@@ -31,6 +33,7 @@ use PHPUnit\Framework\Attributes\ {
 #[Group('datastructures')]
 #[CoversClass(Fixed::class)]
 #[CoversClass(Reduce::class)]
+#[CoversClass(Slice::class)]
 final class FixedTest extends Base {
 
     /**
@@ -131,6 +134,23 @@ final class FixedTest extends Base {
         $this->assertSame(
             '-one-two-three',
             $collection->reduce(fn($carry, $value) => $carry.'-'.$value)
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testSlice (Fixed $collection):void {
+
+        $this->assertSame(
+            ['two', 'three'],
+            new Slice($collection)(1, 2)->toArray()
         );
 
     }
