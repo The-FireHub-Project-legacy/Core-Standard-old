@@ -26,7 +26,7 @@ interface ArrayConvertable extends Arrayable {
      * @since 1.0.0
      *
      * @param array<array-key, mixed> $array <p>
-     * Data in form of an array from new object will be created.
+     * Data in form of an array from a new object will be created.
      * </p>
      *
      * @return static This object created from a provider array.
