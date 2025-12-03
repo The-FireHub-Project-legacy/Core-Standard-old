@@ -18,7 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Function\ {
-    Combine, Partition, Reduce, Reject, Slice
+    Combine, Partition, Reduce, Reject, Slice, Splice
 };
 use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
@@ -39,6 +39,7 @@ use PHPUnit\Framework\Attributes\ {
 #[CoversClass(Reduce::class)]
 #[CoversClass(Reject::class)]
 #[CoversClass(Slice::class)]
+#[CoversClass(Splice::class)]
 final class IndexedTest extends Base {
 
     /**
@@ -126,6 +127,48 @@ final class IndexedTest extends Base {
         $this->assertSame(
             ['Jane', 'Jane'],
             new Slice($collection)(2, 2)->toArray()
+        );
+
+        $this->assertEquals(
+            new Indexed(['Richard', 'Richard']),
+            new Slice($collection)(-2, 3)
+        );
+
+        $this->assertEquals(
+            new Indexed(['Jane', 'Jane', 'Jane', 'Richard']),
+            new Slice($collection)(1, -1)
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testSplice (Indexed $collection):void {
+
+        $this->assertSame(
+            ['John', 'Jane'],
+            new Splice($collection)(2)->toArray()
+        );
+
+        $this->assertSame(
+            ['John', 'Jane', 'Richard', 'Richard'],
+            new Splice($collection)(2, 2)->toArray()
+        );
+
+        $this->assertEquals(
+            new Indexed(['John', 'Jane', 'Jane', 'Jane']),
+            new Splice($collection)(-2, 3)
+        );
+
+        $this->assertEquals(
+            new Indexed(['John', 'Richard']),
+            new Splice($collection)(1, -1)
         );
 
     }

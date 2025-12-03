@@ -18,7 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Fixed;
 use FireHub\Core\Support\DataStructures\Function\ {
-    Reduce, Slice
+    Reduce, Slice, Splice
 };
 use FireHub\Core\Support\Enums\ControlFlowSignal;
 use PHPUnit\Framework\Attributes\ {
@@ -34,6 +34,7 @@ use PHPUnit\Framework\Attributes\ {
 #[CoversClass(Fixed::class)]
 #[CoversClass(Reduce::class)]
 #[CoversClass(Slice::class)]
+#[CoversClass(Splice::class)]
 final class FixedTest extends Base {
 
     /**
@@ -151,6 +152,23 @@ final class FixedTest extends Base {
         $this->assertSame(
             ['two', 'three'],
             new Slice($collection)(1, 2)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testSplice (Fixed $collection):void {
+
+        $this->assertSame(
+            ['one'],
+            new Splice($collection)(1, 2)->toArray()
         );
 
     }

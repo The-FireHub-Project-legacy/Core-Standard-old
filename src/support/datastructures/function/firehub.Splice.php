@@ -18,16 +18,15 @@ namespace FireHub\Core\Support\DataStructures\Function;
 use FireHub\Core\Support\DataStructures\Contracts\Filterable;
 use FireHub\Core\Support\DataStructures\Contracts\ArrStorage;
 use FireHub\Core\Support\DataStructures\Helpers\SequenceRange;
-use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\LowLevel\Arr;
 
 /**
- * ### Get slice from data structure
+ * ### Remove a portion of a data structure
  * @since 1.0.0
  *
  * @template TDataStructure of \FireHub\Core\Support\DataStructures\Contracts\Filterable
  */
-readonly class Slice {
+readonly class Splice {
 
     /**
      * ### Constructor
@@ -50,46 +49,46 @@ readonly class Slice {
      *
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
-     * use FireHub\Core\Support\DataStructures\Function\Slice;
+     * use FireHub\Core\Support\DataStructures\Function\Splice;
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $values = new Slice($collection)(2);
+     * $values = new Splice($collection)(2);
      *
-     * // ['Jane', 'Jane', 'Richard', 'Richard']
+     * // ['John', 'Jane']
      * </code>
      * You can limit the number of results:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
-     * use FireHub\Core\Support\DataStructures\Function\Slice;
+     * use FireHub\Core\Support\DataStructures\Function\Splice;
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $values = new Slice($collection)(2, 2);
+     * $values = new Splice($collection)(2, 2);
      *
-     * // ['Jane', 'Jane']
+     * // ['John', 'Jane', 'Richard', 'Richard']
      * </code>
      * You can put offset as negative:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
-     * use FireHub\Core\Support\DataStructures\Function\Slice;
+     * use FireHub\Core\Support\DataStructures\Function\Splice;
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $values = new Slice($collection)(-2, 3);
+     * $values = new Splice($collection)(-2, 3);
      *
-     * // ['Richard', 'Richard']
+     * // ['John', 'Jane', 'Jane', 'Jane']
      * </code>
      * You can put length as negative:
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
-     * use FireHub\Core\Support\DataStructures\Function\Slice;
+     * use FireHub\Core\Support\DataStructures\Function\Splice;
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $values = new Slice($collection)(1, -1);
+     * $values = new Splice($collection)(1, -1);
      *
-     * // ['Jane', 'Jane', 'Jane', 'Richard']
+     * // ['John', 'Richard']
      * </code>
      *
      * @since 1.0.0
@@ -98,8 +97,8 @@ readonly class Slice {
      * if data structure is an array storage.
      * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage::fromArray() To create new array storage
      * data structure from a chunked array.
-     * @uses \FireHub\Core\Support\LowLevel\Arr::slice() To use as a slice function.
-     * @uses \FireHub\Core\Support\Enums\ControlFlowSignal::BREAK To break the filtering loop.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::splice() To remove a portion of the array.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Filterable::filter To filter items from the data structure.
      * @uses \FireHub\Core\Support\DataStructures\Helpers\SequenceRange::start() To get start index.
      * @uses \FireHub\Core\Support\DataStructures\Helpers\SequenceRange::end() To get end index.
      *
@@ -119,14 +118,10 @@ readonly class Slice {
 
         if ($this->data_structure instanceof ArrStorage) {
 
-            $storage = Arr::slice(
-                $this->data_structure->toArray(),
-                $offset,
-                $length,
-                true
-            );
+            $array = $this->data_structure->toArray();
+            Arr::splice($array, $offset, $length);
 
-            return $this->data_structure::fromArray($storage);
+            return $this->data_structure::fromArray($array);
 
         }
 
@@ -134,13 +129,9 @@ readonly class Slice {
         $start = $range->start();
         $end = $range->end();
         $position = 0;
-
         return $this->data_structure->filter(function () use ($start, $end, &$position) {
 
-            if ($position++ < $start) return false;
-            if ($position > $end) return ControlFlowSignal::BREAK;
-
-            return true;
+            return !($position++ >= $start && $position <= $end);
 
         });
 
