@@ -18,7 +18,7 @@ use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
 use FireHub\Core\Support\DataStructures\Linear\Indexed;
 use FireHub\Core\Support\DataStructures\Function\ {
-    Combine, Reduce, Reject
+    Combine, Partition, Reduce, Reject
 };
 use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
@@ -35,6 +35,7 @@ use PHPUnit\Framework\Attributes\ {
 #[Group('datastructures')]
 #[CoversClass(Indexed::class)]
 #[CoversClass(Combine::class)]
+#[CoversClass(Partition::class)]
 #[CoversClass(Reduce::class)]
 #[CoversClass(Reject::class)]
 final class IndexedTest extends Base {
@@ -119,6 +120,25 @@ final class IndexedTest extends Base {
         $this->assertSame(
             '-John-Jane-Jane-Jane-Richard-Richard',
             $collection->reduce(fn($carry, $value) => $carry.'-'.$value)
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testPartition (Indexed $collection):void {
+
+        $this->assertEquals([
+            new Indexed(['Richard', 'Richard']),
+            new Indexed(['John', 'Jane', 'Jane', 'Jane'])
+        ],
+            new Partition($collection)(fn($value) => $value === 'Richard')->toArray()
         );
 
     }
