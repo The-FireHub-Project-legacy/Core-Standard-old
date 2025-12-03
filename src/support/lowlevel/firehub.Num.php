@@ -204,11 +204,21 @@ abstract class Num {
      * </p>
      *
      * @return (
-     *  TInt is float
+     *   TInt is float
      *      ? float
-     *      : (TInt is positive-int
-     *          ? positive-int
-     *          : (TInts is positive-int ? positive-int : non-positive-int))
+     *      : (
+     *          TInt is positive-int
+     *             ? positive-int
+     *             : (
+     *                TInt is non-negative-int
+     *                   ? non-negative-int
+     *                   : (
+     *                      TInts is positive-int
+     *                         ? positive-int
+     *                         : non-positive-int
+     *                   )
+     *              )
+     *        )
      * ) Value considered "highest" according to standard comparisons.
      */
     final public static function max (float|int $value, float|int ...$values):float|int {

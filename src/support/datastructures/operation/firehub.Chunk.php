@@ -208,7 +208,7 @@ readonly class Chunk {
     public function in (int $number_of_groups):Lazy {
 
         return $this->byStep(
-            NumInt::max(NumInt::ceil($this->data_structure->count() / $number_of_groups), 1)
+            NumInt::max(1, NumInt::ceil($this->data_structure->count() / $number_of_groups))
         );
 
     }
