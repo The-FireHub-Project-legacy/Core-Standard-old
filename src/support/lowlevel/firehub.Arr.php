@@ -1383,7 +1383,7 @@ final class Arr {
      * Non-numeric keys aren't affected by this setting and will always be preserved.
      * </p>
      *
-     * @return ($preserve_keys is true ? array<TKey, TValue> : array<array-key, TValue>) The reversed array.
+     * @return ($preserve_keys is true ? array<TKey, TValue> : list<TValue>) The reversed array.
      */
     public static function reverse (array $array, bool $preserve_keys = false):array {
 

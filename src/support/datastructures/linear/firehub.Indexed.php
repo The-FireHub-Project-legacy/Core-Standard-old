@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, Chunkable, Filterable, SequentialAccess
+    ArrStorage, Chunkable, Filterable, Reversible, SequentialAccess
 };
 use FireHub\Core\Support\DataStructures\Operation\Chunk;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
@@ -39,11 +39,12 @@ use ArgumentCountError, Traversable;
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Reversible<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAccess {
+class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Reversible, SequentialAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -403,6 +404,54 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, SequentialAc
         }
 
         return new static($storage);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->reverse();
+     *
+     * // ['Richard', 'Richard', 'Jane', 'Jane', 'Jane', 'John']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::reverse() To reverse the order of storage items.
+     */
+    public function reverse ():static {
+
+        return new static(Arr::reverse($this->storage));
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->reverseInPlace();
+     *
+     * // ['Richard', 'Richard', 'Jane', 'Jane', 'Jane', 'John']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::reverse() To reverse the order of storage items.
+     */
+    public function reverseInPlace ():static {
+
+        $this->storage = Arr::reverse($this->storage);
+
+        return $this;
 
     }
 

@@ -486,4 +486,26 @@ final class IndexedTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testReverse (Indexed $collection):void {
+
+        $this->assertSame(
+            ['Richard', 'Richard', 'Jane', 'Jane', 'Jane', 'John'],
+            $collection->reverse()->toArray()
+        );
+
+        $this->assertSame(
+            ['Richard', 'Richard', 'Jane', 'Jane', 'Jane', 'John'],
+            $collection->reverseInPlace()->toArray()
+        );
+
+    }
+
 }

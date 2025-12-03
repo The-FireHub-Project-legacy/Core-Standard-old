@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    Filterable, SequentialAccess
+    Filterable, Reversible, SequentialAccess
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
@@ -39,11 +39,12 @@ use SplFixedArray;
  * @extends SplFixedArray<TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, ?TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, ?TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Reversible<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, ?TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Fixed extends SplFixedArray implements Filterable, Linear, SequentialAccess {
+class Fixed extends SplFixedArray implements Filterable, Linear, Reversible, SequentialAccess {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -531,6 +532,76 @@ class Fixed extends SplFixedArray implements Filterable, Linear, SequentialAcces
         $storage->setSize($counter);
 
         return $storage;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = new Fixed(3);
+     *
+     * $collection[0] = 'one';
+     * $collection[1] = 'two';
+     * $collection[2] = 'three';
+     *
+     * $collection->reverse();
+     *
+     * // ['three', 'three', 'one']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
+     */
+    public function reverse ():static {
+
+        $size = $this->getSize();
+        $storage = new static($size);
+
+        for ($i = 0; $i < $size; $i++)
+            $storage[$i] = $this[$size - 1 - $i];
+
+        return $storage;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = new Fixed(3);
+     *
+     * $collection[0] = 'one';
+     * $collection[1] = 'two';
+     * $collection[2] = 'three';
+     *
+     * $collection->reverseInPlace();
+     *
+     * // ['three', 'three', 'one']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
+     */
+    public function reverseInPlace ():static {
+
+        $size = $this->getSize();
+
+        for ($i = 0, $j = $size - 1; $i < $j; $i++, $j--) {
+
+            $temp = $this[$i];
+            $this[$i] = $this[$j];
+            $this[$j] = $temp;
+
+        }
+
+        return $this;
 
     }
 

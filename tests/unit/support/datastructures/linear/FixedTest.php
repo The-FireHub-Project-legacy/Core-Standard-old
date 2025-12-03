@@ -406,4 +406,26 @@ final class FixedTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testReverse (Fixed $collection):void {
+
+        $this->assertSame(
+            ['three', 'two', 'one'],
+            $collection->reverse()->toArray()
+        );
+
+        $this->assertSame(
+            ['three', 'two', 'one'],
+            $collection->reverseInPlace()->toArray()
+        );
+
+    }
+
 }
