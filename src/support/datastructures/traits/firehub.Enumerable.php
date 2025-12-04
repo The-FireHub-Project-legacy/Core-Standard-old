@@ -25,7 +25,7 @@ use FireHub\Core\Support\DataStructures\Operation\ {
 use FireHub\Core\Support\DataStructures\Function\ {
     Combine, Keys, Reduce, Values
 };
-use FireHub\Core\Support\Utils\PHPUtil;
+use FireHub\Core\Support\Utils\PHP;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
 use FireHub\Core\Support\Enums\JSON\ {
     Flag, Flags\Decode, Flags\Encode
@@ -425,7 +425,7 @@ trait Enumerable {
      *
      * @uses \FireHub\Core\Support\LowLevel\DateAndTime::time() To get current Unix timestamp.
      * @uses \FireHub\Core\Support\LowLevel\DateAndTime::microtime() To get current Unix microseconds.
-     * @uses \FireHub\Core\Support\Utils\PHPUtil::sleepMicroseconds() To sleep for a number of $microseconds.
+     * @uses \FireHub\Core\Support\Utils\PHP::sleepMicroseconds() To sleep for a number of $microseconds.
      *
      * @todo Get current time with Zwick::now() method.
      */
@@ -443,7 +443,7 @@ trait Enumerable {
                 $now = DateAndTime::time() + DateAndTime::microtime() / 1_000_000;
 
                 if ($now < $next)
-                    PHPUtil::sleepMicroseconds($microseconds);
+                    PHP::sleepMicroseconds($microseconds);
 
                 $next += $interval;
 

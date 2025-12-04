@@ -29,9 +29,9 @@ final class PHP {
      * ### Delays program execution for the given number of microseconds
      *
      * <code>
-     * use FireHub\Core\Support\Utils\PHPUtil;
+     * use FireHub\Core\Support\Utils\PHP;
      *
-     * PHPUtil::sleepMicroseconds(4_451_000);
+     * PHP::sleepMicroseconds(4_451_000);
      * </code>
      *
      * @since 1.0.0
