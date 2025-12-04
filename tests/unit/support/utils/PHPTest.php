@@ -15,7 +15,7 @@
 namespace FireHub\Tests\Unit\Support\Utils;
 
 use FireHub\Core\Testing\Base;
-use FireHub\Core\Support\Utils\PHPUtil;
+use FireHub\Core\Support\Utils\PHP;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, Group, Small, TestWith
 };
@@ -26,8 +26,8 @@ use PHPUnit\Framework\Attributes\ {
  */
 #[Small]
 #[Group('utils')]
-#[CoversClass(PHPUtil::class)]
-final class PHPUtilTest extends Base {
+#[CoversClass(PHP::class)]
+final class PHPTest extends Base {
 
     /**
      * @since 1.0.0
@@ -39,7 +39,7 @@ final class PHPUtilTest extends Base {
     #[TestWith([0])]
     public function testSleepMicroseconds (int $microseconds):void {
 
-        PHPUtil::sleepMicroseconds($microseconds);
+        PHP::sleepMicroseconds($microseconds);
 
         $this->assertTrue(true);
 

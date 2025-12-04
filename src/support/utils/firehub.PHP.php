@@ -15,7 +15,7 @@
 
 namespace FireHub\Core\Support\Utils;
 
-use FireHub\Core\Support\LowLevel\PHP;
+use FireHub\Core\Support\LowLevel\PHP as PHPLowLevel;
 
 use function FireHub\Core\Support\Helpers\DataTime\splitMicroseconds;
 
@@ -23,7 +23,7 @@ use function FireHub\Core\Support\Helpers\DataTime\splitMicroseconds;
  * ### PHP utility class
  * @since 1.0.0
  */
-final class PHPUtil {
+final class PHP {
 
     /**
      * ### Delays program execution for the given number of microseconds
@@ -52,9 +52,9 @@ final class PHPUtil {
 
         [$seconds, $remaining] = splitMicroseconds($microseconds);
 
-        if ($seconds > 0) PHP::sleep($seconds);
+        if ($seconds > 0) PHPLowLevel::sleep($seconds);
 
-        if ($remaining > 0 && $remaining < 1_000_000) PHP::microsleep($remaining);
+        if ($remaining > 0 && $remaining < 1_000_000) PHPLowLevel::microsleep($remaining);
 
     }
 
