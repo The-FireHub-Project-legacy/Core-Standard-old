@@ -26,10 +26,12 @@ use FireHub\Core\Support\Enums\ {
 };
 use FireHub\Core\Support\Utils\Arr as ArrUtil;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
-    KeyAlreadyExistException, KeyDoesntExistException, OutOfRangeException
+    DuplicateKeyException, InvalidKeyException, KeyAlreadyExistException, KeyDoesntExistException, OutOfRangeException
 };
 use FireHub\Core\Support\Exceptions\Arr\OutOfRangeException as OutOfRangeExceptionLowLevel;
-use FireHub\Core\Support\LowLevel\Arr;
+use FireHub\Core\Support\LowLevel\ {
+    Arr, DataIs
+};
 use ArgumentCountError, Traversable;
 
 /**
@@ -644,10 +646,77 @@ class Associative implements ArrStorage, Chunkable, Filterable, Flippable, Linea
      * @since 1.0.0
      *
      * @uses \FireHub\Core\Support\LowLevel\Arr::flip() To flip storage keys with values.
+     *
+     * @caution This method may lead to data loss if there are duplicate values in the original data structure. Only
+     * last values will be preserved as keys in the flipped data structure.
      */
     public function flip ():static {
 
         return new static(Arr::flip($this->storage)); // @phpstan-ignore argument.type, argument.templateType
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->inverse();
+     *
+     * // ['John' => 'firstname', 'Doe' => 'lastname', 25 => 'age', 2 => 10]
+     * </code>
+     * You will get error if you try to inverse invalid value
+     * </code>
+     * If you try to get a key that doesn't exist:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative([new Associative()]);
+     *
+     * $collection->inverse();
+     *
+     * >>> THROWS ERROR <<<
+     * </code>
+     * You will get error if you have duplicated values
+     * </code>
+     * If you try to get a key that doesn't exist:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['one' => 10, 'two' => 10]);
+     *
+     * $collection->inverse();
+     *
+     * >>> THROWS ERROR <<<
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::int To check if a value is of type integer.
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::string To check if a value is of type string.
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\InvalidKeyException If a value is not a valid key type.
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\DuplicateKeyException If duplicate values are found.
+     */
+    public function inverse ():static {
+
+        $inverse = [];
+        foreach ($this->storage as $key => $value) {
+
+            if (!DataIs::int($value) && !DataIs::string($value))
+                throw new InvalidKeyException()->withKey($value);
+
+            if (Arr::keyExist($value, $inverse))
+                throw new DuplicateKeyException()->withKey($value);
+
+            $inverse[$value] = $key;
+
+        }
+
+        return new static($inverse);
 
     }
 

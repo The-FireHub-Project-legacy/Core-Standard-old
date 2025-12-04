@@ -32,8 +32,16 @@ interface Flippable extends DataStructures {
      * ### Exchanges all keys with their associated values in the data structure
      * @since 1.0.0
      *
-     * @return static<TValue, TKey> New flipped data structure.
+     * @return static<(int&TValue)|(string&TValue), TKey> New flipped data structure.
      */
     public function flip ():static;
+
+    /**
+     * ### Exchanges all keys with their associated values in the data structure in a safe way
+     * @since 1.0.0
+     *
+     * @return static<(int&TValue)|(string&TValue), TKey> New flipped data structure.
+     */
+    public function inverse ():static;
 
 }

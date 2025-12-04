@@ -24,7 +24,7 @@ use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
 };
 use FireHub\Core\Support\DataStructures\Exceptions\ {
-    KeyAlreadyExistException, KeyDoesntExistException, OutOfRangeException
+    DuplicateKeyException, InvalidKeyException, KeyAlreadyExistException, KeyDoesntExistException, OutOfRangeException
 };
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
@@ -714,6 +714,58 @@ final class AssociativeTest extends Base {
             ['John' => 'firstname', 'Doe' => 'lastname', 25 => 'age', 2 => 10],
             $collection->flip()->toArray()
         );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\InvalidKeyException
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\DuplicateKeyException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testInverse (Associative $collection):void {
+
+        $this->assertSame(
+            ['John' => 'firstname', 'Doe' => 'lastname', 25 => 'age', 2 => 10],
+            $collection->inverse()->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\InvalidKeyException
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\DuplicateKeyException
+     *
+     * @return void
+     */
+    public function testInverseInvalidKey ():void {
+
+        $this->expectException(InvalidKeyException::class);
+
+        new Associative([new Associative()])->inverse();
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\InvalidKeyException
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\DuplicateKeyException
+     *
+     * @return void
+     */
+    public function testInverseDuplicateKey ():void {
+
+        $this->expectException(DuplicateKeyException::class);
+
+        new Associative(['one' => 10, 'two' => 10])->inverse();
 
     }
 
