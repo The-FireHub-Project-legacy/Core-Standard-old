@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, Chunkable, Filterable, KeyMappable, RandomAccess, Randomble
+    ArrStorage, Chunkable, Filterable, Flippable, KeyMappable, RandomAccess, Randomble
 };
 use FireHub\Core\Support\DataStructures\Operation\Chunk;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
@@ -44,6 +44,7 @@ use ArgumentCountError, Traversable;
  * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<TKey, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Flippable<TKey, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\KeyMappable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\RandomAccess<TKey, TValue>
@@ -51,7 +52,7 @@ use ArgumentCountError, Traversable;
  *
  * @phpstan-consistent-constructor
  */
-class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappable, RandomAccess, Randomble {
+class Associative implements ArrStorage, Chunkable, Filterable, Flippable, Linear, KeyMappable, RandomAccess, Randomble {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -624,6 +625,29 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
         }
 
         return new static($storage);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->flip();
+     *
+     * // ['John' => 'firstname', 'Doe' => 'lastname', 25 => 'age', 2 => 10]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::flip() To flip storage keys with values.
+     */
+    public function flip ():static {
+
+        return new static(Arr::flip($this->storage)); // @phpstan-ignore argument.type, argument.templateType
 
     }
 
