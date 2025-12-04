@@ -1416,9 +1416,11 @@ final class ArrTest extends Base {
     #[DataProviderExternal(ArrDataProvider::class, 'list')]
     public function testShuffle (array $actual):void {
 
+        $expected = $actual;
+
         Arr::shuffle($actual);
 
-        $this->assertIsList($actual);
+        $this->assertEqualsCanonicalizing($expected, $actual);
 
     }
 
