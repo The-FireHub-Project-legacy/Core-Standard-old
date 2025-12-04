@@ -18,7 +18,7 @@ namespace FireHub\Core\Support\DataStructures\Contracts;
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
 
 /**
- * ### Data structure whose items can be reversed
+ * ### Shuffle the values of the data structure
  * @since 1.0.0
  *
  * @template TKey
@@ -26,14 +26,14 @@ use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
  *
  * @extends \FireHub\Core\Support\Contracts\HighLevel\DataStructures<TKey, TValue>
  */
-interface Reversible extends DataStructures {
+interface Shuffleable extends DataStructures {
 
     /**
-     * ### Reverse items from data structure
+     * ### Shuffle items from data structure
      * @since 1.0.0
      *
-     * @return static<TKey, TValue> New data structure with reversed items.
+     * @return static<TKey, TValue> New data structure with shuffled items.
      */
-    public function reverse ():static;
+    public function shuffle ():static;
 
 }

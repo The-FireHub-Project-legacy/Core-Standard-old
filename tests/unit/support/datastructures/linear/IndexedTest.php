@@ -501,9 +501,21 @@ final class IndexedTest extends Base {
             $collection->reverse()->toArray()
         );
 
-        $this->assertSame(
-            ['Richard', 'Richard', 'Jane', 'Jane', 'Jane', 'John'],
-            $collection->reverseInPlace()->toArray()
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testShuffle (Indexed $collection):void {
+
+        $this->assertEqualsCanonicalizing(
+            $collection->toArray(),
+            $collection->shuffle()->toArray()
         );
 
     }

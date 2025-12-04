@@ -418,12 +418,26 @@ final class FixedTest extends Base {
 
         $this->assertSame(
             ['three', 'two', 'one'],
-            $collection->reverse()->toArray()
+            $collection->reverseInPlace()->toArray()
         );
 
-        $this->assertSame(
-            ['three', 'two', 'one'],
-            $collection->reverseInPlace()->toArray()
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\ShuffleException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testShuffle (Fixed $collection):void {
+
+        $this->assertEqualsCanonicalizing(
+            $collection->toArray(),
+            $collection->shuffleInPlace()->toArray()
         );
 
     }

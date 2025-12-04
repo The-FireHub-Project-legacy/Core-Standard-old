@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, Chunkable, Filterable, Reversible, SequentialAccess
+    ArrStorage, Chunkable, Filterable, Reversible, SequentialAccess, Shuffleable
 };
 use FireHub\Core\Support\DataStructures\Operation\Chunk;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
@@ -41,10 +41,11 @@ use ArgumentCountError, Traversable;
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Reversible<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Shuffleable<int, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Reversible, SequentialAccess {
+class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Reversible, SequentialAccess, Shuffleable {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -426,7 +427,11 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Reversible, 
      */
     public function reverse ():static {
 
-        return new static(Arr::reverse($this->storage));
+        $storage = new static($this->storage);
+
+        $storage->storage = Arr::reverse($this->storage);
+
+        return $storage;
 
     }
 
@@ -438,20 +443,22 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Reversible, 
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $collection->reverseInPlace();
+     * $collection->shuffle();
      *
-     * // ['Richard', 'Richard', 'Jane', 'Jane', 'Jane', 'John']
+     * // ['Richard', 'Jane', 'Richard', 'John', 'Jane', 'Jane'] - (generated randomly)
      * </code>
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::reverse() To reverse the order of storage items.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::shuffle() To shuffle the order of storage items.
      */
-    public function reverseInPlace ():static {
+    public function shuffle ():static {
 
-        $this->storage = Arr::reverse($this->storage);
+        $storage = new static($this->storage);
 
-        return $this;
+        Arr::shuffle($storage->storage);
+
+        return $storage;
 
     }
 

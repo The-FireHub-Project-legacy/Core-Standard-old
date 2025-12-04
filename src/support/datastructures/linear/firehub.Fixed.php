@@ -17,12 +17,14 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    Filterable, Reversible, SequentialAccess
+    Filterable, ReversibleInPlace, SequentialAccess, ShuffleableInPlace
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
+use FireHub\Core\Support\DataStructures\Exceptions\ShuffleException;
+use FireHub\Core\Support\Exceptions\RandomException;
 use FireHub\Core\Support\LowLevel\ {
-    DataIs, Iterator, NumInt
+    DataIs, Iterator, NumInt, Random
 };
 use SplFixedArray;
 
@@ -39,12 +41,13 @@ use SplFixedArray;
  * @extends SplFixedArray<TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, ?TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, ?TValue>
- * @implements \FireHub\Core\Support\DataStructures\Contracts\Reversible<int, ?TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\ReversibleInPlace<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, ?TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\ShuffleableInPlace<int, ?TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Fixed extends SplFixedArray implements Filterable, Linear, Reversible, SequentialAccess {
+class Fixed extends SplFixedArray implements Filterable, Linear, ReversibleInPlace, SequentialAccess, ShuffleableInPlace {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -547,7 +550,7 @@ class Fixed extends SplFixedArray implements Filterable, Linear, Reversible, Seq
      * $collection[1] = 'two';
      * $collection[2] = 'three';
      *
-     * $collection->reverse();
+     * $collection->reverseInPlace();
      *
      * // ['three', 'three', 'one']
      * </code>
@@ -556,15 +559,19 @@ class Fixed extends SplFixedArray implements Filterable, Linear, Reversible, Seq
      *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
      */
-    public function reverse ():static {
+    public function reverseInPlace ():static {
 
         $size = $this->getSize();
-        $storage = new static($size);
 
-        for ($i = 0; $i < $size; $i++)
-            $storage[$i] = $this[$size - 1 - $i];
+        for ($i = 0, $j = $size - 1; $i < $j; $i++, $j--) {
 
-        return $storage;
+            $temp = $this[$i];
+            $this[$i] = $this[$j];
+            $this[$j] = $temp;
+
+        }
+
+        return $this;
 
     }
 
@@ -580,20 +587,34 @@ class Fixed extends SplFixedArray implements Filterable, Linear, Reversible, Seq
      * $collection[1] = 'two';
      * $collection[2] = 'three';
      *
-     * $collection->reverseInPlace();
+     * $collection->shuffle();
      *
-     * // ['three', 'three', 'one']
+     * // ['one', 'three', 'one'] - (generated randomly)
      * </code>
      *
      * @since 1.0.0
      *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\ShuffleException If shuffle failed because random number
+     * generation failed.
+     *
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
+     * @uses \FireHub\Core\Support\LowLevel\Random::number() To get a random number for swapping items.
      */
-    public function reverseInPlace ():static {
+    public function shuffleInPlace ():static {
 
         $size = $this->getSize();
 
-        for ($i = 0, $j = $size - 1; $i < $j; $i++, $j--) {
+        for ($i = $size - 1; $i > 0; $i--) {
+
+            try {
+
+                $j = Random::number(0, $i);
+
+            } catch (RandomException) {
+
+                throw new ShuffleException()->withMessage('Shuffle failed because random number generation failed.');
+
+            }
 
             $temp = $this[$i];
             $this[$i] = $this[$j];
@@ -624,7 +645,7 @@ class Fixed extends SplFixedArray implements Filterable, Linear, Reversible, Seq
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::jsonSerialize() To get data as array.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::jsonSerialize() To get data as an array.
      */
     public function __serialize ():array {
 
