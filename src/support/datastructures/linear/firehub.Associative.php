@@ -17,16 +17,18 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, Chunkable, Filterable, KeyMappable, RandomAccess
+    ArrStorage, Chunkable, Filterable, KeyMappable, RandomAccess, Randomble
 };
 use FireHub\Core\Support\DataStructures\Operation\Chunk;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
 };
+use FireHub\Core\Support\Utils\Arr as ArrUtil;
 use FireHub\Core\Support\DataStructures\Exceptions\ {
-    KeyAlreadyExistException, KeyDoesntExistException
+    KeyAlreadyExistException, KeyDoesntExistException, OutOfRangeException
 };
+use FireHub\Core\Support\Exceptions\Arr\OutOfRangeException as OutOfRangeExceptionLowLevel;
 use FireHub\Core\Support\LowLevel\Arr;
 use ArgumentCountError, Traversable;
 
@@ -45,10 +47,11 @@ use ArgumentCountError, Traversable;
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\KeyMappable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\RandomAccess<TKey, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Randomble<TKey, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappable, RandomAccess {
+class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappable, RandomAccess, Randomble {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -423,6 +426,60 @@ class Associative implements ArrStorage, Chunkable, Filterable, Linear, KeyMappa
         $this->remove($key);
 
         return $value;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->random();
+     *
+     * // 'Doe' - (generated randomly)
+     * </code>
+     * You can use more than one value:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->random(2);
+     *
+     * // Associative['lastname' => 'Doe', 10 => 2] - (generated randomly)
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Utils\Arr::randomValue() To pick one or more random values out of the array.
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException If the data structure is empty, or
+     * $number is out of range.
+     */
+    public function random (int $number = 1):mixed {
+
+        try {
+
+            if (empty($this->storage))
+                throw new OutOfRangeException;
+
+            $result = ArrUtil::randomValue($this->storage, $number, true);
+
+            if ($number > 1)
+                /** @var array<TKey,TValue> $result */
+                return new static($result);
+
+            /** @var TValue $result */
+            return $result;
+
+        } catch (OutOfRangeExceptionLowLevel) {
+
+            throw new OutOfRangeException()->withMessage('Data structure is empty, or $number is out of range.');
+
+        }
 
     }
 

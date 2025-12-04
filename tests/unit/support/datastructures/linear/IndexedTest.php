@@ -23,6 +23,7 @@ use FireHub\Core\Support\DataStructures\Function\ {
 use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
 };
+use FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
 };
@@ -410,6 +411,65 @@ final class IndexedTest extends Base {
     public function testTail (Indexed $collection):void {
 
         $this->assertEquals('Richard', $collection->tail());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testRandomValue (Indexed $collection):void {
+
+        $this->assertContains($collection->random(), $collection->toArray());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testRandomMultiple (Indexed $collection):void {
+
+        $expected = $collection->random(2);
+
+        $this->assertIsArray($expected->toArray());
+        $this->assertCount(2, $expected);
+
+        foreach ($expected as $key => $value) {
+
+            $this->assertArrayHasKey($key, $collection->toArray());
+
+        }
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedEmpty')]
+    public function testRandomEmpty (Indexed $collection):void {
+
+        $this->expectException(OutOfRangeException::class);
+
+        $collection->random(2);
 
     }
 

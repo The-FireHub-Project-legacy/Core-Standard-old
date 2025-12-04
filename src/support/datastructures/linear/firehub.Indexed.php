@@ -17,13 +17,16 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, Chunkable, Filterable, Reversible, SequentialAccess, Shuffleable
+    ArrStorage, Chunkable, Filterable, Randomble, Reversible, SequentialAccess, Shuffleable
 };
 use FireHub\Core\Support\DataStructures\Operation\Chunk;
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
 };
+use FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException;
+use FireHub\Core\Support\Exceptions\Arr\OutOfRangeException as OutOfRangeExceptionLowLevel;
+use FireHub\Core\Support\Utils\Arr as ArrUtil;
 use FireHub\Core\Support\LowLevel\Arr;
 use ArgumentCountError, Traversable;
 
@@ -39,13 +42,14 @@ use ArgumentCountError, Traversable;
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Randomble<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Reversible<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Shuffleable<int, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Reversible, SequentialAccess, Shuffleable {
+class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Randomble, Reversible, SequentialAccess, Shuffleable {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -318,6 +322,60 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Reversible, 
         return empty($this->storage) // @phpstan-ignore return.type
             ? Key::NONE
             : Arr::last($this->storage);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->random();
+     *
+     * // 'Richard' - (generated randomly)
+     * </code>
+     * You can use more than one value:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->random(2);
+     *
+     * // Indexed['Richard', 'John'] - (generated randomly)
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Utils\Arr::randomValue() To pick one or more random values out of the array.
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException If the data structure is empty, or
+     * $number is out of range.
+     */
+    public function random (int $number = 1):mixed {
+
+        try {
+
+            if (empty($this->storage))
+                throw new OutOfRangeException;
+
+            $result = ArrUtil::randomValue($this->storage, $number);
+
+            if ($number > 1)
+                /** @var list<TValue> $result */
+                return new static($result);
+
+            /** @var TValue $result */
+            return $result;
+
+        } catch (OutOfRangeExceptionLowLevel) {
+
+            throw new OutOfRangeException()->withMessage('Data structure is empty, or $number is out of range.');
+
+        }
 
     }
 

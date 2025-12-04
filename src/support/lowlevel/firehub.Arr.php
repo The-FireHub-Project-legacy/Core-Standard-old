@@ -1548,25 +1548,25 @@ final class Arr {
      * @param non-empty-array<TKey, mixed> $array <p>
      * The input array.
      * </p>
-     * @param null|positive-int $number [optional] <p>
+     * @param positive-int $number [optional] <p>
      * Specifies how many entries should be picked.
      * </p>
      *
      * @throws \FireHub\Core\Support\Exceptions\Arr\OutOfRangeException If $array is empty, or if $number is out of
      * range.
      *
-     * @return ($number is null ? TKey : list<TKey>) When picking only one entry, [[Arr#random()]] returns the key
+     * @return ($number is int<2, max> ? list<TKey> :TKey) When picking only one entry, [[Arr#random()]] returns the key
      * for a random entry.
      * Otherwise, an array of keys for the random entries is returned.
      *
      * @caution This function doesn't generate cryptographically secure values and mustn't be used for cryptographic
      * purposes, or purposes that require returned values to be unguessable.
      */
-    public static function random (array $array, ?int $number = null):int|string|array {
+    public static function random (array $array, int $number = 1):int|string|array {
 
         try {
 
-            return array_rand($array, $number ?? 1); // @phpstan-ignore return.type
+            return array_rand($array, $number); // @phpstan-ignore return.type
 
         } catch (ValueError $error) {
 

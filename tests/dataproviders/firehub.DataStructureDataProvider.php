@@ -95,6 +95,19 @@ final class DataStructureDataProvider extends Base {
      *
      * @return array[]
      */
+    public static function associativeEmpty ():array {
+
+        return [
+            [new Associative([])]
+        ];
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @return array[]
+     */
     public static function fixed ():array {
 
         $one = new Fixed(3);

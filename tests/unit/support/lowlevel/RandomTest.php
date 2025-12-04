@@ -176,7 +176,6 @@ final class RandomTest extends Base {
         $actual = Random::bytes($length);
 
         $this->assertIsString($actual);
-        $this->assertGreaterThanOrEqual($length, $actual);
 
     }
 

@@ -21,6 +21,7 @@ use FireHub\Core\Support\DataStructures\Function\ {
     Reduce, Slice, Splice
 };
 use FireHub\Core\Support\Enums\ControlFlowSignal;
+use FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small, TestWith
 };
@@ -355,6 +356,87 @@ final class FixedTest extends Base {
     public function testTailEmpty (Fixed $collection):void {
 
         $this->assertEquals(null, $collection->tail());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\DataStructureException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testRandom (Fixed $collection):void {
+
+        $this->assertContains($collection->random(), $collection->toArray());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\DataStructureException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testRandomMultiple (Fixed $collection):void {
+
+        $expected = $collection->random(2);
+
+        $this->assertIsArray($expected->toArray());
+        $this->assertCount(2, $expected);
+
+        foreach ($expected as $key => $value) {
+
+            $this->assertArrayHasKey($key, $collection->toArray());
+
+        }
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\DataStructureException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixedEmpty')]
+    public function testRandomEmpty (Fixed $collection):void {
+
+        $this->expectException(OutOfRangeException::class);
+
+        $collection->random(2);
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\DataStructureException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testRandomProvidedNumberToBig (Fixed $collection):void {
+
+        $this->expectException(OutOfRangeException::class);
+
+        $collection->random(5);
 
     }
 

@@ -1130,10 +1130,10 @@ final class ArrTest extends Base {
      *
      * @return void
      */
-    #[TestWith([[1, 1, 1, 2, 3]])]
+    #[TestWith([['one' => 1, 'two' => 2, 'three' => 3]])]
     public function testRandom (array $actual):void {
 
-        $this->assertIsInt(Arr::random($actual));
+        $this->assertArrayHasKey(Arr::random($actual), $actual);
 
     }
 
@@ -1147,10 +1147,16 @@ final class ArrTest extends Base {
      *
      * @return void
      */
-    #[TestWith([[1, 1, 1, 2, 3], 3])]
+    #[TestWith([['one' => 1, 'two' => 2, 'three' => 3], 2])]
     public function testRandomMultiple (array $actual, int $number):void {
 
-        $this->assertIsArray(Arr::random($actual, $number));
+        $expected = Arr::random($actual, $number);
+
+        $this->assertIsArray($expected);
+        $this->assertCount(2, $expected);
+
+        foreach ($expected as $key)
+            $this->assertArrayHasKey($key, $actual);
 
     }
 

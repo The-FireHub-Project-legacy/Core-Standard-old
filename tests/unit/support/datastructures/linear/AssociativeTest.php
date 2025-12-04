@@ -24,7 +24,7 @@ use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
 };
 use FireHub\Core\Support\DataStructures\Exceptions\ {
-    KeyAlreadyExistException, KeyDoesntExistException
+    KeyAlreadyExistException, KeyDoesntExistException, OutOfRangeException
 };
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
@@ -511,6 +511,65 @@ final class AssociativeTest extends Base {
         $this->expectException(KeyDoesntExistException::class);
 
         $collection->pull('gender');
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testRandomValue (Associative $collection):void {
+
+        $this->assertContains($collection->random(), $collection->toArray());
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testRandomMultiple (Associative $collection):void {
+
+        $expected = $collection->random(2);
+
+        $this->assertIsArray($expected->toArray());
+        $this->assertCount(2, $expected);
+
+        foreach ($expected as $key => $value) {
+
+            $this->assertArrayHasKey($key, $collection->toArray());
+
+        }
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associativeEmpty')]
+    public function testRandomEmpty (Associative $collection):void {
+
+        $this->expectException(OutOfRangeException::class);
+
+        $collection->random(2);
 
     }
 

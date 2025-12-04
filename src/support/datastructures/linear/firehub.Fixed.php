@@ -17,14 +17,18 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    Filterable, ReversibleInPlace, SequentialAccess, ShuffleableInPlace
+    Filterable, Randomble, ReversibleInPlace, SequentialAccess, ShuffleableInPlace
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
-use FireHub\Core\Support\DataStructures\Exceptions\ShuffleException;
-use FireHub\Core\Support\Exceptions\RandomException;
+use FireHub\Core\Support\DataStructures\Exceptions\ {
+    DataStructureException, OutOfRangeException, ShuffleException
+};
+use FireHub\Core\Support\Exceptions\ {
+    RandomException, Arr\OutOfRangeException as ArrOutOfRangeException
+};
 use FireHub\Core\Support\LowLevel\ {
-    DataIs, Iterator, NumInt, Random
+    Arr, DataIs, Iterator, NumInt, Random
 };
 use SplFixedArray;
 
@@ -41,13 +45,14 @@ use SplFixedArray;
  * @extends SplFixedArray<TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, ?TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, ?TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Randomble<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\ReversibleInPlace<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\ShuffleableInPlace<int, ?TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Fixed extends SplFixedArray implements Filterable, Linear, ReversibleInPlace, SequentialAccess, ShuffleableInPlace {
+class Fixed extends SplFixedArray implements Filterable, Linear, Randomble, ReversibleInPlace, SequentialAccess, ShuffleableInPlace {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -447,6 +452,87 @@ class Fixed extends SplFixedArray implements Filterable, Linear, ReversibleInPla
         $size = $this->getSize();
 
         return $size > 0 ? $this[$size - 1] : null;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = new Fixed(3);
+     *
+     * $collection[0] = 'one';
+     * $collection[1] = 'two';
+     * $collection[2] = 'three';
+     *
+     * $collection->random();
+     *
+     * // 'two' - (generated randomly)
+     * </code>
+     * You can use more than one value:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = new Fixed(3);
+     *
+     * $collection[0] = 'one';
+     * $collection[1] = 'two';
+     * $collection[2] = 'three';
+     *
+     * $collection->random(2);
+     *
+     * // Fixed['three', 'two'] - (generated randomly)
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::count To get the count of items in the data structure.
+     * @uses \FireHub\Core\Support\LowLevel\Random::number() To get a random index from the data structure.
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException If the data structure is empty, or
+     * $number is out of range.
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\DataStructureException If the method failed because
+     * random number generation failed.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::random() To get random indexes from the data structure.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::range() To get range of indexes from the data structure.
+     * @uses \FireHub\Core\Support\LowLevel\DataIs::array() To check if the returned indexes are in array form.
+     */
+    public function random (int $number = 1):mixed {
+
+        $count = $this->count();
+
+        if ($count === 0)
+            new OutOfRangeException()->withMessage('Data structure is empty.');
+
+        if ($number < 1 || $number > $count)
+            throw new OutOfRangeException()->withMessage('Provided number is out of range.');
+
+        try {
+
+            if ($number === 1) return $this[Random::number(0, $count - 1)];
+
+            /** @var non-empty-list<int> $range */
+            $range = Arr::range(0, $count - 1);
+
+            $indexes = Arr::random($range, $number);
+
+            if (!DataIs::array($indexes)) $indexes = [$indexes];
+
+            $storage = new static($number);
+
+            $position = 0;
+            foreach ($indexes as $i)
+                $storage[$position++] = $this[$i];
+
+            return $storage;
+
+        } catch (ArrOutOfRangeException|RandomException) {
+
+            throw new DataStructureException()->withMessage('Random failed because random number generation failed.');
+
+        }
 
     }
 
