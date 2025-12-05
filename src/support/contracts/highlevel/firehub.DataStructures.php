@@ -66,7 +66,7 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      *
      * @uses \FireHub\Core\Support\DataStructures\Operation\Ensure As return.
      *
-         * @return \FireHub\Core\Support\DataStructures\Operation\Ensure<$this> Ensure operation class.
+     * @return \FireHub\Core\Support\DataStructures\Operation\Ensure<$this> Ensure operation class.
      */
     public function ensure ():Ensure;
 
