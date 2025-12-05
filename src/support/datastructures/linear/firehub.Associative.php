@@ -17,9 +17,11 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, Chunkable, Filterable, Flippable, KeyMappable, RandomAccess, Randomble
+    Chunkable, Filterable, Flippable, KeyMappable, KeySortable, RandomAccess, Randomble
 };
-use FireHub\Core\Support\DataStructures\Operation\Chunk;
+use FireHub\Core\Support\DataStructures\Operation\ {
+    Chunk, Sort, SortKeys
+};
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
@@ -43,18 +45,18 @@ use ArgumentCountError, Traversable;
  * @template TKey of array-key
  * @template TValue
  *
- * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Flippable<TKey, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\KeyMappable<TKey, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\KeySortable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\RandomAccess<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Randomble<TKey, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Associative implements ArrStorage, Chunkable, Filterable, Flippable, Linear, KeyMappable, RandomAccess, Randomble {
+class Associative implements Chunkable, Filterable, Flippable, Linear, KeyMappable, KeySortable, RandomAccess, Randomble {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -120,6 +122,32 @@ class Associative implements ArrStorage, Chunkable, Filterable, Flippable, Linea
     public function chunk ():Chunk {
 
         return new Chunk($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Sort As return.
+     */
+    public function sort ():Sort {
+
+        return new Sort($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SortKeys As return.
+     */
+    public function sortKeys ():SortKeys {
+
+        return new SortKeys($this);
 
     }
 

@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    Filterable, Randomble, ReversibleInPlace, SequentialAccess, ShuffleableInPlace
+    Filterable, Randomble, ReversibleInPlace, SequentialAccess, ShuffleableInPlace, Sortable
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
@@ -496,7 +496,7 @@ class Fixed extends SplFixedArray implements Filterable, Linear, Randomble, Reve
      * @throws \FireHub\Core\Support\DataStructures\Exceptions\DataStructureException If the method failed because
      * random number generation failed.
      * @uses \FireHub\Core\Support\LowLevel\Arr::random() To get random indexes from the data structure.
-     * @uses \FireHub\Core\Support\LowLevel\Arr::range() To get range of indexes from the data structure.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::range() To get a range of indexes from the data structure.
      * @uses \FireHub\Core\Support\LowLevel\DataIs::array() To check if the returned indexes are in array form.
      */
     public function random (int $number = 1):mixed {

@@ -43,6 +43,19 @@ final class DataStructureDataProvider extends Base {
      *
      * @return array[]
      */
+    public static function indexedIntUnordered ():array {
+
+        return [
+            [new Indexed([1, 2, 3, 4, 13, 22, 27, 28, 29, 50])]
+        ];
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @return array[]
+     */
     public static function indexedString ():array {
 
         return [

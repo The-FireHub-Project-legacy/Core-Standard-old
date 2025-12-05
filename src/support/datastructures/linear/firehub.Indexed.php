@@ -17,9 +17,11 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    ArrStorage, Chunkable, Filterable, Randomble, Reversible, SequentialAccess, Shuffleable
+    Chunkable, Filterable, Randomble, Reversible, SequentialAccess, Shuffleable, Sortable
 };
-use FireHub\Core\Support\DataStructures\Operation\Chunk;
+use FireHub\Core\Support\DataStructures\Operation\ {
+    Chunk, Sort
+};
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ {
     ControlFlowSignal, Status\Key
@@ -38,7 +40,6 @@ use ArgumentCountError, Traversable;
  *
  * @template TValue
  *
- * @implements \FireHub\Core\Support\DataStructures\Contracts\ArrStorage<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
@@ -46,10 +47,11 @@ use ArgumentCountError, Traversable;
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Reversible<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Shuffleable<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Sortable<int, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Randomble, Reversible, SequentialAccess, Shuffleable {
+class Indexed implements Chunkable, Filterable, Linear, Randomble, Reversible, SequentialAccess, Shuffleable, Sortable {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -119,6 +121,19 @@ class Indexed implements ArrStorage, Chunkable, Filterable, Linear, Randomble, R
     public function chunk ():Chunk {
 
         return new Chunk($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Sort As return.
+     */
+    public function sort ():Sort {
+
+        return new Sort($this);
 
     }
 
