@@ -59,7 +59,7 @@ trait Enumerable {
      *
      * @since 1.0.0
      *
-     * @uses static::fromArray To create data structure from array.
+     * @uses static::fromArray To create a data structure from array.
      * @uses \FireHub\Core\Support\LowLevel\DataIs::array To check if decoded JSON data is an array.
      * @uses \FireHub\Core\Support\LowLevel\JSON::decode() To decode $json data.
      *
@@ -115,9 +115,9 @@ trait Enumerable {
      *
      * @since 1.0.0
      */
-    public function is ():Is {
+    public function find ():Find {
 
-        return new Is($this);
+        return new Find($this);
 
     }
 
@@ -126,9 +126,9 @@ trait Enumerable {
      *
      * @since 1.0.0
      */
-    public function find ():Find {
+    public function is ():Is {
 
-        return new Find($this);
+        return new Is($this);
 
     }
 
