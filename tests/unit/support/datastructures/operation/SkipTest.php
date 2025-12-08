@@ -49,4 +49,21 @@ final class SkipTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testUntil (Indexed $collection):void {
+
+        $this->assertSame(
+            ['Richard', 'Richard'],
+            $collection->skip()->until(fn($value, $key) => $value === 'Richard')->toArray()
+        );
+
+    }
+
 }
