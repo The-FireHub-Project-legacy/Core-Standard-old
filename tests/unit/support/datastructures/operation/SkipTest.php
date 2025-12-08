@@ -66,4 +66,21 @@ final class SkipTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testWhile (Indexed $collection):void {
+
+        $this->assertSame(
+            ['Richard', 'Richard'],
+            $collection->skip()->while(fn($value, $key) => $value !== 'Richard')->toArray()
+        );
+
+    }
+
 }

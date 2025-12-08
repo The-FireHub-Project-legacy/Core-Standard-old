@@ -128,8 +128,44 @@ readonly class Select {
      * New data structure with a selected number of items.
      */
     public function until (callable $callback):Selectable {
-        return $this->data_structure->filter(fn($value, $key = null) => $callback($value, $key) === false ?:
-            ControlFlowSignal::BREAK);
+
+        return $this->data_structure->filter(
+            fn($value, $key = null) => $callback($value, $key) === false ?: ControlFlowSignal::BREAK
+        );
+
+    }
+
+    /**
+     * ### Select while the given callback returns true
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $chunk = new Select($collection)->while(fn($value, $key) => $value !== 'Richard');
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Selectable::filter() To filter data structure items.
+     * @uses \FireHub\Core\Support\Enums\ControlFlowSignal::BREAK To force early break.
+     *
+     * @param callable(value-of<TDataStructure>, key-of<TDataStructure>=):bool $callback <p>
+     * Function to call on each item in a data structure.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Contracts\Selectable<key-of<TDataStructure>, value-of<TDataStructure>>
+     * New data structure with a selected number of items.
+     */
+    public function while (callable $callback):Selectable {
+
+        return $this->data_structure->filter(
+            fn($value, $key = null) => !$callback($value, $key) ? ControlFlowSignal::BREAK : true
+        );
 
     }
 
