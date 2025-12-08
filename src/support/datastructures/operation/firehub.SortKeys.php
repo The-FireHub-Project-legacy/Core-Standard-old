@@ -21,6 +21,8 @@ use FireHub\Core\Support\Enums\ {
 };
 use FireHub\Core\Support\LowLevel\Arr;
 
+use const FireHub\Core\Support\Constants\Number\MAX;
+
 /**
  * ### Sort keys operations for data structures
  * @since 1.0.0
@@ -140,6 +142,43 @@ readonly class SortKeys {
         Arr::sortByKeys($storage, OrderEnum::DESC, $flag);
 
         return $this->data_structure::fromArray($storage);
+
+    }
+
+    /**
+     * ### Sort data structure by the given priority map
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\SortKeys;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $contains = new SortKeys($collection)->byPriority([
+     *     'lastname', 'firstname'
+     * ]);
+     *
+     * // ['lastname' => 'Doe', 'firstname' => 'John', 'age' => 25, 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Utils\Arr::flip() To flip a priority array for comparison.
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Sort::by() To sort data structure by user-defined
+     * comparison function.
+     * @uses \FireHub\Core\Support\Constants\Number\MAX To define the lowest priority for undefined values.
+     *
+     * @param array<array-key> $priority <p>
+     * An associative array defining priority for each value in the data structure.
+     * </p>
+     *
+     * @return TDataStructure New sorted data structure.
+     */
+    public function byPriority (array $priority):KeySortable {
+
+        $priority = Arr::flip($priority);
+
+        return $this->by(fn($current, $next) => ($priority[$current] ?? MAX) <=> ($priority[$next] ?? MAX));
 
     }
 

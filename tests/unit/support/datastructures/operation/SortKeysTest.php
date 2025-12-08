@@ -41,23 +41,6 @@ final class SortKeysTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
-    public function testBy (Associative $collection):void {
-
-        $this->assertSame(
-            [10 => 2, 'age' => 25, 'firstname' => 'John', 'lastname' => 'Doe'],
-            $collection->sortKeys()->by(fn($current, $next) => $current <=> $next)->toArray()
-        );
-
-    }
-
-    /**
-     * @since 1.0.0
-     *
-     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
-     *
-     * @return void
-     */
-    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
     public function testAscending (Associative $collection):void {
 
         $this->assertSame(
@@ -80,6 +63,42 @@ final class SortKeysTest extends Base {
         $this->assertSame(
             [10 => 2, 'firstname' => 'John', 'lastname' => 'Doe', 'age' => 25],
             $collection->sortKeys()->descending(Sort::BY_NUMERIC)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testBy (Associative $collection):void {
+
+        $this->assertSame(
+            [10 => 2, 'age' => 25, 'firstname' => 'John', 'lastname' => 'Doe'],
+            $collection->sortKeys()->by(fn($current, $next) => $current <=> $next)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testByPriority (Associative $collection):void {
+
+        $this->assertSame(
+            ['lastname' => 'Doe', 'firstname' => 'John', 'age' => 25, 10 => 2],
+            $collection->sortKeys()->byPriority([
+                'lastname', 'firstname'
+            ])->toArray()
         );
 
     }

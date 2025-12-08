@@ -43,6 +43,40 @@ final class SortTest extends Base {
      *
      * @return void
      */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedIntUnordered')]
+    public function testAscending (Indexed $collection):void {
+
+        $this->assertSame(
+            [1, 13, 2, 22, 27, 28, 29, 3, 4, 50],
+            $collection->sort()->ascending(SortEnum::BY_STRING)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedIntUnordered')]
+    public function testDescending (Indexed $collection):void {
+
+        $this->assertSame(
+            [50, 4, 3, 29, 28, 27, 22, 2, 13, 1],
+            $collection->sort()->descending(SortEnum::BY_STRING)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
     public function testBy (Indexed $collection):void {
 
@@ -77,29 +111,14 @@ final class SortTest extends Base {
      *
      * @return void
      */
-    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedIntUnordered')]
-    public function testAscending (Indexed $collection):void {
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testByPriority (Indexed $collection):void {
 
         $this->assertSame(
-            [1, 13, 2, 22, 27, 28, 29, 3, 4, 50],
-            $collection->sort()->ascending(SortEnum::BY_STRING)->toArray()
-        );
-
-    }
-
-    /**
-     * @since 1.0.0
-     *
-     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
-     *
-     * @return void
-     */
-    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedIntUnordered')]
-    public function testDescending (Indexed $collection):void {
-
-        $this->assertSame(
-            [50, 4, 3, 29, 28, 27, 22, 2, 13, 1],
-            $collection->sort()->descending(SortEnum::BY_STRING)->toArray()
+            ['Jane', 'Jane', 'Jane', 'John', 'Richard', 'Richard'],
+            $collection->sort()->byPriority([
+                'Jane', 'John', 'Richard'
+            ])->toArray()
         );
 
     }
