@@ -71,4 +71,33 @@ readonly class Select {
 
     }
 
+    /**
+     * ### Select last n items from the data structure
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $chunk = new Select($collection)->last(3);
+     *
+     * // ['Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Function\Slice To slice a part of the data structure.
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the higher values from $number_of_items and zero.
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::min() To get the lower values from $number_of_items and zero.
+     *
+     * @return TDataStructure New data structure with a selected number of items.
+     */
+    public function last (int $number_of_items):Selectable {
+
+        /** @var TDataStructure */
+        return new Slice($this->data_structure)(NumInt::min(0,  -$number_of_items), NumInt::max(0, $number_of_items));
+
+    }
+
 }

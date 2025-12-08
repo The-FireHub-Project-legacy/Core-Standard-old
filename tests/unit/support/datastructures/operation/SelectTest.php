@@ -49,4 +49,21 @@ final class SelectTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testLast (Indexed $collection):void {
+
+        $this->assertSame(
+            ['Jane', 'Richard', 'Richard'],
+            $collection->select()->last(3)->toArray()
+        );
+
+    }
+
 }
