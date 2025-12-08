@@ -100,4 +100,21 @@ final class SelectTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testNth (Indexed $collection):void {
+
+        $this->assertSame(
+            ['John', 'Jane', 'Richard'],
+            $collection->select()->nth(2)->toArray()
+        );
+
+    }
+
 }

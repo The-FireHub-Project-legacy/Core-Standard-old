@@ -169,4 +169,40 @@ readonly class Select {
 
     }
 
+    /**
+     * ### Select every n-th element
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $chunk = new Select($collection)->nth(2);
+     *
+     * // ['John', 'Jane', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Selectable::filter() To filter data structure items.
+     * @uses \FireHub\Core\Support\LowLevel\NumInt::max() To get the higher values from $step and one.
+     *
+     * @param positive-int $step <p>
+     * N-th step.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Contracts\Selectable<key-of<TDataStructure>, value-of<TDataStructure>>
+     * New data structure with a selected number of items.
+     */
+    public function nth (int $step):Selectable {
+
+        return $this->data_structure->filter(function () use ($step, &$counter) {
+
+            return ($counter++ % (NumInt::max(1, $step)) === 0);
+
+        });
+
+    }
+
 }
