@@ -17,10 +17,10 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    Chunkable, Filterable, Randomble, Reversible, SequentialAccess, Shuffleable, Sortable
+    Chunkable, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
-    Chunk, Sort
+    Chunk, Select, Skip, Sort
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ {
@@ -41,17 +41,17 @@ use ArgumentCountError, Traversable;
  * @template TValue
  *
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<int, TValue>
- * @implements \FireHub\Core\Support\DataStructures\Contracts\Filterable<int, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Randomble<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Reversible<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Selectable<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Shuffleable<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Sortable<int, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Indexed implements Chunkable, Filterable, Linear, Randomble, Reversible, SequentialAccess, Shuffleable, Sortable {
+class Indexed implements Chunkable, Linear, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -134,6 +134,32 @@ class Indexed implements Chunkable, Filterable, Linear, Randomble, Reversible, S
     public function sort ():Sort {
 
         return new Sort($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Select As return.
+     */
+    public function select ():Select {
+
+        return new Select($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Skip As return.
+     */
+    public function skip ():Skip {
+
+        return new Skip($this);
 
     }
 
