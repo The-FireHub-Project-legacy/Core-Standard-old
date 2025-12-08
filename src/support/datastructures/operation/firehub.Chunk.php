@@ -50,7 +50,7 @@ readonly class Chunk {
      * ### Split data structure into chunks until the user function returns true
      *
      * <code>
-     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
      * use FireHub\Core\Support\DataStructures\Operation\Chunk;
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
