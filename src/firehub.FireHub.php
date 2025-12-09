@@ -97,7 +97,7 @@ final class FireHub {
      * ### Load bootloaders
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::distinct() To filter duplicate bootloaders.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::unique() To filter duplicate bootloaders.
      * @uses \FireHub\Core\Support\LowLevel\Cls::ofClass() To check if all provided bootloaders are a real bootloader.
      * @uses \FireHub\Core\Support\LowLevel\DataIs::string() To check if $key or $value of bootloaders is a string.
      * @uses \FireHub\Core\Support\LowLevel\DataIs::array() To check if $value of bootloaders is an array.
@@ -111,7 +111,7 @@ final class FireHub {
      */
     private function loadBootloaders ():self {
 
-        foreach (Arr::distinct([...$this->bootloaders, ...$this->configurator->bootloaders]) as $key => $value)
+        foreach (Arr::unique([...$this->bootloaders, ...$this->configurator->bootloaders]) as $key => $value)
             match (true) {
                 DataIs::string($key) && DataIs::array($value) && Cls::ofClass($key, Bootloader::class)
                     => new $key(...$value)->load() ?: throw new FailedToLoadBootloaderException()->fromClass($key),

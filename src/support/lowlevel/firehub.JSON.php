@@ -48,7 +48,7 @@ final class JSON {
      *
      * @uses \FireHub\Core\Support\Enums\JSON\Flag As parameter.
      * @uses \FireHub\Core\Support\Enums\JSON\Flags\Encode As parameter.
-     * @uses \FireHub\Core\Support\LowLevel\Arr::distinct() To get distinct flags.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::unique() To get unique flags.
      *
      * @param mixed $value <p>
      * The value being encoded.
@@ -71,7 +71,7 @@ final class JSON {
     public static function encode (mixed $value, int $depth = 512, Flag|Encode ...$flags):string {
 
         $bitmap = 0;
-        foreach (Arr::distinct($flags) as $flag)
+        foreach (Arr::unique($flags) as $flag)
             if ($flag !== Flag::THROW_ON_ERROR) $bitmap += $flag->value;
 
         try {
@@ -101,7 +101,7 @@ final class JSON {
      *
      * @uses \FireHub\Core\Support\Enums\JSON\Flag As parameter.
      * @uses \FireHub\Core\Support\Enums\JSON\Flags\Decode As parameter.
-     * @uses \FireHub\Core\Support\LowLevel\Arr::distinct() To get distinct flags.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::unique() To get unique flags.
      *
      * @param string $json <p>
      * The JSON string being decoded.
@@ -127,7 +127,7 @@ final class JSON {
     public static function decode (string $json, bool $as_array = false, int $depth = 512, Flag|Decode ...$flags):mixed {
 
         $bitmap = 0;
-        foreach (Arr::distinct($flags) as $flag)
+        foreach (Arr::unique($flags) as $flag)
             if ($flag !== Flag::THROW_ON_ERROR) $bitmap += $flag->value;
 
         try {
@@ -152,7 +152,7 @@ final class JSON {
      * it doesn't need to build the array or object structure containing the payload.
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\LowLevel\Arr::distinct() To get distinct flags.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::unique() To get unique flags.
      *
      * @param string $json <p>
      * The string to validate.
@@ -174,7 +174,7 @@ final class JSON {
     public static function validate (string $json, int $depth = 512, Validate ...$flags):bool {
 
         $bitmap = 0;
-        foreach (Arr::distinct($flags) as $flag) $bitmap += $flag->value;
+        foreach (Arr::unique($flags) as $flag) $bitmap += $flag->value;
 
         return json_validate($json, $depth, $bitmap); // @phpstan-ignore argument.type
 

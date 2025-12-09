@@ -1078,9 +1078,9 @@ final class ArrTest extends Base {
      */
     #[TestWith([[0 => 1, 3 => 2, 4 => 3], [1, 1, 1, 2, 3]])]
     #[TestWith([['one' => 1, 'two' => 2, 'three' => 3], ['one' => 1, 'one2' => 1, 'two' => 2, 'three' => 3]])]
-    public function testDistinct (array $expected, array $actual):void {
+    public function testUnique (array $expected, array $actual):void {
 
-        $this->assertSame($expected, Arr::distinct($actual));
+        $this->assertSame($expected, Arr::unique($actual));
 
     }
 

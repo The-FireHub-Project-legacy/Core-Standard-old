@@ -119,7 +119,7 @@ readonly class Is {
      * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage::toArray() To convert data structure to array
      * if data structure is an array storage.
      * @uses \FireHub\Core\Support\LowLevel\Iterables::count() To count elements in an array.
-     * @uses \FireHub\Core\Support\LowLevel\Arr::distinct() To get distinct values from an array.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::unique() To get unique values from an array.
      * @uses \FireHub\Core\Support\LowLevel\Data::serialize() To serialize data structure values.
      *
      * @throws \FireHub\Core\Support\Exceptions\Data\CannotSerializeException If try to serialize an anonymous class,
@@ -130,13 +130,13 @@ readonly class Is {
     public function unique ():bool {
 
         if ($this->data_structure instanceof ArrStorage)
-            return $this->data_structure->count() === Iterables::count(Arr::distinct($this->data_structure->toArray()));
+            return $this->data_structure->count() === Iterables::count(Arr::unique($this->data_structure->toArray()));
 
         $serialized = [];
         foreach ($this->data_structure as $value)
             $serialized[] = Data::serialize($value); // @phpstan-ignore argument.type
 
-        return Iterables::count($serialized) === Iterables::count(Arr::distinct($serialized));
+        return Iterables::count($serialized) === Iterables::count(Arr::unique($serialized));
 
     }
 
