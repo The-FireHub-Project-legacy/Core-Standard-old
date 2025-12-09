@@ -15,6 +15,7 @@
 
 namespace FireHub\Core\Support\DataStructures\Linear;
 
+use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
     Chunkable, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable
@@ -495,8 +496,11 @@ class Indexed implements Chunkable, Linear, Randomble, Reversible, Selectable, S
             $result = $callback($value, $key);
 
             if ($result === true) {
+
                 $storage[] = $value;
+
                 continue;
+
             }
 
             if ($result === ControlFlowSignal::BREAK) break;
@@ -504,6 +508,44 @@ class Indexed implements Chunkable, Linear, Randomble, Reversible, Selectable, S
         }
 
         return new static($storage);
+
+    }
+
+    /**
+     * ### Merge a data structure with another data structure
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     * $collection2 = new Indexed(['Johnie', 'Janie']);
+     *
+     * $collection->merge($collection2);
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard', 'Johnie', 'Janie']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures As parameter..
+     * @uses static::append() To append all values from the data structures to the current one.
+     * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures::values() To get only values from the data
+     * structures.
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures<mixed, TValue> ...$data_structures <p>
+     * Data structures to merge with.
+     * </p>
+     *
+     * @return static<TValue> New merged data structure.
+     */
+    public function merge (DataStructures ...$data_structures):static {
+
+        $storage = new static($this->storage);
+
+        foreach ($data_structures as $data_structure)
+            $storage->append(...$data_structure->values());
+
+        return $storage;
 
     }
 

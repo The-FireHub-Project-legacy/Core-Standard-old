@@ -262,8 +262,11 @@ class Lazy implements Linear, KeyMappable, Selectable {
                 $result = $callback($value, $key);
 
                 if ($result === true) {
+
                     yield $key => $value;
+
                     continue;
+
                 }
 
                 if ($result === ControlFlowSignal::BREAK) break;

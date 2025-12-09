@@ -639,8 +639,11 @@ class Fixed extends SplFixedArray implements Linear, Randomble, ReversibleInPlac
             $result = $callback($value, $key);
 
             if ($result === true) {
+
                 $storage[$counter++] = $value;
+
                 continue;
+
             }
 
             if ($result === ControlFlowSignal::BREAK) break;

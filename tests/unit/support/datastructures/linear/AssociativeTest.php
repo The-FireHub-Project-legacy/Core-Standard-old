@@ -708,6 +708,23 @@ final class AssociativeTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testMerge (Associative $collection):void {
+
+        $this->assertSame(
+            ['middlename' => 'Marry', 'age' => 28, 'firstname' => 'John', 'lastname' => 'Doe', 10 => 2],
+            $collection->merge(new Associative(['middlename' => 'Marry', 'age' => 28]))->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
     public function testFlip (Associative $collection):void {
 
         $this->assertSame(

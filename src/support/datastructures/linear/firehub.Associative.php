@@ -672,13 +672,49 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
             $result = $callback($value, $key);
 
             if ($result === true) {
+
                 $storage[$key] = $value;
+
                 continue;
+
             }
 
             if ($result === ControlFlowSignal::BREAK) break;
 
         }
+
+        return new static($storage);
+
+    }
+
+    /**
+     * ### Merge a data structure with another data structure
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     * $collection2 = new Associative(['middlename' => 'Marry', 'age' => 28]);
+     *
+     * $collection->merge();
+     *
+     * // ['middlename' => 'Marry', 'age' => 28, 'firstname' => 'John', 'lastname' => 'Doe', 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @param self<TKey, TValue> ...$data_structures <p>
+     * Data structures to merge with.
+     * </p>
+     *
+     * @return static<TKey, TValue> New merged data structure.
+     */
+    public function merge (self ...$data_structures):static {
+
+        $storage = $this->storage;
+
+        foreach ($data_structures as $data_structure)
+            $storage = $data_structure->storage + $storage;
 
         return new static($storage);
 
