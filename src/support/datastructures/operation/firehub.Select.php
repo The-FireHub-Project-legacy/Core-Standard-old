@@ -15,10 +15,14 @@
 
 namespace FireHub\Core\Support\DataStructures\Operation;
 
-use FireHub\Core\Support\DataStructures\Contracts\Selectable;
+use FireHub\Core\Support\DataStructures\Contracts\ {
+    ArrStorage, Selectable
+};
 use FireHub\Core\Support\DataStructures\Function\Slice;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
-use FireHub\Core\Support\LowLevel\NumInt;
+use FireHub\Core\Support\LowLevel\ {
+    Arr, Data, NumInt
+};
 
 /**
  * ### Select operations for data structures
@@ -257,6 +261,97 @@ readonly class Select {
     public function odd ():Selectable {
 
         return $this->nth(2);
+
+    }
+
+    /**
+     * ### Select distinct key and value pair elements
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $chunk = new Select($collection)->unique();
+     *
+     * // ['John', 'Jane', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage::toArray() To convert data structure to array
+     * if data structure is an array storage.
+     * @uses \FireHub\Core\Support\Utils\Arr::unique() To removes duplicate values from an array if data structure
+     * is ArrStorage type.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::inArray() To check if a value exists in an array.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Selectable::filter() To filter items from the data
+     * structure.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Contracts\Selectable<key-of<TDataStructure>, value-of<TDataStructure>>
+     * New data structure with a selected number of items.
+     */
+    public function unique ():Selectable {
+
+        if ($this->data_structure instanceof ArrStorage)
+            return new $this->data_structure(Arr::unique($this->data_structure->toArray()));
+
+        $map = [];
+        return $this->data_structure->filter(function ($value, $key = null) use (&$map) {
+
+            if (!Arr::inArray($value, $map)) {
+
+                $map[] = $value;
+
+                return true;
+
+            }
+
+            return false;
+
+        });
+
+    }
+
+    /**
+     * ### Select distinct key and value pair elements
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Associative([
+     *     'firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2
+     * ]);
+     *
+     * $chunk = new Select($collection)->distinct();
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage::toArray() To convert data structure to array
+     * if data structure is an array storage.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Selectable::filter() To filter items from the data
+     * structure.
+     * @uses \FireHub\Core\Support\LowLevel\Data::serialize() To create a hash from a key and value pair.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Contracts\Selectable<key-of<TDataStructure>, value-of<TDataStructure>>
+     * New data structure with a selected number of items.
+     */
+    public function distinct ():Selectable {
+
+        $map = [];
+        return $this->data_structure->filter(function ($value, $key = null) use (&$map) {
+
+            $hash = Data::serialize([$key, $value]);
+
+            if (!isset($map[$hash])) $map[$hash] = true;
+
+            return true;
+
+        });
 
     }
 

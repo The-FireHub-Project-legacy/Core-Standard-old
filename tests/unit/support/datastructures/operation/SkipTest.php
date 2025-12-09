@@ -16,7 +16,9 @@ namespace FireHub\Tests\Unit\Support\DataStructures\Linear;
 
 use FireHub\Core\Testing\Base;
 use FireHub\Tests\DataProviders\DataStructureDataProvider;
-use FireHub\Core\Support\DataStructures\Linear\Indexed;
+use FireHub\Core\Support\DataStructures\Linear\ {
+    Indexed, Associative, Fixed, Lazy
+};
 use FireHub\Core\Support\DataStructures\Operation\Skip;
 use PHPUnit\Framework\Attributes\ {
     CoversClass, DataProviderExternal, Group, Small
@@ -29,6 +31,9 @@ use PHPUnit\Framework\Attributes\ {
 #[Small]
 #[Group('datastructures')]
 #[CoversClass(Indexed::class)]
+#[CoversClass(Associative::class)]
+#[CoversClass(Fixed::class)]
+#[CoversClass(Lazy::class)]
 #[CoversClass(Skip::class)]
 final class SkipTest extends Base {
 
@@ -44,6 +49,57 @@ final class SkipTest extends Base {
 
         $this->assertSame(
             ['Jane', 'Richard', 'Richard'],
+            $collection->skip()->first(3)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testFirstAssociative (Associative $collection):void {
+
+        $this->assertSame(
+            [10 => 2],
+            $collection->skip()->first(3)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testFirstFixed (Fixed $collection):void {
+
+        $this->assertSame(
+            ['three'],
+            $collection->skip()->first(2)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testFirstLazy (Lazy $collection):void {
+
+        $this->assertSame(
+            [[10, 2]],
             $collection->skip()->first(3)->toArray()
         );
 
