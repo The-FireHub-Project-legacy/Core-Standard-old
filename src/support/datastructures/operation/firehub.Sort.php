@@ -56,7 +56,7 @@ readonly class Sort {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $contains = new Sort($collection)->ascending();
+     * $sort = new Sort($collection)->ascending();
      *
      * // ['Jane', 'Jane', 'Jane', 'John', 'Richard', 'Richard']
      * </code>
@@ -68,7 +68,7 @@ readonly class Sort {
      *
      * $collection = new Indexed([1, 2, 3, 4, 13, 22, 27, 28, 29, 50]);
      *
-     * $contains = new Sort($collection)->ascending(SortEnum::BY_STRING);
+     * $sort = new Sort($collection)->ascending(SortEnum::BY_STRING);
      *
      * // [1, 13, 2, 22, 27, 28, 29, 3, 4, 50]
      * </code>
@@ -105,7 +105,7 @@ readonly class Sort {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $contains = new Sort($collection)->descending();
+     * $sort = new Sort($collection)->descending();
      *
      * // ['Richard', 'Richard', 'Jane', 'Jane', 'Jane', 'John']
      * </code>
@@ -117,7 +117,7 @@ readonly class Sort {
      *
      * $collection = new Indexed([1, 2, 3, 4, 13, 22, 27, 28, 29, 50]);
      *
-     * $contains = new Sort($collection)->descending(SortEnum::BY_STRING);
+     * $sort = new Sort($collection)->descending(SortEnum::BY_STRING);
      *
      * // [50, 4, 3, 29, 28, 27, 22, 2, 13, 1]
      * </code>
@@ -154,7 +154,7 @@ readonly class Sort {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $contains = new Sort($collection)->byPriority([
+     * $sort = new Sort($collection)->byPriority([
      *     'Jane', 'John', 'Richard'
      * ]);
      *
@@ -192,7 +192,7 @@ readonly class Sort {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $contains = new Sort($collection)->by(fn($current, $next) => $current <=> $next);
+     * $sort = new Sort($collection)->by(fn($current, $next) => $current <=> $next);
      *
      * // ['Jane', 'Jane', 'Jane', 'John', 'Richard', 'Richard']
      * </code>

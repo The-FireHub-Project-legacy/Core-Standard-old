@@ -56,7 +56,7 @@ readonly class SortKeys {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $contains = new SortKeys($collection)->ascending();
+     * $sort = new SortKeys($collection)->ascending();
      *
      * // [10 => 2, 'age' => 25, 'firstname' => 'John', 'lastname' => 'Doe']
      * </code>
@@ -68,7 +68,7 @@ readonly class SortKeys {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $contains = new SortKeys($collection)->ascending(SortEnum::BY_NUMERIC);
+     * $sort = new SortKeys($collection)->ascending(SortEnum::BY_NUMERIC);
      *
      * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
      * </code>
@@ -105,7 +105,7 @@ readonly class SortKeys {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $contains = new SortKeys($collection)->descending();
+     * $sort = new SortKeys($collection)->descending();
      *
      * // ['lastname' => 'Doe', 'firstname' => 'John', 'age' => 25, 10 => 2]
      * </code>
@@ -117,7 +117,7 @@ readonly class SortKeys {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $contains = new SortKeys($collection)->descending(SortEnum::BY_NUMERIC);
+     * $sort = new SortKeys($collection)->descending(SortEnum::BY_NUMERIC);
      *
      * // [10 => 2, 'firstname' => 'John', 'lastname' => 'Doe', 'age' => 25]
      * </code>
@@ -154,7 +154,7 @@ readonly class SortKeys {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $contains = new SortKeys($collection)->byPriority([
+     * $sort = new SortKeys($collection)->byPriority([
      *     'lastname', 'firstname'
      * ]);
      *
@@ -191,7 +191,7 @@ readonly class SortKeys {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $contains = new SortKeys($collection)->by(fn($current, $next) => $current <=> $next);
+     * $sort = new SortKeys($collection)->by(fn($current, $next) => $current <=> $next);
      *
      * // [10 => 2, 'age' => 25, 'firstname' => 'John', 'lastname' => 'Doe']
      * </code>

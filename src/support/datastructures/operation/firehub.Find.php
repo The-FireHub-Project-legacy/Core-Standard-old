@@ -55,7 +55,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->key('Doe');
+     * $find = new Find($collection)->key('Doe');
      *
      * // 'lastname'
      * </code>
@@ -101,7 +101,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->value('lastname');
+     * $find = new Find($collection)->value('lastname');
      *
      * // 'Doe'
      * </code>
@@ -135,7 +135,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->first(fn($value, $key) => $key !== 'firstname');
+     * $find = new Find($collection)->first(fn($value, $key) => $key !== 'firstname');
      *
      * // 'John'
      * </code>
@@ -176,7 +176,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->firstKey(fn($value, $key) => $value !== 'John');
+     * $find = new Find($collection)->firstKey(fn($value, $key) => $value !== 'John');
      *
      * // 'lastname'
      * </code>
@@ -217,7 +217,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->last(fn($value, $key) => $key !== 10);
+     * $find = new Find($collection)->last(fn($value, $key) => $key !== 10);
      *
      * // 25
      * </code>
@@ -253,7 +253,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->lastKey(fn($value, $key) => $value !== 2);
+     * $find = new Find($collection)->lastKey(fn($value, $key) => $value !== 2);
      *
      * // 'age'
      * </code>
@@ -289,7 +289,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->before('Doe');
+     * $find = new Find($collection)->before('Doe');
      *
      * // 'John'
      * </code>
@@ -323,7 +323,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->beforeWhere(fn($value, $key) => $value === 'Doe');
+     * $find = new Find($collection)->beforeWhere(fn($value, $key) => $value === 'Doe');
      *
      * // 'John'
      * </code>
@@ -369,7 +369,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->after('Doe');
+     * $find = new Find($collection)->after('Doe');
      *
      * // 25
      * </code>
@@ -403,7 +403,7 @@ readonly class Find {
      *
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $is = new Find($collection)->afterWhere(fn($value, $key) => $value === 'Doe');
+     * $find = new Find($collection)->afterWhere(fn($value, $key) => $value === 'Doe');
      *
      * // 25
      * </code>

@@ -52,7 +52,7 @@ readonly class Skip {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Skip($collection)->first(3);
+     * $skip = new Skip($collection)->first(3);
      *
      * // ['Jane', 'Richard', 'Richard']
      * </code>
@@ -80,7 +80,7 @@ readonly class Skip {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Skip($collection)->until(fn($value, $key) => $value === 'Richard');
+     * $skip = new Skip($collection)->until(fn($value, $key) => $value === 'Richard');
      *
      * // ['Richard', 'Richard']
      * </code>
@@ -119,7 +119,7 @@ readonly class Skip {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Skip($collection)->while(fn($value, $key) => $value !== 'Richard');
+     * $skip = new Skip($collection)->while(fn($value, $key) => $value !== 'Richard');
      *
      * // ['Richard', 'Richard']
      * </code>
@@ -158,7 +158,7 @@ readonly class Skip {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Skip($collection)->nth(3);
+     * $skip = new Skip($collection)->nth(3);
      *
      * // ['John', 'Jane', 'Jane', 'Richard']
      * </code>

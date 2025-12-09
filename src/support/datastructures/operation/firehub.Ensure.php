@@ -53,7 +53,7 @@ readonly class Ensure {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $contains = new Ensure($collection)->all(fn($value, $key) => DataIs::string($value));
+     * $ensure = new Ensure($collection)->all(fn($value, $key) => DataIs::string($value));
      *
      * // true
      * </code>
@@ -92,7 +92,7 @@ readonly class Ensure {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $contains = new Ensure($collection)->none(fn($value, $key) => DataIs::int($value));
+     * $ensure = new Ensure($collection)->none(fn($value, $key) => DataIs::int($value));
      *
      * // true
      * </code>

@@ -249,4 +249,55 @@ final class SelectTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testDuplicates (Indexed $collection):void {
+
+        $this->assertSame(
+            ['Jane', 'Jane', 'Jane', 'Richard', 'Richard'],
+            $collection->select()->duplicates()->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testOnly (Associative $collection):void {
+
+        $this->assertSame(
+            ['lastname' => 'Doe'],
+            $collection->select()->only(['lastname'])->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testExcept (Associative $collection):void {
+
+        $this->assertSame(
+            ['firstname' => 'John', 'age' => 25, 10 => 2],
+            $collection->select()->except(['lastname'])->toArray()
+        );
+
+    }
+
 }

@@ -24,6 +24,8 @@ use FireHub\Core\Support\LowLevel\ {
     Arr, Data, NumInt
 };
 
+use FireHub\Core\Support\Debug\ValueStringifier;
+
 /**
  * ### Select operations for data structures
  * @since 1.0.0
@@ -57,7 +59,7 @@ readonly class Select {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Select($collection)->first(3);
+     * $select = new Select($collection)->first(3);
      *
      * // ['John', 'Jane', 'Jane']
      * </code>
@@ -85,7 +87,7 @@ readonly class Select {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Select($collection)->last(3);
+     * $select = new Select($collection)->last(3);
      *
      * // ['Jane', 'Richard', 'Richard']
      * </code>
@@ -148,7 +150,7 @@ readonly class Select {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Select($collection)->while(fn($value, $key) => $value !== 'Richard');
+     * $select = new Select($collection)->while(fn($value, $key) => $value !== 'Richard');
      *
      * // ['John', 'Jane', 'Jane', 'Jane']
      * </code>
@@ -182,7 +184,7 @@ readonly class Select {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Select($collection)->nth(2);
+     * $select = new Select($collection)->nth(2);
      *
      * // ['John', 'Jane', 'Richard']
      * </code>
@@ -218,7 +220,7 @@ readonly class Select {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Select($collection)->even();
+     * $select = new Select($collection)->even();
      *
      * // ['Jane', 'Jane', 'Richard']
      * </code>
@@ -246,7 +248,7 @@ readonly class Select {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Select($collection)->odd();
+     * $select = new Select($collection)->odd();
      *
      * // ['John', 'Jane', 'Richard']
      * </code>
@@ -273,7 +275,7 @@ readonly class Select {
      *
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      *
-     * $chunk = new Select($collection)->unique();
+     * $select = new Select($collection)->unique();
      *
      * // ['John', 'Jane', 'Richard']
      * </code>
@@ -320,11 +322,9 @@ readonly class Select {
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
      * use FireHub\Core\Support\DataStructures\Operation\Select;
      *
-     * $collection = new Associative([
-     *     'firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2
-     * ]);
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new Select($collection)->distinct();
+     * $select = new Select($collection)->distinct();
      *
      * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]
      * </code>
@@ -352,6 +352,105 @@ readonly class Select {
             return true;
 
         });
+
+    }
+
+    /**
+     * ### Select duplicated elements
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $select = new Select($collection)->duplicates();
+     *
+     * // ['Jane', 'Jane', 'Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\CountBy::values() To count elements by values.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Selectable::filter() To filter items from the data
+     * structure.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::get() To get value from an associative array.
+     * @uses \FireHub\Core\Support\Debug\ValueStringifier::stringify() To stringify value.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Contracts\Selectable<key-of<TDataStructure>, value-of<TDataStructure>>
+     * New data structure with a selected number of items.
+     */
+    public function duplicates ():Selectable {
+
+        $map = $this->data_structure->countBy()->values();
+
+        return $this->data_structure->filter(fn($value) => $map->get(new ValueStringifier()->stringify($value)) > 1);
+
+    }
+
+    /**
+     * ### Select items with specific keys
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $select = new Select($collection)->only(['lastname']);
+     *
+     * // ['lastname' => 'Doe']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Selectable::filter() To filter items from the data
+     * structure.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::inArray() To check if a value exists in an array.
+     *
+     * @param list<key-of<TDataStructure>> $keys <p>
+     * List of keys to filter.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Contracts\Selectable<key-of<TDataStructure>, value-of<TDataStructure>>
+     * New data structure with a selected number of items.
+     */
+    public function only (array $keys):Selectable {
+
+        return $this->data_structure->filter(fn($value, $key = null) => Arr::inArray($key, $keys));
+
+    }
+
+    /**
+     * ### Select items without specific keys
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $select = new Select($collection)->except(['lastname']);
+     *
+     * // ['firstname' => 'John', 'age' => 25, 10 => 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Selectable::filter() To filter items from the data
+     * structure.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::inArray() To check if a value exists in an array.
+     *
+     * @param list<key-of<TDataStructure>> $keys <p>
+     * List of keys to filter.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Contracts\Selectable<key-of<TDataStructure>, value-of<TDataStructure>>
+     * New data structure with a selected number of items.
+     */
+    public function except (array $keys):Selectable {
+
+        return $this->data_structure->filter(fn($value, $key = null) => !Arr::inArray($key, $keys));
 
     }
 
