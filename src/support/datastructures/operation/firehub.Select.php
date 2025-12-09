@@ -205,4 +205,59 @@ readonly class Select {
 
     }
 
+    /**
+     * ### Select even elements
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $chunk = new Select($collection)->even();
+     *
+     * // ['Jane', 'Jane', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Skip::first() To skip the first element.
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Select::nth() To skip every n-th element.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Contracts\Selectable<key-of<TDataStructure>, value-of<TDataStructure>>
+     * New data structure with a selected number of items.
+     */
+    public function even ():Selectable {
+
+        return new self(new Skip($this->data_structure)->first(1))->nth(2);
+
+    }
+
+    /**
+     * ### Select odd elements
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\Select;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $chunk = new Select($collection)->odd();
+     *
+     * // ['John', 'Jane', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Select::nth() To select every n-th element.
+     *
+     * @return \FireHub\Core\Support\DataStructures\Contracts\Selectable<key-of<TDataStructure>, value-of<TDataStructure>>
+     * New data structure with a selected number of items.
+     */
+    public function odd ():Selectable {
+
+        return $this->nth(2);
+
+    }
+
 }
