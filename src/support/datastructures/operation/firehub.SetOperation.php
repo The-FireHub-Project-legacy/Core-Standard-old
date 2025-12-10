@@ -59,7 +59,7 @@ readonly class SetOperation {
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      * $collection2 = new Indexed(['John', 'Jane']);
      *
-     * $chunk = new SetOperation($collection)->differenceValue($collection2);
+     * $set_operator = new SetOperation($collection, $collection2)->differenceValue();
      *
      * // ['Richard', 'Richard']
      * </code>
@@ -102,8 +102,8 @@ readonly class SetOperation {
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      * $collection2 = new Indexed(['John', 'Jane']);
      *
-     * $chunk = new SetOperation($collection)->differenceValueWith(
-     *     $collection2, fn($value_a, $value_b) => $value_a <=> $value_b
+     * $set_operator = new SetOperation($collection, $collection2)->differenceValueWith(
+     *     fn($value_a, $value_b) => $value_a <=> $value_b
      * );
      *
      * // ['Richard', 'Richard']
@@ -156,7 +156,7 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->differenceKey($collection2);
+     * $set_operator = new SetOperation($collection, $collection2)->differenceKey();
      *
      * // ['lastname' => 'Doe']
      * </code>
@@ -200,8 +200,8 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->differenceKeyWith(
-     *     $collection2, fn($key_a, $key_b) => $key_a <=> $key_b
+     * $set_operator = new SetOperation($collection, $collection2)->differenceKeyWith(
+     *     fn($key_a, $key_b) => $key_a <=> $key_b
      * );
      *
      * // ['lastname' => 'Doe']
@@ -254,7 +254,7 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->differenceAssoc($collection2);
+     * $set_operator = new SetOperation($collection, $collection2)->differenceAssoc();
      *
      * // ['lastname' => 'Doe']
      * </code>
@@ -298,8 +298,8 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname_x' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->differenceAssocWithKey(
-     *     $collection2, fn($key_a, $key_b) => $key_a <=> $key_b
+     * $set_operator = new SetOperation($collection, $collection2)->differenceAssocWithKey(
+     *     fn($key_a, $key_b) => $key_a <=> $key_b
      * );
      *
      * // ['firstname' => 'John', 'lastname' => 'Doe']
@@ -354,8 +354,8 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname_x' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->differenceAssocWithKey(
-     *     $collection2, fn($value_a, $value_b) => $value_a <=> $value_b
+     * $set_operator = new SetOperation($collection, $collection2)->differenceAssocWithKey(
+     *     fn($value_a, $value_b) => $value_a <=> $value_b
      * );
      *
      * // ['firstname' => 'John', 'lastname' => 'Doe']
@@ -410,8 +410,8 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname_x' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->differenceAssocWithKeyValue(
-     *     $collection2, fn($value_a, $value_b) => $value_a <=> $value_b, fn($key_a, $key_b) => $key_a <=> $key_b
+     * $set_operator = new SetOperation($collection, $collection2)->differenceAssocWithKeyValue(
+     *     fn($value_a, $value_b) => $value_a <=> $value_b, fn($key_a, $key_b) => $key_a <=> $key_b
      * );
      *
      * // ['firstname' => 'John', 'lastname' => 'Doe']
@@ -473,7 +473,7 @@ readonly class SetOperation {
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      * $collection2 = new Indexed(['John', 'Jane']);
      *
-     * $chunk = new SetOperation($collection)->intersectValue($collection2);
+     * $set_operator = new SetOperation($collection, $collection2)->intersectValue();
      *
      * // ['John', 'Jane', 'Jane', 'Jane']
      * </code>
@@ -516,8 +516,8 @@ readonly class SetOperation {
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      * $collection2 = new Indexed(['John', 'Jane']);
      *
-     * $chunk = new SetOperation($collection)->intersectValueWith(
-     *     $collection2, fn($value_a, $value_b) => $value_a <=> $value_b
+     * $set_operator = new SetOperation($collection, $collection2)->intersectValueWith(
+     *     fn($value_a, $value_b) => $value_a <=> $value_b
      * );
      *
      * // ['John', 'Jane', 'Jane', 'Jane']
@@ -570,7 +570,7 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->intersectKey($collection2);
+     * $set_operator = new SetOperation($collection, $collection2)->intersectKey();
      *
      * // ['firstname' => 'John', 'age' => 25, 10 => 2]
      * </code>
@@ -614,8 +614,8 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->intersectKeyWith(
-     *     $collection2, fn($key_a, $key_b) => $key_a <=> $key_b
+     * $set_operator = new SetOperation($collection, $collection2)->intersectKeyWith(
+     *     fn($key_a, $key_b) => $key_a <=> $key_b
      * );
      *
      * // ['firstname' => 'John', 'age' => 25, 10 => 2]
@@ -668,7 +668,7 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->intersectAssoc($collection2);
+     * $set_operator = new SetOperation($collection, $collection2)->intersectAssoc();
      *
      * // ['firstname' => 'John', 'age' => 25, 10 => 2]
      * </code>
@@ -712,8 +712,8 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname_x' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->intersectAssocWithKey(
-     *     $collection2, fn($key_a, $key_b) => $key_a <=> $key_b
+     * $set_operator = new SetOperation($collection, $collection2)->intersectAssocWithKey(
+     *     fn($key_a, $key_b) => $key_a <=> $key_b
      * );
      *
      * // ['age' => 25, 10 => 2]
@@ -768,8 +768,8 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname_x' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->intersectAssocWithKey(
-     *     $collection2, fn($value_a, $value_b) => $value_a <=> $value_b
+     * $set_operator = new SetOperation($collection, $collection2)->intersectAssocWithKey(
+     *     fn($value_a, $value_b) => $value_a <=> $value_b
      * );
      *
      * // ['age' => 25, 10 => 2]
@@ -824,8 +824,8 @@ readonly class SetOperation {
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['firstname_x' => 'John', 'age' => 25, 10 => 2]);
      *
-     * $chunk = new SetOperation($collection)->intersectAssocWithKeyValue(
-     *     $collection2, fn($value_a, $value_b) => $value_a <=> $value_b, fn($key_a, $key_b) => $key_a <=> $key_b
+     * $set_operator = new SetOperation($collection, $collection2)->intersectAssocWithKeyValue(
+     *     fn($value_a, $value_b) => $value_a <=> $value_b, fn($key_a, $key_b) => $key_a <=> $key_b
      * );
      *
      * // ['age' => 25, 10 => 2]
@@ -874,6 +874,72 @@ readonly class SetOperation {
                     ) return true;
                 return false;
             });
+
+    }
+
+    /**
+     * ### Computes the symmetric difference of data structures using values for comparison
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\DataStructures\Operation\SetOperation;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     * $collection2 = new Indexed(['John', 'Richard', 'Marry']);
+     *
+     * $set_operator = new SetOperation($collection, $collection2)->symmetricDifferenceValue();
+     *
+     * // ['Jane', 'Jane', 'Jane', 'Marry']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation::differenceValue() To compute the
+     * difference of data structures using values for comparison.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Mergeable::union() To merge difference from both data
+     * structures.
+     *
+     * @return TDataStructure New data structure with applied set operator.
+     */
+    public function symmetricDifferenceValue ():Mergeable {
+
+        /** @phpstan-ignore return.type */
+        return $this->differenceValue()->union(
+            $this->data_structure_compare->setOperation($this->data_structure)->differenceValue()
+        );
+
+    }
+
+    /**
+     * ### Computes the symmetric difference of data structures using keys for comparison
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\SetOperation;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     * $collection2 = new Associative(['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $set_operator = new SetOperation($collection, $collection2)->symmetricDifferenceKey();
+     *
+     * // ['firstname_x' => 'John', 'firstname' => 'John']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation::differenceKey() To compute the
+     * difference of data structures using keys for comparison.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Mergeable::union() To merge difference from both data
+     * structures.
+     *
+     * @return TDataStructure New data structure with applied set operator.
+     */
+    public function symmetricDifferenceKey ():Mergeable {
+
+        /** @phpstan-ignore return.type */
+        return $this->differenceKey()->union(
+            $this->data_structure_compare->setOperation($this->data_structure)->differenceKey()
+        );
 
     }
 

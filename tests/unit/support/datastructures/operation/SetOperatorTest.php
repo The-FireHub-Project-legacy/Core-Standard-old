@@ -482,4 +482,57 @@ final class SetOperatorTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testSymmetricDifferenceValue (Indexed $collection):void {
+
+        $this->assertSame(
+            ['Jane', 'Jane', 'Jane', 'Marry'],
+            $collection->setOperation(new Indexed(['John', 'Richard', 'Marry']))->symmetricDifferenceValue()->toArray()
+        );
+
+        $collection2 = new Fixed(3);
+        $collection2[0] = 'John';
+        $collection2[1] = 'Richard';
+        $collection2[2] = 'Marry';
+
+        $this->assertSame(
+            ['Jane', 'Jane', 'Jane', 'Marry'],
+            $collection->setOperation($collection2)->symmetricDifferenceValue()->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testSymmetricDifferenceKey (Associative $collection):void {
+
+        $this->assertSame(
+            ['firstname_x' => 'John', 'firstname' => 'John'],
+            $collection->setOperation(
+                new Associative(['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2])
+            )->symmetricDifferenceKey()->toArray()
+        );
+
+        $this->assertSame(
+            ['firstname' => 'John', 'firstname_x' => 'John'],
+            $collection->setOperation(
+                new Lazy(fn() => yield from ['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2])
+            )->symmetricDifferenceKey()->toArray()
+        );
+
+    }
+
 }

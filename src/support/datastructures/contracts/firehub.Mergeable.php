@@ -26,8 +26,9 @@ use FireHub\Core\Support\DataStructures\Operation\SetOperation;
  * @template TValue
  *
  * @extends \FireHub\Core\Support\DataStructures\Contracts\Filterable<TKey, TValue>
+ * @extends \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  */
-interface Mergeable extends Filterable {
+interface Mergeable extends Filterable, Linear {
 
     /**
      * ### Merge a data structure with another data structure
