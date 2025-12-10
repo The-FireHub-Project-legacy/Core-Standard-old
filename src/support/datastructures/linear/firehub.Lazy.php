@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    KeyMappable, Selectable
+    KeyMappable, Mergeable, Selectable
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
     Select, Skip
@@ -37,11 +37,12 @@ use Closure, Generator, Traversable;
  *
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\KeyMappable<TKey, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Mergeable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Selectable<TKey, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Lazy implements Linear, KeyMappable, Selectable {
+class Lazy implements Linear, KeyMappable, Mergeable, Selectable {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -278,7 +279,7 @@ class Lazy implements Linear, KeyMappable, Selectable {
     }
 
     /**
-     * ### Merge a data structure with another data structure
+     * {@inheritDoc}
      *
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Lazy;
@@ -292,14 +293,6 @@ class Lazy implements Linear, KeyMappable, Selectable {
      * </code>
      *
      * @since 1.0.0
-     *
-     * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear As parameter.
-     *
-     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<mixed, TValue> ...$data_structures <p>
-     * Data structures to merge with.
-     * </p>
-     *
-     * @return static<TKey, TValue> New merged data structure.
      */
     public function merge (Linear ...$data_structures):static {
 

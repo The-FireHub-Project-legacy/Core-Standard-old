@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    Chunkable, Flippable, KeyMappable, KeySortable, RandomAccess, Randomble, Selectable
+    ArrStorage, Chunkable, Flippable, KeyMappable, KeySortable, Mergeable, RandomAccess, Randomble, Selectable
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
     Chunk, Select, Skip, Sort, SortKeys
@@ -50,13 +50,14 @@ use ArgumentCountError, Traversable;
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\KeyMappable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\KeySortable<TKey, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Mergeable<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\RandomAccess<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Randomble<TKey, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Selectable<TKey, TValue>
  *
  * @phpstan-consistent-constructor
  */
-class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySortable, RandomAccess, Randomble, Selectable {
+class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySortable, Mergeable, RandomAccess, Randomble, Selectable {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -688,7 +689,7 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
     }
 
     /**
-     * ### Merge a data structure with another data structure
+     * {@inheritDoc}
      *
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Associative;
@@ -703,18 +704,20 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
      *
      * @since 1.0.0
      *
-     * @param static<TKey, TValue> ...$data_structures <p>
-     * Data structures to merge with.
-     * </p>
-     *
-     * @return static<TKey, TValue> New merged data structure.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage To check if $data_structure is of ArrStorage
+     * type.
      */
-    public function merge (self ...$data_structures):static {
+    public function merge (Linear ...$data_structures):static {
 
         $storage = $this->storage;
 
         foreach ($data_structures as $data_structure)
-            $storage = $data_structure->storage + $storage;
+            if ($data_structure instanceOf ArrStorage)
+                /** @var array<TKey, TValue> $storage */
+                $storage = $data_structure->storage + $storage;
+            else
+                foreach ($data_structure as $key => $value)
+                    $storage[$key] = $value;
 
         return new static($storage);
 

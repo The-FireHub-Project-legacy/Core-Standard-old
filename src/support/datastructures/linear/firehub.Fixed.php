@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    Randomble, ReversibleInPlace, Selectable, SequentialAccess, ShuffleableInPlace
+    Mergeable, Randomble, ReversibleInPlace, Selectable, SequentialAccess, ShuffleableInPlace
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
     Select, Skip
@@ -47,6 +47,7 @@ use SplFixedArray;
  *
  * @extends SplFixedArray<TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, ?TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Mergeable<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Randomble<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\ReversibleInPlace<int, ?TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Selectable<int, ?TValue>
@@ -55,7 +56,7 @@ use SplFixedArray;
  *
  * @phpstan-consistent-constructor
  */
-class Fixed extends SplFixedArray implements Linear, Randomble, ReversibleInPlace, Selectable, SequentialAccess, ShuffleableInPlace {
+class Fixed extends SplFixedArray implements Linear, Mergeable, Randomble, ReversibleInPlace, Selectable, SequentialAccess, ShuffleableInPlace {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -657,7 +658,7 @@ class Fixed extends SplFixedArray implements Linear, Randomble, ReversibleInPlac
     }
 
     /**
-     * ### Merge a data structure with another data structure
+     * {@inheritDoc}
      *
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Fixed;
@@ -684,12 +685,6 @@ class Fixed extends SplFixedArray implements Linear, Randomble, ReversibleInPlac
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set the size of the data structure.
      * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear::count() To count data structure items.
-     *
-     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<mixed, TValue> ...$data_structures <p>
-     * Data structures to merge with.
-     * </p>
-     *
-     * @return static<TValue> New merged data structure.
      */
     public function merge (Linear ...$data_structures):static {
 

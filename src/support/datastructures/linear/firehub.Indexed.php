@@ -17,7 +17,7 @@ namespace FireHub\Core\Support\DataStructures\Linear;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
-    Chunkable, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable
+    Chunkable, Mergeable, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
     Chunk, Select, Skip, Sort
@@ -42,6 +42,7 @@ use ArgumentCountError, Traversable;
  *
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<int, TValue>
  * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Mergeable<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Randomble<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Reversible<int, TValue>
  * @implements \FireHub\Core\Support\DataStructures\Contracts\Selectable<int, TValue>
@@ -51,7 +52,7 @@ use ArgumentCountError, Traversable;
  *
  * @phpstan-consistent-constructor
  */
-class Indexed implements Chunkable, Linear, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable {
+class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable {
 
     /**
      * ### Enumerable data structure methods that every element meets a given criterion
@@ -511,7 +512,7 @@ class Indexed implements Chunkable, Linear, Randomble, Reversible, Selectable, S
     }
 
     /**
-     * ### Merge a data structure with another data structure
+     * {@inheritDoc}
      *
      * <code>
      * use FireHub\Core\Support\DataStructures\Linear\Indexed;
@@ -529,12 +530,6 @@ class Indexed implements Chunkable, Linear, Randomble, Reversible, Selectable, S
      * @uses static::append() To append all values from the data structures to the current one.
      * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear::values() To get only values from the data
      * structures.
-     *
-     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<mixed, TValue> ...$data_structures <p>
-     * Data structures to merge with.
-     * </p>
-     *
-     * @return static<TValue> New merged data structure.
      */
     public function merge (Linear ...$data_structures):static {
 
