@@ -943,4 +943,37 @@ readonly class SetOperation {
 
     }
 
+    /**
+     * ### Computes the symmetric difference of data structures with additional index check
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\SetOperation;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     * $collection2 = new Associative(['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $set_operator = new SetOperation($collection, $collection2)->symmetricDifferenceAssoc();
+     *
+     * // ['firstname_x' => 'John', 'firstname' => 'John']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation::differenceAssoc() To compute the
+     * difference of data structures with additional index check.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Mergeable::union() To merge difference from both data
+     * structures.
+     *
+     * @return TDataStructure New data structure with applied set operator.
+     */
+    public function symmetricDifferenceAssoc ():Mergeable {
+
+        /** @phpstan-ignore return.type */
+        return $this->differenceAssoc()->union(
+            $this->data_structure_compare->setOperation($this->data_structure)->differenceAssoc()
+        );
+
+    }
+
 }

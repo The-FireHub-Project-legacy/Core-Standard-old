@@ -535,4 +535,30 @@ final class SetOperatorTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testSymmetricDifferenceAssoc (Associative $collection):void {
+
+        $this->assertSame(
+            ['firstname_x' => 'John', 'firstname' => 'John'],
+            $collection->setOperation(
+                new Associative(['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2])
+            )->symmetricDifferenceAssoc()->toArray()
+        );
+
+        $this->assertSame(
+            ['firstname' => 'John', 'firstname_x' => 'John'],
+            $collection->setOperation(
+                new Lazy(fn() => yield from ['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2])
+            )->symmetricDifferenceAssoc()->toArray()
+        );
+
+    }
+
 }
