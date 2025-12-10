@@ -20,7 +20,7 @@ use FireHub\Core\Support\DataStructures\Contracts\ {
     KeyMappable, Mergeable, Selectable
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
-    Select, Skip
+    Select, SetOperation, Skip
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
@@ -116,6 +116,19 @@ class Lazy implements Linear, KeyMappable, Mergeable, Selectable {
     public function skip ():Skip {
 
         return new Skip($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation As return.
+     */
+    public function setOperation (Mergeable $compare):SetOperation {
+
+        return new SetOperation($this, $compare);
 
     }
 
@@ -287,14 +300,14 @@ class Lazy implements Linear, KeyMappable, Mergeable, Selectable {
      * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Lazy(fn() => yield from ['middlename' => 'Marry', 'age' => 28]);
      *
-     * $collection->merge($collection2);
+     * $collection->union($collection2);
      *
      * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Marry', 'age' => 28]
      * </code>
      *
      * @since 1.0.0
      */
-    public function merge (Linear ...$data_structures):static {
+    public function union (Linear ...$data_structures):static {
 
         return new static (function () use ($data_structures) {
 

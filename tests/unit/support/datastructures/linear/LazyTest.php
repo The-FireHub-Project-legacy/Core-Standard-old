@@ -212,13 +212,13 @@ final class LazyTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
-    public function testMerge (Lazy $collection):void {
+    public function testUnion (Lazy $collection):void {
 
         $this->assertSame(
             [
                 ['firstname', 'John'], ['lastname', 'Doe'], ['age', 25], [10, 2], ['middlename', 'Marry'], ['age', 28]
             ],
-            $collection->merge(new Lazy(fn() => yield from ['middlename' => 'Marry', 'age' => 28]))->toArray()
+            $collection->union(new Lazy(fn() => yield from ['middlename' => 'Marry', 'age' => 28]))->toArray()
         );
 
     }

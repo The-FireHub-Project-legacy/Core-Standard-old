@@ -20,7 +20,7 @@ use FireHub\Core\Support\DataStructures\Contracts\ {
     ArrStorage, Chunkable, Flippable, KeyMappable, KeySortable, Mergeable, RandomAccess, Randomble, Selectable
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
-    Chunk, Select, Skip, Sort, SortKeys
+    Chunk, Select, SetOperation, Skip, Sort, SortKeys
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ {
@@ -175,6 +175,19 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
     public function skip ():Skip {
 
         return new Skip($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation As return.
+     */
+    public function setOperation (Mergeable $compare):SetOperation {
+
+        return new SetOperation($this, $compare);
 
     }
 
@@ -697,7 +710,7 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
      * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      * $collection2 = new Associative(['middlename' => 'Marry', 'age' => 28]);
      *
-     * $collection->merge();
+     * $collection->union($collection2);
      *
      * // ['middlename' => 'Marry', 'age' => 28, 'firstname' => 'John', 'lastname' => 'Doe', 10 => 2]
      * </code>
@@ -707,7 +720,7 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
      * @uses \FireHub\Core\Support\DataStructures\Contracts\ArrStorage To check if $data_structure is of ArrStorage
      * type.
      */
-    public function merge (Linear ...$data_structures):static {
+    public function union (Linear ...$data_structures):static {
 
         $storage = $this->storage;
 

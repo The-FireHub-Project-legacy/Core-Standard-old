@@ -496,7 +496,7 @@ final class FixedTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
-    public function testMerge (Fixed $collection):void {
+    public function testUnion (Fixed $collection):void {
 
         $collection2 = new Fixed(3);
         $collection2[0] = 'one';
@@ -505,7 +505,7 @@ final class FixedTest extends Base {
 
         $this->assertSame(
             ['one', 'two', 'three', 'one', 'two', 'three'],
-            $collection->merge($collection2)->toArray()
+            $collection->union($collection2)->toArray()
         );
 
     }

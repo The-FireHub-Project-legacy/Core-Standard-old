@@ -16,6 +16,7 @@
 namespace FireHub\Core\Support\DataStructures\Contracts;
 
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
+use FireHub\Core\Support\DataStructures\Operation\SetOperation;
 
 /**
  * ### Data structure that can be merged with other linear data structures
@@ -38,6 +39,20 @@ interface Mergeable extends Filterable {
      *
      * @return static<TKey, TValue> New merged data structure.
      */
-    public function merge (Linear ...$data_structures):static;
+    public function union (Linear ...$data_structures):static;
+
+    /**
+     * ### Set operation of the data structure
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation As return.
+     *
+     * @param self<TKey, TValue> $compare <p>
+     * Instance of data structure to exclude from the data structure.
+     * </p>
+     *
+     * @return \FireHub\Core\Support\DataStructures\Operation\SetOperation<$this, self<TKey, TValue>>
+     */
+    public function setOperation (self $compare):SetOperation;
 
 }

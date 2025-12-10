@@ -20,7 +20,7 @@ use FireHub\Core\Support\DataStructures\Contracts\ {
     Chunkable, Mergeable, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
-    Chunk, Select, Skip, Sort
+    Chunk, Select, SetOperation, Skip, Sort
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ {
@@ -161,6 +161,19 @@ class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Se
     public function skip ():Skip {
 
         return new Skip($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation As return.
+     */
+    public function setOperation (Mergeable $compare):SetOperation {
+
+        return new SetOperation($this, $compare);
 
     }
 
@@ -520,7 +533,7 @@ class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Se
      * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
      * $collection2 = new Indexed(['Johnie', 'Janie']);
      *
-     * $collection->merge($collection2);
+     * $collection->union($collection2);
      *
      * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard', 'Johnie', 'Janie']
      * </code>
@@ -531,7 +544,7 @@ class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Se
      * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear::values() To get only values from the data
      * structures.
      */
-    public function merge (Linear ...$data_structures):static {
+    public function union (Linear ...$data_structures):static {
 
         $storage = new static($this->storage);
 

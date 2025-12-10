@@ -20,7 +20,7 @@ use FireHub\Core\Support\DataStructures\Contracts\ {
     Mergeable, Randomble, ReversibleInPlace, Selectable, SequentialAccess, ShuffleableInPlace
 };
 use FireHub\Core\Support\DataStructures\Operation\ {
-    Select, Skip
+    Select, SetOperation, Skip
 };
 use FireHub\Core\Support\DataStructures\Traits\Enumerable;
 use FireHub\Core\Support\Enums\ControlFlowSignal;
@@ -167,6 +167,19 @@ class Fixed extends SplFixedArray implements Linear, Mergeable, Randomble, Rever
     public function skip ():Skip {
 
         return new Skip($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation As return.
+     */
+    public function setOperation (Mergeable $compare):SetOperation {
+
+        return new SetOperation($this, $compare);
 
     }
 
@@ -675,7 +688,7 @@ class Fixed extends SplFixedArray implements Linear, Mergeable, Randomble, Rever
      * $collection2[1] = 'two';
      * $collection2[2] = 'three';
      *
-     * $collection->merge($collection2);
+     * $collection->union($collection2);
      *
      * // ['one', 'three', 'three', 'one', 'three', 'three']
      * </code>
@@ -686,7 +699,7 @@ class Fixed extends SplFixedArray implements Linear, Mergeable, Randomble, Rever
      * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set the size of the data structure.
      * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear::count() To count data structure items.
      */
-    public function merge (Linear ...$data_structures):static {
+    public function union (Linear ...$data_structures):static {
 
         $storage = clone $this;
         $size = $this->getSize(); $counter = $size;

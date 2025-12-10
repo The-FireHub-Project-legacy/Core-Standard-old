@@ -708,11 +708,11 @@ final class AssociativeTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
-    public function testMerge (Associative $collection):void {
+    public function testUnion (Associative $collection):void {
 
         $this->assertSame(
             ['middlename' => 'Marry', 'age' => 28, 'firstname' => 'John', 'lastname' => 'Doe', 10 => 2],
-            $collection->merge(new Associative(['middlename' => 'Marry', 'age' => 28]))->toArray()
+            $collection->union(new Associative(['middlename' => 'Marry', 'age' => 28]))->toArray()
         );
 
     }

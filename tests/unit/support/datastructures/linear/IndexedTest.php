@@ -554,11 +554,11 @@ final class IndexedTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
-    public function testMerge (Indexed $collection):void {
+    public function testUnion (Indexed $collection):void {
 
         $this->assertSame(
             ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard', 'Johnie', 'Janie'],
-            $collection->merge(new Indexed(['Johnie', 'Janie']))->toArray()
+            $collection->union(new Indexed(['Johnie', 'Janie']))->toArray()
         );
 
     }
