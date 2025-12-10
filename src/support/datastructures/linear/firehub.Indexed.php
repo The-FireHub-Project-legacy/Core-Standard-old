@@ -610,6 +610,52 @@ class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Se
     }
 
     /**
+     * ### Pad data structure to the specified length with a value
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->pad(10, 'Marry');
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard', 'Marry', 'Marry', 'Marry', 'Marry']
+     * </code>
+     * You can set $size to negative to pad to the left.
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->pad(-10, 'Marry');
+     *
+     * // ['Marry', 'Marry', 'Marry', 'Marry', 'John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::pad() To pad array to the specified length with a value.
+     *
+     * @template TPaddedValue
+     *
+     * @param int $size <p>
+     * New size of the array.
+     * If the length is positive, then the array is padded on the right if it is negative, then on the left.
+     * If the absolute value of length is less than or equal to the length of the array, then no padding takes place.
+     * </p>
+     * @param TPaddedValue $value <p>
+     * Value to pad if input is less than length.
+     * </p>
+     *
+     * @return static<TValue|TPaddedValue> New data structure with padded value
+     */
+    public function pad (int $size, mixed $value):static {
+
+        return new static(Arr::pad($this->storage, $size, $value));
+
+    }
+
+    /**
      * @inheritDoc
      *
      * @since 1.0.0

@@ -597,4 +597,26 @@ final class IndexedTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Indexed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'indexedString')]
+    public function testPad (Indexed $collection):void {
+
+        $this->assertSame(
+            ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard', 'Marry', 'Marry', 'Marry', 'Marry'],
+            $collection->pad(10, 'Marry')->toArray()
+        );
+
+        $this->assertSame(
+            ['Marry', 'Marry', 'Marry', 'Marry', 'John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard'],
+            $collection->pad(-10, 'Marry')->toArray()
+        );
+
+    }
+
 }
