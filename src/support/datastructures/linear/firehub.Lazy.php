@@ -278,6 +278,43 @@ class Lazy implements Linear, KeyMappable, Selectable {
     }
 
     /**
+     * ### Merge a data structure with another data structure
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Lazy;
+     *
+     * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     * $collection2 = new Lazy(fn() => yield from ['middlename' => 'Marry', 'age' => 28]);
+     *
+     * $collection->merge($collection2);
+     *
+     * // ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2, 'middlename' => 'Marry', 'age' => 28]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear As parameter.
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<mixed, TValue> ...$data_structures <p>
+     * Data structures to merge with.
+     * </p>
+     *
+     * @return static<TKey, TValue> New merged data structure.
+     */
+    public function merge (Linear ...$data_structures):static {
+
+        return new static (function () use ($data_structures) {
+
+            yield from $this;
+
+            foreach ($data_structures as $data_structure)
+                yield from $data_structure;
+
+        });
+
+    }
+
+    /**
      * @inheritDoc
      *
      * @since 1.0.0

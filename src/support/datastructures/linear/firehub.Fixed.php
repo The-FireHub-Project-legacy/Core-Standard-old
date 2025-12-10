@@ -657,6 +657,60 @@ class Fixed extends SplFixedArray implements Linear, Randomble, ReversibleInPlac
     }
 
     /**
+     * ### Merge a data structure with another data structure
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Fixed;
+     *
+     * $collection = new Fixed(3);
+     *
+     * $collection[0] = 'one';
+     * $collection[1] = 'two';
+     * $collection[2] = 'three';
+     *
+     * $collection2 = new Fixed(3);
+     *
+     * $collection2[0] = 'one';
+     * $collection2[1] = 'two';
+     * $collection2[2] = 'three';
+     *
+     * $collection->merge($collection2);
+     *
+     * // ['one', 'three', 'three', 'one', 'three', 'three']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::getSize() To get the size of the current data structure.
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Fixed::setSize() To set the size of the data structure.
+     * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear::count() To count data structure items.
+     *
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<mixed, TValue> ...$data_structures <p>
+     * Data structures to merge with.
+     * </p>
+     *
+     * @return static<TValue> New merged data structure.
+     */
+    public function merge (Linear ...$data_structures):static {
+
+        $storage = clone $this;
+        $size = $this->getSize(); $counter = $size;
+
+        foreach ($data_structures as $data_structure)
+            $size += $data_structure->count();
+
+        $storage->setSize($size);
+
+        foreach ($data_structures as $data_structure)
+            foreach ($data_structure as $value)
+                $storage[$counter++] = $value;
+
+        /** @var static<TValue> $storage */
+        return $storage;
+
+    }
+
+    /**
      * {@inheritDoc}
      *
      * <code>

@@ -496,6 +496,28 @@ final class FixedTest extends Base {
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
+    public function testMerge (Fixed $collection):void {
+
+        $collection2 = new Fixed(3);
+        $collection2[0] = 'one';
+        $collection2[1] = 'two';
+        $collection2[2] = 'three';
+
+        $this->assertSame(
+            ['one', 'two', 'three', 'one', 'two', 'three'],
+            $collection->merge($collection2)->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Fixed $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'fixed')]
     public function testReverse (Fixed $collection):void {
 
         $this->assertSame(

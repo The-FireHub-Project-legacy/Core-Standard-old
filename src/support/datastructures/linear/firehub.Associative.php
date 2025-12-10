@@ -703,7 +703,7 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
      *
      * @since 1.0.0
      *
-     * @param self<TKey, TValue> ...$data_structures <p>
+     * @param static<TKey, TValue> ...$data_structures <p>
      * Data structures to merge with.
      * </p>
      *

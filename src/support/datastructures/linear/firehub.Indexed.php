@@ -15,7 +15,6 @@
 
 namespace FireHub\Core\Support\DataStructures\Linear;
 
-use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
 use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
 use FireHub\Core\Support\DataStructures\Contracts\ {
     Chunkable, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable
@@ -527,18 +526,17 @@ class Indexed implements Chunkable, Linear, Randomble, Reversible, Selectable, S
      *
      * @since 1.0.0
      *
-     * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures As parameter..
      * @uses static::append() To append all values from the data structures to the current one.
-     * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures::values() To get only values from the data
+     * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear::values() To get only values from the data
      * structures.
      *
-     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures<mixed, TValue> ...$data_structures <p>
+     * @param \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<mixed, TValue> ...$data_structures <p>
      * Data structures to merge with.
      * </p>
      *
      * @return static<TValue> New merged data structure.
      */
-    public function merge (DataStructures ...$data_structures):static {
+    public function merge (Linear ...$data_structures):static {
 
         $storage = new static($this->storage);
 

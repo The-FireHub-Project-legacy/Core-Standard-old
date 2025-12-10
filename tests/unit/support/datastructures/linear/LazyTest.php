@@ -204,4 +204,23 @@ final class LazyTest extends Base {
 
     }
 
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Lazy $collection
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'lazy')]
+    public function testMerge (Lazy $collection):void {
+
+        $this->assertSame(
+            [
+                ['firstname', 'John'], ['lastname', 'Doe'], ['age', 25], [10, 2], ['middlename', 'Marry'], ['age', 28]
+            ],
+            $collection->merge(new Lazy(fn() => yield from ['middlename' => 'Marry', 'age' => 28]))->toArray()
+        );
+
+    }
+
 }
