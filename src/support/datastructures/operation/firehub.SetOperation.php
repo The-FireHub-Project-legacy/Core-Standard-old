@@ -911,6 +911,43 @@ readonly class SetOperation {
     }
 
     /**
+     * ### Computes the symmetric difference of data structures using values for comparison by using a callback for comparison
+     *
+     * <code>
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     * $collection2 = new Indexed(['John', 'Richard', 'Marry']);
+     *
+     * $set_operator = new SetOperation($collection, $collection2)->symmetricDifferenceValueWith(
+     *     fn($value_a, $value_b) => $value_a <=> $value_b
+     * );
+     *
+     * // ['Jane', 'Jane', 'Jane', 'Marry']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation::differenceValue() To compute the
+     * difference of data structures using values for comparison.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Mergeable::union() To merge difference from both data
+     * structures.
+     *
+     * @param callable(value-of<TDataStructure>, value-of<TDataStructure>):int<-1, 1> $value_callback <p>
+     * The comparison function must return an integer less than, equal to, or greater than zero if the first argument
+     * is considered to be respectively less than, equal to, or greater than the second.
+     * </p>
+     *
+     * @return TDataStructure New data structure with applied set operator.
+     */
+    public function symmetricDifferenceValueWith (callable $value_callback):Mergeable {
+
+        /** @phpstan-ignore return.type */
+        return $this->differenceValueWith($value_callback)->union(
+            $this->data_structure_compare->setOperation($this->data_structure)->differenceValueWith($value_callback)
+        );
+
+    }
+
+    /**
      * ### Computes the symmetric difference of data structures using keys for comparison
      *
      * <code>
@@ -944,6 +981,46 @@ readonly class SetOperation {
     }
 
     /**
+     * ### Computes the symmetric difference of data structures using keys for comparison by using a callback for comparison
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\SetOperation;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     * $collection2 = new Associative(['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $set_operator = new SetOperation($collection, $collection2)->symmetricDifferenceKeyWith(
+     *     fn($key_a, $key_b) => $key_a <=> $key_b
+     * );
+     *
+     * // ['firstname_x' => 'John', 'firstname' => 'John']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation::differenceKeyWith() To compute the
+     * difference of data structures using keys for comparison by using a callback for comparison.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Mergeable::union() To merge difference from both data
+     * structures.
+     *
+     * @param callable(key-of<TDataStructure>, key-of<TDataStructure>):int<-1, 1> $key_callback <p>
+     * The comparison function must return an integer less than, equal to, or greater than zero if the first argument
+     * is considered to be respectively less than, equal to, or greater than the second.
+     * </p>
+     *
+     * @return TDataStructure New data structure with applied set operator.
+     */
+    public function symmetricDifferenceKeyWith (callable $key_callback):Mergeable {
+
+        /** @phpstan-ignore return.type */
+        return $this->differenceKeyWith($key_callback)->union(
+            $this->data_structure_compare->setOperation($this->data_structure)->differenceKeyWith($key_callback)
+        );
+
+    }
+
+    /**
      * ### Computes the symmetric difference of data structures with additional index check
      *
      * <code>
@@ -972,6 +1049,130 @@ readonly class SetOperation {
         /** @phpstan-ignore return.type */
         return $this->differenceAssoc()->union(
             $this->data_structure_compare->setOperation($this->data_structure)->differenceAssoc()
+        );
+
+    }
+
+    /**
+     * ### Computes the symmetric difference of data structures with additional index check by using a callback for key comparison
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\SetOperation;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     * $collection2 = new Associative(['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $set_operator = new SetOperation($collection, $collection2)->symmetricDifferenceAssocWithKey(
+     *     fn($key_a, $key_b) => $key_a <=> $key_b
+     * );
+     *
+     * // ['firstname_x' => 'John', 'firstname' => 'John']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation::differenceAssoc() To compute the
+     * difference of data structures with additional index check by using a callback for key comparison.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Mergeable::union() To merge difference from both data
+     * structures.
+     *
+     * @param callable(key-of<TDataStructure>, key-of<TDataStructure>):int<-1, 1> $key_callback <p>
+     * The comparison function must return an integer less than, equal to, or greater than zero if the first argument
+     * is considered to be respectively less than, equal to, or greater than the second.
+     * </p>
+     *
+     * @return TDataStructure New data structure with applied set operator.
+     */
+    public function symmetricDifferenceAssocWithKey (callable $key_callback):Mergeable {
+
+        /** @phpstan-ignore return.type */
+        return $this->differenceAssocWithKey($key_callback)->union(
+            $this->data_structure_compare->setOperation($this->data_structure)->differenceAssocWithKey($key_callback)
+        );
+
+    }
+
+    /**
+     * ### Computes the symmetric difference of data structures with additional index check by using a callback for value comparison
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\SetOperation;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     * $collection2 = new Associative(['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $set_operator = new SetOperation($collection, $collection2)->symmetricDifferenceAssocWithValue(
+     *     fn($value_a, $value_b) => $value_a <=> $value_b
+     * );
+     *
+     * // ['firstname_x' => 'John', 'firstname' => 'John']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation::differenceAssocWithValue() To compute the
+     * difference of data structures with additional index check by using a callback for value comparison.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Mergeable::union() To merge difference from both data
+     * structures.
+     *
+     * @param callable(value-of<TDataStructure>, value-of<TDataStructure>):int<-1, 1> $value_callback <p>
+     * The comparison function must return an integer less than, equal to, or greater than zero if the first argument
+     * is considered to be respectively less than, equal to, or greater than the second.
+     * </p>
+     *
+     * @return TDataStructure New data structure with applied set operator.
+     */
+    public function symmetricDifferenceAssocWithValue (callable $value_callback):Mergeable {
+
+        /** @phpstan-ignore return.type */
+        return $this->differenceAssocWithValue($value_callback)->union(
+            $this->data_structure_compare->setOperation($this->data_structure)->differenceAssocWithValue($value_callback)
+        );
+
+    }
+
+    /**
+     * ### Computes the symmetric difference of data structures with additional index check by using a callback for key-value comparison
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     * use FireHub\Core\Support\DataStructures\Operation\SetOperation;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     * $collection2 = new Associative(['firstname_x' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $set_operator = new SetOperation($collection, $collection2)->symmetricDifferenceAssocWithKeyValue(
+     *     fn($value_a, $value_b) => $value_a <=> $value_b, fn($key_a, $key_b) => $key_a <=> $key_b
+     * );
+     *
+     * // ['firstname_x' => 'John', 'firstname' => 'John']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation::differenceAssocWithKeyValue() To compute the
+     * difference of data structures with additional index check by using a callback for key-value comparison.
+     * @uses \FireHub\Core\Support\DataStructures\Contracts\Mergeable::union() To merge difference from both data
+     * structures.
+     *
+     * @param callable(value-of<TDataStructure>, value-of<TDataStructure>):int<-1, 1> $value_callback <p>
+     * The comparison function must return an integer less than, equal to, or greater than zero if the first argument
+     * is considered to be respectively less than, equal to, or greater than the second.
+     * </p>
+     * @param callable(key-of<TDataStructure>, key-of<TDataStructure>):int<-1, 1> $key_callback <p>
+     * The comparison function must return an integer less than, equal to, or greater than zero if the first argument
+     * is considered to be respectively less than, equal to, or greater than the second.
+     * </p>
+     *
+     * @return TDataStructure New data structure with applied set operator.
+     */
+    public function symmetricDifferenceAssocWithKeyValue (callable $value_callback, callable $key_callback):Mergeable {
+
+        /** @phpstan-ignore return.type */
+        return $this->differenceAssocWithKeyValue($value_callback, $key_callback)->union(
+            $this->data_structure_compare->setOperation($this->data_structure)->differenceAssocWithKeyValue($value_callback, $key_callback)
         );
 
     }
