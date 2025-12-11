@@ -36,6 +36,7 @@ final class CharMBTest extends Base {
      *
      * @param string $string
      * @param non-negative-int $codepoint
+     * @param Encoding $encoding
      *
      * @throws \FireHub\Core\Support\Exceptions\Codepoint\CodepointToCharacterException
      *
@@ -53,6 +54,7 @@ final class CharMBTest extends Base {
      *
      * @param string $string
      * @param non-negative-int $codepoint
+     * @param Encoding $encoding
      *
      * @throws \FireHub\Core\Support\Exceptions\Char\CharacterToCodepointException
      *

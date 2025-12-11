@@ -40,6 +40,12 @@ use const FireHub\Core\Support\Constants\Number\MAX;
  */
 interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate, JsonSerializeConvertable, SerializableConvertable {
 
+
+    // -------------------------------------------------------------------------
+    // Operations
+    // -------------------------------------------------------------------------
+
+
     /**
      * ### Count operations for data structures
      * @since 1.0.0
@@ -89,6 +95,12 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      * @return \FireHub\Core\Support\DataStructures\Operation\Is<$this> Check is operation class.
      */
     public function is ():Is;
+
+
+    // -------------------------------------------------------------------------
+    // Immutable
+    //
+
 
     /**
      * ### Call a user-generated function on each item in the data structure
@@ -158,6 +170,12 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      */
     public function apply (callable $callback):static;
 
+
+    // -------------------------------------------------------------------------
+    // Basic
+    // -------------------------------------------------------------------------
+
+
     /**
      * ### Applies the callback to the elements of the data structure
      * @since 1.0.0
@@ -169,6 +187,12 @@ interface DataStructures extends ArrayConvertable, Countable, IteratorAggregate,
      * @return $this The same data structure with applied callback to the corresponding values of a data structure.
      */
     public function transform (callable $callback):self;
+
+
+    // -------------------------------------------------------------------------
+    // Special
+    // -------------------------------------------------------------------------
+
 
     /**
      * ### Get keys from the data structure

@@ -144,6 +144,12 @@ class Fixed extends SplFixedArray implements Linear, Mergeable, Randomble, Rever
 
     }
 
+
+    // -------------------------------------------------------------------------
+    // Operations
+    // -------------------------------------------------------------------------
+
+
     /**
      * @inheritDoc
      *
@@ -182,6 +188,12 @@ class Fixed extends SplFixedArray implements Linear, Mergeable, Randomble, Rever
         return new SetOperation($this, $compare);
 
     }
+
+
+    // -------------------------------------------------------------------------
+    // Basic
+    // -------------------------------------------------------------------------
+
 
     /**
      * ### Gets the size of the data structure
@@ -606,6 +618,12 @@ class Fixed extends SplFixedArray implements Linear, Mergeable, Randomble, Rever
 
     }
 
+
+    // -------------------------------------------------------------------------
+    // Immutable
+    // -------------------------------------------------------------------------
+
+
     /**
      * {@inheritDoc}
      *
@@ -805,6 +823,12 @@ class Fixed extends SplFixedArray implements Linear, Mergeable, Randomble, Rever
         return $this;
 
     }
+
+
+    // -------------------------------------------------------------------------
+    // Magic
+    // -------------------------------------------------------------------------
+
 
     /**
      * @inheritDoc

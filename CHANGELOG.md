@@ -2,7 +2,11 @@
 
 ## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.6...develop-pre-alpha-m1)
 
-## [v0.1.6](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...v0.1.5) – (2025-12-11)
+### Added
+
+- Create Characters high-level contract ([#54](https://github.com/The-FireHub-Project/Core-Standard/issues/54), [dee73f2](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/dee73f2))
+
+## [v0.1.6](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.5...v0.1.6) – (2025-12-11)
 
 ### Added
 

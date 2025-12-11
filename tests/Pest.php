@@ -31,5 +31,9 @@ pest()
     ->in('unit\support\utils');
 
 pest()
+    ->group('valueobjects')
+    ->in('unit\support\valueobjects');
+
+pest()
     ->group('components')
     ->in('unit\components');

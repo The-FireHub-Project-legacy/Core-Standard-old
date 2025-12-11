@@ -112,6 +112,12 @@ class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Se
 
     }
 
+
+    // -------------------------------------------------------------------------
+    // Operations
+    // -------------------------------------------------------------------------
+
+
     /**
      * @inheritDoc
      *
@@ -176,6 +182,12 @@ class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Se
         return new SetOperation($this, $compare);
 
     }
+
+
+    // -------------------------------------------------------------------------
+    // Basic
+    // -------------------------------------------------------------------------
+
 
     /**
      * {@inheritDoc}
@@ -471,6 +483,12 @@ class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Se
 
     }
 
+
+    // -------------------------------------------------------------------------
+    // Immutable
+    // -------------------------------------------------------------------------
+
+
     /**
      * {@inheritDoc}
      *
@@ -654,6 +672,12 @@ class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Se
         return new static(Arr::pad($this->storage, $size, $value));
 
     }
+
+
+    // -------------------------------------------------------------------------
+    // Magic
+    // -------------------------------------------------------------------------
+
 
     /**
      * @inheritDoc

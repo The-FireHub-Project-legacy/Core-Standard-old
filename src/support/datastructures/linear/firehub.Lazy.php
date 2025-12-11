@@ -93,6 +93,12 @@ class Lazy implements Linear, KeyMappable, Mergeable, Selectable {
 
     }
 
+
+    // -------------------------------------------------------------------------
+    // Operations
+    // -------------------------------------------------------------------------
+
+
     /**
      * @inheritDoc
      *
@@ -131,6 +137,12 @@ class Lazy implements Linear, KeyMappable, Mergeable, Selectable {
         return new SetOperation($this, $compare);
 
     }
+
+
+    // -------------------------------------------------------------------------
+    // Basic
+    // -------------------------------------------------------------------------
+
 
     /**
      * {@inheritDoc}
@@ -195,29 +207,6 @@ class Lazy implements Linear, KeyMappable, Mergeable, Selectable {
      *
      * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
      *
-     * $collection->applyToKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)
-     *
-     * // ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
-     * </code>
-     *
-     * @since 1.0.0
-     *
-     * @uses static::transformKeys() To apply the callback to the keys of the data structure.
-     */
-    public function applyToKeys (callable $callback):static {
-
-        return (clone $this)->transformKeys($callback); // @phpstan-ignore return.type
-
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * <code>
-     * use FireHub\Core\Support\DataStructures\Linear\Lazy;
-     *
-     * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
-     *
      * $collection->transformKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)
      *
      * // ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
@@ -235,6 +224,35 @@ class Lazy implements Linear, KeyMappable, Mergeable, Selectable {
         };
 
         return $this;
+
+    }
+
+
+    // -------------------------------------------------------------------------
+    // Immutable
+    // -------------------------------------------------------------------------
+
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Lazy;
+     *
+     * $collection = new Lazy(fn() => yield from ['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->applyToKeys(fn($value, $key) => $value === 'Doe' ? $key.'-1' : $key)
+     *
+     * // ['firstname', 'John'], ['lastname-1', 'Doe'], ['age', 25], [10, 2]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses static::transformKeys() To apply the callback to the keys of the data structure.
+     */
+    public function applyToKeys (callable $callback):static {
+
+        return (clone $this)->transformKeys($callback); // @phpstan-ignore return.type
 
     }
 
@@ -319,6 +337,12 @@ class Lazy implements Linear, KeyMappable, Mergeable, Selectable {
         });
 
     }
+
+
+    // -------------------------------------------------------------------------
+    // Magic
+    // -------------------------------------------------------------------------
+
 
     /**
      * @inheritDoc

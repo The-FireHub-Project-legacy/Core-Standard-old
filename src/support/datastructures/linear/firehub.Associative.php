@@ -113,6 +113,12 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
 
     }
 
+
+    // -------------------------------------------------------------------------
+    // Operations
+    // -------------------------------------------------------------------------
+
+
     /**
      * @inheritDoc
      *
@@ -190,6 +196,12 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
         return new SetOperation($this, $compare);
 
     }
+
+
+    // -------------------------------------------------------------------------
+    // Basic
+    // -------------------------------------------------------------------------
+
 
     /**
      * {@inheritDoc}
@@ -597,6 +609,12 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
 
     }
 
+
+    // -------------------------------------------------------------------------
+    // Immutable
+    // -------------------------------------------------------------------------
+
+
     /**
      * {@inheritDoc}
      *
@@ -880,6 +898,12 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
         return new static($storage); // @phpstan-ignore return.type
 
     }
+
+
+    // -------------------------------------------------------------------------
+    // Magic
+    // -------------------------------------------------------------------------
+
 
     /**
      * @inheritDoc
