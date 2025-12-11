@@ -1,0 +1,99 @@
+<?php declare(strict_types = 1);
+
+/**
+ * This file is part of the FireHub Web Application Framework package
+ *
+ * @author Danijel Galić <danijel.galic@outlook.com>
+ * @copyright 2025 FireHub Web Application Framework
+ * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
+ *
+ * @php-version 7.0
+ * @package Core\Support
+ *
+ * @version GIT: $Id$ Blob checksum.
+ */
+
+namespace FireHub\Core\Support\DataStructures\Contracts;
+
+use FireHub\Core\Support\Contracts\HighLevel\DataStructures;
+
+/**
+ * ### Sequential access data structure whose elements can be accessed in a sequential, ordered manner
+ * @since 1.0.0
+ *
+ * @template TKey
+ * @template TValue
+ *
+ * @extends \FireHub\Core\Support\Contracts\HighLevel\DataStructures<TKey, TValue>
+ */
+interface SequentialAccess extends DataStructures {
+
+    /**
+     * ### Removes an item at the beginning of the data structure
+     * @since 1.0.0
+     *
+     * @param positive-int $items [optional] <p>
+     * Number of items to remove.
+     * </p>
+     *
+     * @return void
+     */
+    public function shift (int $items = 1):void;
+
+    /**
+     * ### Removes an item at the end of the data structure
+     * @since 1.0.0
+     *
+     * @param positive-int $items [optional] <p>
+     * Number of items to remove.
+     * </p>
+     *
+     * @return void
+     */
+    public function pop (int $items = 1):void;
+
+    /**
+     * ### Add items at the beginning of the data structure
+     * @since 1.0.0
+     *
+     * @param TValue ...$values <p>
+     * Values to add.
+     * </p>
+     *
+     * @return void
+     */
+    public function prepend (mixed ...$values):void;
+
+    /**
+     * ### Add items at the end of the data structure
+     * @since 1.0.0
+     *
+     * @param TValue ...$values <p>
+     * Values to add.
+     * </p>
+     *
+     * @return void
+     */
+    public function append (mixed ...$values):void;
+
+    /**
+     * ### Get first item from data structure
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value As mark value enum.
+     *
+     * @return TValue|\FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value::* First value from a data structure.
+     */
+    public function head ():mixed;
+
+    /**
+     * ### Get last item from data structure
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value As mark value enum.
+     *
+     * @return TValue|\FireHub\Core\Support\Enums\Status\Key|\FireHub\Core\Support\Enums\Status\Value::* Last value from a data structure.
+     */
+    public function tail ():mixed;
+
+}

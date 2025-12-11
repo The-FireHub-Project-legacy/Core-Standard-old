@@ -12,7 +12,7 @@ jobs:
     strategy:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macOS-latest]
-        php-versions: ['8.4']
+        php-versions: ['8.5']
     name: Run PHPStan with PHP ${{ matrix.php-versions }} on ${{ matrix.operating-system }}
     steps:
       - name: Checkout
@@ -21,7 +21,7 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-versions }}
-          extensions: mbstring, zip, apcu
+          extensions: mbstring, zip, curl, sockets, openssl
           tools: phpstan:2.x
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}

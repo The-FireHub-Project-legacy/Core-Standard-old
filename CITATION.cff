@@ -9,7 +9,7 @@ license: OSL-3.0
 identifiers:
   - type: doi
     value: 10.5281/zenodo.15804459
-    description: The concept DOI of the work.Standard
+    description: The concept DOI of the work.
   - type: url
     value: "https://github.com/The-FireHub-Project/Core-Standard/releases/tag/v0.1.0"
     description: The GitHub release URL of this version.
@@ -30,7 +30,7 @@ authors:
     country: "BA"
     email: "danijel.galic@outlook.com"
     orcid: "https://orcid.org/0000-0002-4447-1352"
-    tel: +387-63-407111
+    tel: +38763407111
     website: "https://the-firehub-project.github.io/"
 url: "https://the-firehub-project.github.io/core-standard/"
 repository-code: "https://github.com/The-FireHub-Project/Core-Standard"

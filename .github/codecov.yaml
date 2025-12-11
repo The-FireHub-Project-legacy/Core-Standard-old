@@ -175,6 +175,11 @@ component_management:
       paths:
         - "src/initializers/**"
 
+    - component_id: module_components
+      name: components
+      paths:
+        - "src/components/**"
+
 github_checks:
 
   annotations: true

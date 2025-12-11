@@ -6,18 +6,26 @@
     "homepage": "https://the-firehub-project.github.io/Core/",
     "license": "OSL-3.0",
     "require": {
-        "php": "^8.4",
+        "php": "^8.5",
         "ext-mbstring": "*"
     },
     "require-dev": {
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^12.0",
+        "pestphp/pest": "^4",
+        "pestphp/pest-plugin-type-coverage": "^4",
+        "pestphp/pest-plugin-stressless": "^4",
+        "pestphp/pest-plugin-profanity": "^4",
+        "pestphp/pest-plugin-browser": "^4",
+        "pestphp/pest-plugin-faker": "^4",
+        "pestphp/pest-plugin-arch": "^4",
         "ext-zip": "*",
+        "ext-curl": "*",
         "ext-openssl": "*",
-        "ext-apcu": "*"
+        "ext-sockets": "*"
     },
     "suggest": {
-        "php-64bit": "^8.4",
+        "php-64bit": "^8.5",
         "ext-apcu": "*"
     },
     "minimum-stability": "dev",
@@ -55,6 +63,9 @@
         "vendor-dir": "vendor",
         "bin-dir": "vendor/bin",
         "prepend-autoloader": false,
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }

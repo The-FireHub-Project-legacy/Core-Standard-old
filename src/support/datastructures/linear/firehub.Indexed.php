@@ -1,0 +1,735 @@
+<?php declare(strict_types = 1);
+
+/**
+ * This file is part of the FireHub Web Application Framework package
+ *
+ * @author Danijel Galić <danijel.galic@outlook.com>
+ * @copyright 2025 FireHub Web Application Framework
+ * @license <https://opensource.org/licenses/OSL-3.0> OSL Open Source License version 3
+ *
+ * @php-version 8.4
+ * @package Core\Support
+ *
+ * @version GIT: $Id$ Blob checksum.
+ */
+
+namespace FireHub\Core\Support\DataStructures\Linear;
+
+use FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear;
+use FireHub\Core\Support\DataStructures\Contracts\ {
+    Chunkable, Mergeable, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable
+};
+use FireHub\Core\Support\DataStructures\Operation\ {
+    Chunk, Select, SetOperation, Skip, Sort
+};
+use FireHub\Core\Support\DataStructures\Traits\Enumerable;
+use FireHub\Core\Support\Enums\ {
+    ControlFlowSignal, Status\Key
+};
+use FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException;
+use FireHub\Core\Support\Exceptions\Arr\OutOfRangeException as OutOfRangeExceptionLowLevel;
+use FireHub\Core\Support\Utils\Arr as ArrUtil;
+use FireHub\Core\Support\LowLevel\Arr;
+use ArgumentCountError, Traversable;
+
+/**
+ * ### Indexed array collection type
+ *
+ * Collections which have numerical indexes in an ordered sequential manner (starting from 0 and ending with n-1).
+ * @since 1.0.0
+ *
+ * @template TValue
+ *
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Chunkable<int, TValue>
+ * @implements \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Mergeable<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Randomble<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Reversible<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Selectable<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\SequentialAccess<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Shuffleable<int, TValue>
+ * @implements \FireHub\Core\Support\DataStructures\Contracts\Sortable<int, TValue>
+ *
+ * @phpstan-consistent-constructor
+ */
+class Indexed implements Chunkable, Linear, Mergeable, Randomble, Reversible, Selectable, SequentialAccess, Shuffleable, Sortable {
+
+    /**
+     * ### Enumerable data structure methods that every element meets a given criterion
+     * @since 1.0.0
+     *
+     * @use \FireHub\Core\Support\DataStructures\Traits\Enumerable<int, TValue>
+     */
+    use Enumerable;
+
+    /**
+     * ### Underlying storage data
+     * @since 1.0.0
+     *
+     * @var list<TValue>
+     */
+    protected(set) array $storage = [];
+
+    /**
+     * ### Constructor
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To help with removing keys from an array.
+     *
+     * @param null|array<array-key, TValue> $storage [optional] <p>
+     * Array to create underlying storage data.
+     * </p>
+     *
+     * @return void
+     *
+     * @caution This collection will reindex the provided array if it is not already numerically indexed.
+     */
+    public function __construct (?array $storage = null) {
+
+        $this->storage = Arr::values($storage ?? []);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = Indexed::fromArray(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @return static<TValue> This object created from a provider array.
+     */
+    public static function fromArray (array $array):static {
+
+        /** @var static<TValue> */
+        return new static($array);
+
+    }
+
+
+    // -------------------------------------------------------------------------
+    // Operations
+    // -------------------------------------------------------------------------
+
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Chunk As return.
+     */
+    public function chunk ():Chunk {
+
+        return new Chunk($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Sort As return.
+     */
+    public function sort ():Sort {
+
+        return new Sort($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Select As return.
+     */
+    public function select ():Select {
+
+        return new Select($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\Skip As return.
+     */
+    public function skip ():Skip {
+
+        return new Skip($this);
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Operation\SetOperation As return.
+     */
+    public function setOperation (Mergeable $compare):SetOperation {
+
+        return new SetOperation($this, $compare);
+
+    }
+
+
+    // -------------------------------------------------------------------------
+    // Basic
+    // -------------------------------------------------------------------------
+
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->toArray();
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @return list<TValue> Object as an array.
+     */
+    public function toArray ():array {
+
+        return $this->storage;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Removing a single item:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->shift();
+     *
+     * // ['Jane', 'Jane', 'Jane', 'Richard', 'Richard']
+     * </code>
+     * Removing more than one item:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->shift(3);
+     *
+     * // ['Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::shift() To remove an item at the beginning of the data structure if
+     * $items value is 5 or less.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::splice() To remove an item at the beginning of the data structure if
+     * $items value is more than 5.
+     */
+    public function shift (int $items = 1):void {
+
+        if ($items <= 5)
+            while ($items-- > 0)
+                Arr::shift($this->storage);
+
+        else Arr::splice($this->storage, 0, $items);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * Removing a single item:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->pop();
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard']
+     * </code>
+     * Removing more than one item:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->pop(3);
+     *
+     * // ['John', 'Jane', 'Jane']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::pop() To remove an item at the end of the data structure if $items
+     * value is 5 or less.
+     * @uses \FireHub\Core\Support\LowLevel\Arr::splice() To remove an item at the end of the data structure if $items
+     * value is more than 5.
+     */
+    public function pop (int $items = 1):void {
+
+        if ($items <= 5)
+            while ($items-- > 0)
+                Arr::pop($this->storage);
+
+        else Arr::splice($this->storage, -$items);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->prepend('Johnie', 'Janie', 'Baby');
+     *
+     * // ['Johnie', 'Janie', 'Baby', 'John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To get only values from the $values parameter.
+     */
+    public function prepend (mixed ...$values):void {
+
+        $this->storage = Arr::values([...$values, ...$this->storage]);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->append('Johnie', 'Janie', 'Baby');
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard', 'Johnie', 'Janie', 'Baby']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To get only values from the $values parameter.
+     */
+    public function append (mixed ...$values):void {
+
+        $this->storage = Arr::values([...$this->storage, ...$values]);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->head();
+     *
+     * // 'John'
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::first() To get the first item from storage.
+     * @uses \FireHub\Core\Support\Enums\Key::NONE If the key doesn't exist.
+     */
+    public function head ():mixed {
+
+        return empty($this->storage) // @phpstan-ignore return.type
+            ? Key::NONE
+            : Arr::first($this->storage);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->tail();
+     *
+     * // 'Richard'
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::last() To get the last item from storage.
+     * @uses \FireHub\Core\Support\Enums\Key::NONE If the key doesn't exist.
+     */
+    public function tail ():mixed {
+
+        return empty($this->storage) // @phpstan-ignore return.type
+            ? Key::NONE
+            : Arr::last($this->storage);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->random();
+     *
+     * // 'Richard' - (generated randomly)
+     * </code>
+     * You can use more than one value:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->random(2);
+     *
+     * // Indexed['Richard', 'John'] - (generated randomly)
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\Utils\Arr::randomValue() To pick one or more random values out of the array.
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\OutOfRangeException If the data structure is empty, or
+     * $number is out of range.
+     */
+    public function random (int $number = 1):mixed {
+
+        try {
+
+            if (empty($this->storage))
+                throw new OutOfRangeException;
+
+            $result = ArrUtil::randomValue($this->storage, $number);
+
+            if ($number > 1)
+                /** @var list<TValue> $result */
+                return new static($result);
+
+            /** @var TValue $result */
+            return $result;
+
+        } catch (OutOfRangeExceptionLowLevel) {
+
+            throw new OutOfRangeException()->withMessage('Data structure is empty, or $number is out of range.');
+
+        }
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+     *
+     * $collection->transform(fn($value) => $value + 1);
+     *
+     * // [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::map() To apply the callback to the elements of the given array.
+     */
+    public function transform (callable $callback):self {
+
+        try {
+
+            $this->storage = Arr::map($this->storage, $callback);
+
+        } catch (ArgumentCountError) {
+
+            $storage = [];
+
+            foreach ($this->storage as $key => $value) $storage[] = $callback($value, $key);
+
+            $this->storage = $storage;
+
+        }
+
+        return $this;
+
+    }
+
+
+    // -------------------------------------------------------------------------
+    // Immutable
+    // -------------------------------------------------------------------------
+
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->filter(fn($value, $key) => $value !== 'Jane');
+     *
+     * // ['John', 'Richard', 'Richard']
+     * </code>
+     * You can force early break:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     * use FireHub\Core\Support\Enums\ControlFlowSignal;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->filter(function ($value, $key) {
+     *     if ($value === 'Jane') return ControlFlowSignal::BREAK;
+     *     return true;
+     * });
+     *
+     * // ['John']
+     * </code>
+     *
+     * @since 1.0.0
+     */
+    public function filter (callable $callback):static {
+
+        $storage = [];
+
+        foreach ($this->storage as $key => $value) {
+
+            $result = $callback($value, $key);
+
+            if ($result === true) {
+
+                $storage[] = $value;
+
+                continue;
+
+            }
+
+            if ($result === ControlFlowSignal::BREAK) break;
+
+        }
+
+        return new static($storage);
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     * $collection2 = new Indexed(['Johnie', 'Janie']);
+     *
+     * $collection->union($collection2);
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard', 'Johnie', 'Janie']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses static::append() To append all values from the data structures to the current one.
+     * @uses \FireHub\Core\Support\Contracts\HighLevel\DataStructures\Linear::values() To get only values from the data
+     * structures.
+     */
+    public function union (Linear ...$data_structures):static {
+
+        $storage = new static($this->storage);
+
+        foreach ($data_structures as $data_structure)
+            $storage->append(...$data_structure->values());
+
+        return $storage;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->reverse();
+     *
+     * // ['Richard', 'Richard', 'Jane', 'Jane', 'Jane', 'John']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::reverse() To reverse the order of storage items.
+     */
+    public function reverse ():static {
+
+        $storage = new static($this->storage);
+
+        $storage->storage = Arr::reverse($this->storage);
+
+        return $storage;
+
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->shuffle();
+     *
+     * // ['Richard', 'Jane', 'Richard', 'John', 'Jane', 'Jane'] - (generated randomly)
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::shuffle() To shuffle the order of storage items.
+     */
+    public function shuffle ():static {
+
+        $storage = new static($this->storage);
+
+        Arr::shuffle($storage->storage);
+
+        return $storage;
+
+    }
+
+    /**
+     * ### Pad data structure to the specified length with a value
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->pad(10, 'Marry');
+     *
+     * // ['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard', 'Marry', 'Marry', 'Marry', 'Marry']
+     * </code>
+     * You can set $size to negative to pad to the left.
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Indexed;
+     *
+     * $collection = new Indexed(['John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']);
+     *
+     * $collection->pad(-10, 'Marry');
+     *
+     * // ['Marry', 'Marry', 'Marry', 'Marry', 'John', 'Jane', 'Jane', 'Jane', 'Richard', 'Richard']
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::pad() To pad array to the specified length with a value.
+     *
+     * @template TPaddedValue
+     *
+     * @param int $size <p>
+     * New size of the array.
+     * If the length is positive, then the array is padded on the right if it is negative, then on the left.
+     * If the absolute value of length is less than or equal to the length of the array, then no padding takes place.
+     * </p>
+     * @param TPaddedValue $value <p>
+     * Value to pad if input is less than length.
+     * </p>
+     *
+     * @return static<TValue|TPaddedValue> New data structure with padded value
+     */
+    public function pad (int $size, mixed $value):static {
+
+        return new static(Arr::pad($this->storage, $size, $value));
+
+    }
+
+
+    // -------------------------------------------------------------------------
+    // Magic
+    // -------------------------------------------------------------------------
+
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
+    public function jsonSerialize ():array {
+
+        return $this->storage;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     */
+    public function getIterator ():Traversable {
+
+        yield from $this->storage;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @return array<TValue> An associative array of key/value pairs that represent the serialized form
+     * of the object.
+     */
+    public function __serialize ():array {
+
+        return $this->storage;
+
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\LowLevel\Arr::values() To help with removing keys from a $data.
+     *
+     * @param array<TValue> $data <p>
+     * Serialized data.
+     * </p>
+     */
+    public function __unserialize (array $data):void {
+
+        $this->storage = Arr::values($data);
+
+    }
+
+}
