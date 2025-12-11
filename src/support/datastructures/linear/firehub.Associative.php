@@ -827,6 +827,61 @@ class Associative implements Chunkable, Flippable, Linear, KeyMappable, KeySorta
     }
 
     /**
+     * ### Swap values from two keys
+     *
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->swap('firstname', 'lastname');
+     *
+     * // ['firstname' => 'Doe', 'lastname' => 'John', 'age' => 25, 10 => 2]
+     * </code>
+     * You will get an error if you try to inverse invalid value
+     * </code>
+     * If you try to get a key that doesn't exist:
+     * <code>
+     * use FireHub\Core\Support\DataStructures\Linear\Associative;
+     *
+     * $collection = new Associative(['firstname' => 'John', 'lastname' => 'Doe', 'age' => 25, 10 => 2]);
+     *
+     * $collection->swap('firstname', 'middlename');
+     *
+     * >>> THROWS ERROR <<<
+     * </code>
+     *
+     * @since 1.0.0
+     *
+     * @uses \FireHub\Core\Support\DataStructures\Linear\Associative::offsetExists() To check if a key exists in the
+     * data structure.
+     *
+     * @param TKey $key1 <p>
+     * First key for value to be replaced.
+     * </p>
+     * @param TKey $key2 <p>
+     * Second key for value to be replaced.
+     * </p>
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\InvalidKeyException If any of the provided keys
+     * doesn't exist.
+     */
+    public function swap (int|string $key1, int|string $key2):static {
+
+        if (!$this->offsetExists($key1)) throw new InvalidKeyException()->withKey($key1);
+
+        if (!$this->offsetExists($key2)) throw new InvalidKeyException()->withKey($key2);
+
+        $storage = $this->storage;
+
+        // @phpstan-ignore-next-line
+        [$storage[$key1], $storage[$key2]] = [$storage[$key2], $storage[$key1]];
+
+        return new static($storage); // @phpstan-ignore return.type
+
+    }
+
+    /**
      * @inheritDoc
      *
      * @since 1.0.0

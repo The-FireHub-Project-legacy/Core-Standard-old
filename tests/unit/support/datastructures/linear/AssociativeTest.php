@@ -791,6 +791,43 @@ final class AssociativeTest extends Base {
      *
      * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
      *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\InvalidKeyException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testSwap (Associative $collection):void {
+
+        $this->assertSame(
+            ['firstname' => 'Doe', 'lastname' => 'John', 'age' => 25, 10 => 2],
+            $collection->swap('firstname', 'lastname')->toArray()
+        );
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
+     * @throws \FireHub\Core\Support\DataStructures\Exceptions\InvalidKeyException
+     *
+     * @return void
+     */
+    #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
+    public function testSwapInvalidKey (Associative $collection):void {
+
+        $this->expectException(InvalidKeyException::class);
+
+        new Associative([$collection])->swap('firstname', 'middlename');
+
+    }
+
+    /**
+     * @since 1.0.0
+     *
+     * @param \FireHub\Core\Support\DataStructures\Linear\Associative $collection
+     *
      * @return void
      */
     #[DataProviderExternal(DataStructureDataProvider::class, 'associative')]
