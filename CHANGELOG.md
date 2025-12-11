@@ -2,6 +2,8 @@
 
 ## [Unreleased](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.6...develop-pre-alpha-m1)
 
+## [v0.1.6](https://github.com/The-FireHub-Project/Core-Standard/compare/v0.1.4...v0.1.5) – (2025-12-11)
+
 ### Added
 
 - Added first and last methods for Arr low-level proxy class ([#53](https://github.com/The-FireHub-Project/Core-Standard/issues/53), [7356eb4](https://github.com/The-FireHub-Project/Core-Standard/pull/23/commits/7356eb4))
