@@ -13,27 +13,23 @@
  * @version GIT: $Id$ Blob checksum.
  */
 
-namespace FireHub\Core\Support\Contracts\HighLevel;
+namespace FireHub\Core\Support\Exceptions\Char;
 
-use FireHub\Core\Support\Contracts\Magic\Stringable;
+use FireHub\Core\Support\Exceptions\CharException;
 
 /**
- * ### Characters contract
- *
- * Interface allows you to represent character.
+ * ### Character length exception
  * @since 1.0.0
  *
- * @template TCharacter of non-empty-string
+ * @method $this withLength (int $length) ### Character length
  */
-interface Characters extends Stringable {
+class CharacterLengthException extends CharException {
 
     /**
      * @inheritDoc
      *
      * @since 1.0.0
-     *
-     * @return TCharacter The string representation of the object.
      */
-    public function __toString ():string;
+    protected string $default_message = "Character length is wrong.";
 
 }
