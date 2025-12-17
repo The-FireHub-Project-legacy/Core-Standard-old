@@ -6,3 +6,5 @@ For more details, check the [Full List](https://github.com/The-FireHub-Project/.
 
 We're currently not looking for active contributions.<br>
 For more information, refer to our [CONTRIBUTING](https://github.com/The-FireHub-Project/.github/blob/master/.github/CONTRIBUTING.md) guide.
+
+ [Full List](/graphs/contributors)
