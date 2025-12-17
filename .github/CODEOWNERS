@@ -5,17 +5,17 @@
 .* @dieselxxx
 
 # all schema and SQL migrations related files owns database administrators team
-*.sql @The-FireHub-Project/database-team
+*.sql @The-FireHub-Project-legacy/database-team
 
 # .github will be handled by maintenance team
-/.github @The-FireHub-Project/maintenance-team
+/.github @The-FireHub-Project-legacy/maintenance-team
 
 # CODEOWNERS will be handled by the owner
 /.github/CODEOWNERS @dieselxxx
 
 # licence and citation owns legal team
-/LICENCE.md @The-FireHub-Project/legal-team
-/CITATION.cff @The-FireHub-Project/legal-team
+/LICENCE.md @The-FireHub-Project-legacy/legal-team
+/CITATION.cff @The-FireHub-Project-legacy/legal-team
 
 # README.md will be handled by maintenance team
-/README.md @The-FireHub-Project/maintenance-team
+/README.md @The-FireHub-Project-legacy/maintenance-team
