@@ -1,6 +1,57 @@
 version: 2
 updates:
-  - package-ecosystem: "github-actions"
+
+  # PHP / Composer dependencies for develop branch
+  - package-ecosystem: "composer"
+    target-branch: develop
     directory: "/"
     schedule:
-      interval: "daily"
+      interval: "weekly"
+    open-pull-requests-limit: 5
+    ignore:
+      - dependency-name: "php"
+        versions: ["*"]
+    commit-message:
+      prefix: "deps"
+      include: "scope"
+    assignees:
+      - Dev Team
+    reviewers:
+      - Quality Assurance Team
+      - Maintainers
+    labels:
+      - "pr: Deps"
+
+  # GitHub Actions workflow updates for master branch
+  - package-ecosystem: "github-actions"
+    target-branch: master
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    assignees:
+      - CI/CD Maintainers
+    reviewers:
+      - Maintainers
+    labels:
+      - "pr: CI"
+
+  # GitHub Actions workflow updates for develop branch
+  - package-ecosystem: "github-actions"
+    target-branch: develop
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    open-pull-requests-limit: 3
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    assignees:
+      - CI/CD Maintainers
+    reviewers:
+      - Maintainers
+    labels:
+      - "pr: CI"
