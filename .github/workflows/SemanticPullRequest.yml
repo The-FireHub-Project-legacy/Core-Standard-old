@@ -14,4 +14,4 @@ jobs:
       repo-type: core-standard
       php-version: "8.2"
     secrets:
-      inherit: true
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
