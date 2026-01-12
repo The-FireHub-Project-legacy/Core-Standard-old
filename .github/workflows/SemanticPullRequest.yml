@@ -1,1 +1,17 @@
+name: Semantic Pull Request
 
+on:
+  push:
+    branches:
+      - develop
+      - master
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  build:
+    uses: The-FireHub-Project-legacy/.github/.github/workflows/SemanticPullRequest.yml@master
+    with:
+      repo-type: core-standard
+      php-version: "8.2"
