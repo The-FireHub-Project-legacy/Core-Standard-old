@@ -14,3 +14,5 @@ jobs:
     with:
       repo-type: core-standard
       php-version: "8.2"
+    env:
+      GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
