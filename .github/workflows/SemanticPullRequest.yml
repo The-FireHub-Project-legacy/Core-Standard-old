@@ -9,7 +9,7 @@ on:
 
 jobs:
   build:
-    uses: The-FireHub-Project-legacy/.github/.github/workflows/SemanticPullRequest.yml@xxx
+    uses: The-FireHub-Project-legacy/.github/.github/workflows/SemanticPullRequest.yml@master
     with:
       repo-type: core-standard
       php-version: "8.2"
