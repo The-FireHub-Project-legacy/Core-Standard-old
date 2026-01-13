@@ -12,7 +12,7 @@ updates:
       - dependency-name: "php"
         versions: ["*"]
     commit-message:
-      prefix: "deps"
+      prefix: "depsx"
       include: "scope"
     assignees:
       - Dev Team
@@ -30,7 +30,7 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 3
     commit-message:
-      prefix: "ci"
+      prefix: "cix"
       include: "scope"
     assignees:
       - CI/CD Maintainers
@@ -47,7 +47,7 @@ updates:
       interval: "weekly"
     open-pull-requests-limit: 3
     commit-message:
-      prefix: "ci"
+      prefix: "cix"
       include: "scope"
     assignees:
       - CI/CD Maintainers
