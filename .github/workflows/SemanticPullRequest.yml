@@ -15,7 +15,7 @@ jobs:
       repo-type: core-standard
       php-version: "8.2"
       test: |
-        bugx
+        bug
         critical
         feature
         debug
