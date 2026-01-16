@@ -6,7 +6,11 @@ on:
     branches:
       - master
       
-permissions: read-all
+permissions:
+  security-events: write
+  id-token: write
+  contents: read
+  
 jobs:
   build:
     uses: The-FireHub-Project/.github/.github/workflows/Scorecard.yml@master
