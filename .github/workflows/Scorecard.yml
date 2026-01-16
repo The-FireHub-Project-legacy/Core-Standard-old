@@ -5,7 +5,8 @@ on:
   push:
     branches:
       - master
-
+      
+permissions: read-all
 jobs:
   build:
     uses: The-FireHub-Project/.github/.github/workflows/Scorecard.yml@master
