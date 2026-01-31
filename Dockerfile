@@ -1,5 +1,5 @@
 # Use PHP with Apache as the base image
-FROM php:8.4-apache
+FROM php:8.5.3RC1-apache
 
 # Copy the FireHub phar
 COPY ./phar /var/www/html/vendor/firehub/core-standard/phar
