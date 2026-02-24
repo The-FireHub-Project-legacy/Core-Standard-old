@@ -6,7 +6,12 @@ on:
   pull_request:
     types: [opened]
 
-permissions: read-all
+permissions:
+  issues: write
+  pull-requests: write
+  repository-projects: write
+  organization-projects: write
+  contents: read
 
 jobs:
   build:
