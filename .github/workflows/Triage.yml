@@ -10,6 +10,6 @@ permissions: read-all
 
 jobs:
   build:
-    uses: The-FireHub-Project/.github/.github/workflows/AddToProject.yml@master
+    uses: The-FireHub-Project-legacy/.github/.github/workflows/AddToProject.yml@master
     secrets:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
